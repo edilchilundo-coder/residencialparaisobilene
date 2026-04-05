@@ -37,18 +37,6 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Promo Banner */}
-      <div className="section-dark py-4">
-        <div className="container mx-auto px-6 text-center flex flex-col md:flex-row justify-center items-center gap-4">
-          <span className="bg-amber text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider animate-pulse font-body text-accent-foreground">
-            Oferta Limitada
-          </span>
-          <p className="font-medium text-sm md:text-base font-body">
-            Estadia Premium: de <del className="text-muted-foreground">8.500 MT</del> por apenas{" "}
-            <span className="text-amber font-bold text-lg">6.500 MT / noite</span>.
-          </p>
-        </div>
-      </div>
 
       {/* Apartments Section */}
       <section className="py-24 bg-secondary border-t border-border">
