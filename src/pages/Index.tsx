@@ -95,6 +95,84 @@ const Index = () => {
         </div>
       </section>
 
+      {/* Gallery Preview - O Nosso Paraíso */}
+      <section className="py-24 bg-background">
+        <div className="container mx-auto px-6">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold text-foreground mb-4">O Nosso Paraíso</h2>
+            <div className="w-20 h-1 bg-amber mx-auto" />
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div className="col-span-2 row-span-2 gallery-item">
+              <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=800&q=80" alt="Vista Geral" className="w-full h-full object-cover" loading="lazy" />
+            </div>
+            <div className="gallery-item h-48 md:h-auto">
+              <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=400&q=80" alt="Exterior" className="w-full h-full object-cover" loading="lazy" />
+            </div>
+            <div className="gallery-item h-48 md:h-auto">
+              <img src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&w=400&q=80" alt="Piscina" className="w-full h-full object-cover" loading="lazy" />
+            </div>
+            <div className="gallery-item h-48 md:h-auto">
+              <img src="https://images.unsplash.com/photo-1544124499-58912cbddaad?auto=format&fit=crop&w=400&q=80" alt="Interior" className="w-full h-full object-cover" loading="lazy" />
+            </div>
+            <div className="gallery-item h-48 md:h-auto">
+              <img src="https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=400&q=80" alt="Resort" className="w-full h-full object-cover" loading="lazy" />
+            </div>
+            <div className="col-span-2 gallery-item h-64">
+              <img src="https://images.unsplash.com/photo-1590490359683-658d3d23f972?auto=format&fit=crop&w=800&q=80" alt="Área de Lazer" className="w-full h-full object-cover" loading="lazy" />
+            </div>
+            <div className="col-span-2 gallery-item h-64">
+              <img src="https://images.unsplash.com/photo-1551882547-ff40c0d13c05?auto=format&fit=crop&w=800&q=80" alt="Praia" className="w-full h-full object-cover" loading="lazy" />
+            </div>
+          </div>
+
+          {/* Virtual Tour Preview */}
+          <div className="mt-16 relative w-full aspect-video overflow-hidden shadow-2xl rounded-sm group">
+            <img
+              src="https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=1920"
+              className="w-full h-full object-cover"
+              alt="Tour Virtual"
+              loading="lazy"
+            />
+            <div className="absolute inset-0 bg-primary/50 flex flex-col items-center justify-center group-hover:bg-primary/30 transition duration-500">
+              <button className="w-20 h-20 sm:w-24 sm:h-24 bg-amber text-accent-foreground rounded-full flex items-center justify-center shadow-2xl hover:scale-110 transition duration-300 mb-4">
+                <Play size={36} className="ml-1" />
+              </button>
+              <p className="text-primary-foreground font-semibold text-lg font-body">Tour Virtual 360°</p>
+            </div>
+          </div>
+
+          <div className="mt-12 text-center">
+            <Link to="/galeria" className="inline-block border-b-2 border-amber pb-1 font-bold text-foreground hover:text-amber transition font-body">
+              Ver Galeria Completa & Tour Virtual
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Experiências Memoráveis */}
+      <section className="py-24 bg-secondary border-t border-border">
+        <div className="container mx-auto px-6">
+          <h2 className="text-4xl font-bold text-center text-foreground mb-16">Experiências Memoráveis</h2>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            {[
+              { icon: Ship, title: "Passeios de Barco", desc: "Lagoa do Bilene" },
+              { icon: ChefHat, title: "Gastronomia", desc: "Frutos do Mar Frescos" },
+              { icon: Bike, title: "Quad Biking", desc: "Aventura nas Dunas" },
+              { icon: Sun, title: "Sunset Lounge", desc: "Música e Drinks" },
+            ].map((item) => (
+              <div key={item.title} className="text-center group">
+                <div className="w-16 h-16 bg-card shadow-md rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-amber transition-colors duration-300">
+                  <item.icon className="text-amber group-hover:text-accent-foreground transition-colors" size={28} />
+                </div>
+                <h4 className="font-bold mb-2 text-foreground">{item.title}</h4>
+                <p className="text-xs text-muted-foreground uppercase tracking-widest font-body">{item.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Features */}
       <section className="py-20 section-dark">
         <div className="container mx-auto px-6 text-center">
