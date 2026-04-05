@@ -1,6 +1,8 @@
 import Layout from "@/components/Layout";
 import PageHeader from "@/components/PageHeader";
 import { Snowflake, Wifi, Tv, BedDouble, Users, UtensilsCrossed, DoorOpen, ShowerHead, Waves, Shield, Car, ConciergeBell } from "lucide-react";
+import sala from "@/assets/sala.jpg";
+import salaAmpla from "@/assets/sala-ampla.jpg";
 
 const Apartamentos = () => {
   return (
@@ -13,8 +15,8 @@ const Apartamentos = () => {
           <div className="flex flex-col md:flex-row gap-12 items-center mb-32">
             <div className="md:w-1/2 overflow-hidden shadow-2xl">
               <img
-                src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=1000"
-                alt="Apartamento T1"
+                src={sala}
+                alt="Apartamento T1 - Sala"
                 className="w-full h-[300px] sm:h-[450px] object-cover hover:scale-105 transition duration-500"
               />
             </div>
@@ -43,8 +45,8 @@ const Apartamentos = () => {
           <div className="flex flex-col md:flex-row-reverse gap-12 items-center">
             <div className="md:w-1/2 overflow-hidden shadow-2xl">
               <img
-                src="https://images.unsplash.com/photo-1493809842364-78817add7ffb?auto=format&fit=crop&w=1000"
-                alt="Apartamento T2"
+                src={salaAmpla}
+                alt="Apartamento T2 - Sala Ampla"
                 className="w-full h-[300px] sm:h-[450px] object-cover hover:scale-105 transition duration-500"
               />
             </div>

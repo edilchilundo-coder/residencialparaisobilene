@@ -1,6 +1,12 @@
 import Layout from "@/components/Layout";
 import heroBg from "@/assets/hero-bg.jpg";
-import { Home, UtensilsCrossed, Waves, Shield, Car, Users, Ship, ChefHat, Bike, Sun, Play } from "lucide-react";
+import bilenePraia from "@/assets/bilene-praia.jpg";
+import cozinha from "@/assets/cozinha.jpg";
+import sala from "@/assets/sala.jpg";
+import fachada from "@/assets/fachada.png";
+import salaAmpla from "@/assets/sala-ampla.jpg";
+import piscina from "@/assets/piscina.jpg";
+import { Home, UtensilsCrossed, Waves, Shield, Car, Users, Ship, ChefHat, Bike, Sun, MapPin } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const Index = () => {
@@ -104,47 +110,60 @@ const Index = () => {
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <div className="col-span-2 row-span-2 gallery-item">
-              <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=800&q=80" alt="Vista Geral" className="w-full h-full object-cover" loading="lazy" />
+              <img src={fachada} alt="Fachada do Aparthotel" className="w-full h-full object-cover" loading="lazy" />
             </div>
             <div className="gallery-item h-48 md:h-auto">
-              <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=400&q=80" alt="Exterior" className="w-full h-full object-cover" loading="lazy" />
+              <img src={salaAmpla} alt="Sala de Estar" className="w-full h-full object-cover" loading="lazy" />
             </div>
             <div className="gallery-item h-48 md:h-auto">
-              <img src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&w=400&q=80" alt="Piscina" className="w-full h-full object-cover" loading="lazy" />
+              <img src={piscina} alt="Área da Piscina" className="w-full h-full object-cover" loading="lazy" />
             </div>
             <div className="gallery-item h-48 md:h-auto">
-              <img src="https://images.unsplash.com/photo-1544124499-58912cbddaad?auto=format&fit=crop&w=400&q=80" alt="Interior" className="w-full h-full object-cover" loading="lazy" />
+              <img src={cozinha} alt="Cozinha Equipada" className="w-full h-full object-cover" loading="lazy" />
             </div>
             <div className="gallery-item h-48 md:h-auto">
-              <img src="https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=400&q=80" alt="Resort" className="w-full h-full object-cover" loading="lazy" />
+              <img src={sala} alt="Sala com TV" className="w-full h-full object-cover" loading="lazy" />
             </div>
             <div className="col-span-2 gallery-item h-64">
-              <img src="https://images.unsplash.com/photo-1590490359683-658d3d23f972?auto=format&fit=crop&w=800&q=80" alt="Área de Lazer" className="w-full h-full object-cover" loading="lazy" />
-            </div>
-            <div className="col-span-2 gallery-item h-64">
-              <img src="https://images.unsplash.com/photo-1551882547-ff40c0d13c05?auto=format&fit=crop&w=800&q=80" alt="Praia" className="w-full h-full object-cover" loading="lazy" />
+              <img src={bilenePraia} alt="Praia do Bilene" className="w-full h-full object-cover" loading="lazy" />
             </div>
           </div>
 
-          {/* Virtual Tour Preview */}
-          <div className="mt-16 relative w-full aspect-video overflow-hidden shadow-2xl rounded-sm group">
-            <img
-              src="https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=1920"
-              className="w-full h-full object-cover"
-              alt="Tour Virtual"
-              loading="lazy"
-            />
-            <div className="absolute inset-0 bg-primary/50 flex flex-col items-center justify-center group-hover:bg-primary/30 transition duration-500">
-              <button className="w-20 h-20 sm:w-24 sm:h-24 bg-amber text-accent-foreground rounded-full flex items-center justify-center shadow-2xl hover:scale-110 transition duration-300 mb-4">
-                <Play size={36} className="ml-1" />
-              </button>
-              <p className="text-primary-foreground font-semibold text-lg font-body">Tour Virtual 360°</p>
+          {/* Google Maps Street View */}
+          <div className="mt-16">
+            <div className="flex items-center gap-3 mb-6 justify-center">
+              <MapPin className="text-amber" size={28} />
+              <h3 className="text-2xl font-bold text-foreground">Localização & Street View</h3>
+            </div>
+            <div className="relative w-full aspect-video overflow-hidden shadow-2xl rounded-sm">
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!4v1700000000000!6m8!1m7!1s_!2m2!1d-25.4574!2d33.2458!3f0!4f0!5f0.7820865974627469&q=Residencial+Para%C3%ADso+Bilene"
+                width="100%"
+                height="100%"
+                style={{ border: 0 }}
+                allowFullScreen
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                title="Residencial Paraíso Bilene - Street View"
+                className="absolute inset-0 w-full h-full"
+              />
+            </div>
+            <div className="mt-4 text-center">
+              <a
+                href="https://maps.app.goo.gl/rskhHsLuzh8VC9Z2A"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 text-amber hover:text-amber-dark font-semibold transition font-body"
+              >
+                <MapPin size={18} />
+                Ver no Google Maps
+              </a>
             </div>
           </div>
 
           <div className="mt-12 text-center">
             <Link to="/galeria" className="inline-block border-b-2 border-amber pb-1 font-bold text-foreground hover:text-amber transition font-body">
-              Ver Galeria Completa & Tour Virtual
+              Ver Galeria Completa
             </Link>
           </div>
         </div>
