@@ -66,15 +66,18 @@ const Contactos = () => {
             </div>
 
             {/* Map placeholder */}
-            <div className="bg-secondary rounded-sm overflow-hidden shadow-lg min-h-[400px] flex items-center justify-center">
-              <div className="text-center p-8">
-                <MapPin className="mx-auto text-amber mb-4" size={48} />
-                <h4 className="font-bold text-foreground text-xl mb-2">Praia do Bilene</h4>
-                <p className="text-muted-foreground font-body text-sm">
-                  Gaza, Moçambique<br />
-                  A apenas 2 minutos de carro da praia
-                </p>
-              </div>
+            <div className="rounded-sm overflow-hidden shadow-lg min-h-[400px]">
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3582.5!2d33.2458!3d-25.4574!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1ee4215c3b5e4e5d%3A0x0!2sResidencial%20Para%C3%ADso%20Bilene!5e0!3m2!1spt-PT!2smz!4v1700000000000"
+                width="100%"
+                height="100%"
+                style={{ border: 0, minHeight: "400px" }}
+                allowFullScreen
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                title="Residencial Paraíso Bilene - Mapa"
+                className="w-full h-full"
+              />
             </div>
           </div>
         </div>
