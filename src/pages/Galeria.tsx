@@ -49,7 +49,7 @@ const Galeria = () => {
           </div>
           <div className="relative w-full aspect-video overflow-hidden shadow-2xl">
             <iframe
-              src="https://www.google.com/maps/embed?pb=!4v1700000000000!6m8!1m7!1s_!2m2!1d-25.4574!2d33.2458!3f0!4f0!5f0.7820865974627469&q=Residencial+Para%C3%ADso+Bilene"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3582.5!2d33.2458!3d-25.4574!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1ee4215c3b5e4e5d%3A0x0!2sResidencial%20Para%C3%ADso%20Bilene!5e0!3m2!1spt-PT!2smz!4v1700000000000"
               width="100%"
               height="100%"
               style={{ border: 0 }}
