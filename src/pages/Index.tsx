@@ -1,6 +1,7 @@
 import Layout from "@/components/Layout";
 import heroBg from "@/assets/hero-bg.jpg";
-import { Home, UtensilsCrossed, Waves, Shield, Car, Users } from "lucide-react";
+import { Home, UtensilsCrossed, Waves, Shield, Car, Users, Ship, ChefHat, Bike, Sun, Play } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const Index = () => {
   return (
