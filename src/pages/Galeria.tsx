@@ -47,17 +47,17 @@ const Galeria = () => {
             </div>
             <h3 className="text-2xl font-bold tracking-tight">Localização & Street View</h3>
           </div>
-          <div className="relative w-full aspect-video overflow-hidden shadow-2xl">
+          <div className="rounded-sm overflow-hidden shadow-2xl min-h-[400px] w-full">
             <iframe
               src="https://www.google.com/maps/embed?pb=!4v1710345678901!6m8!1m7!1sCAoSLEFGMVFpcE9QZzVfXzVfXzVfXzVfXzVfXzVfXzVfXzVfXzVfXzVfXzVfXzVf!2m2!1d-25.2795538!2d33.2490682!3f0!4f0!5f0.7820865974627469"
               width="100%"
               height="100%"
-              style={{ border: 0 }}
+              style={{ border: 0, minHeight: "400px" }}
               allowFullScreen
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
               title="Residencial Paraíso Bilene - Street View"
-              className="absolute inset-0 w-full h-full"
+              className="w-full h-full"
             />
           </div>
           <div className="mt-4 text-center">

@@ -129,8 +129,42 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Experiências Memoráveis */}
+      {/* Street View Section - Adicionada com a mesma estrutura responsiva da página de contactos */}
       <section className="py-24 bg-secondary border-t border-border">
+        <div className="container mx-auto px-6">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold text-foreground mb-4">Localização Privilegiada</h2>
+            <p className="text-muted-foreground font-body">Explore a vizinhança e veja como estamos perto da praia.</p>
+          </div>
+          <div className="rounded-sm overflow-hidden shadow-lg min-h-[400px] max-w-5xl mx-auto">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!4v1710345678901!6m8!1m7!1sCAoSLEFGMVFpcE9QZzVfXzVfXzVfXzVfXzVfXzVfXzVfXzVfXzVfXzVfXzVfXzVf!2m2!1d-25.2795538!2d33.2490682!3f0!4f0!5f0.7820865974627469"
+              width="100%"
+              height="100%"
+              style={{ border: 0, minHeight: "400px" }}
+              allowFullScreen
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              title="Residencial Paraíso Bilene - Street View"
+              className="w-full h-full"
+            />
+          </div>
+          <div className="mt-8 text-center">
+            <a
+              href="https://maps.app.goo.gl/rskhHsLuzh8VC9Z2A"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 text-amber hover:text-amber-dark font-semibold transition font-body"
+            >
+              <MapPin size={18} />
+              Ver no Google Maps
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* Experiências Memoráveis */}
+      <section className="py-24 bg-background">
         <div className="container mx-auto px-6">
           <h2 className="text-4xl font-bold text-center text-foreground mb-16">Experiências Memoráveis</h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
@@ -152,8 +186,8 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Testimonials - Agora após Experiências Memoráveis */}
-      <section className="py-24 bg-background">
+      {/* Testimonials */}
+      <section className="py-24 bg-secondary border-t border-border">
         <div className="container mx-auto px-6">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-foreground mb-4">O que dizem os nossos hóspedes</h2>
@@ -165,7 +199,7 @@ const Index = () => {
               { name: "Ana Paula", text: "Fomos muito bem recebidos. A localização é perfeita, perto da praia mas longe do barulho. Recomendo vivamente!", rating: 5 },
               { name: "Sérgio L.", text: "Segurança 24h dá-nos muita tranquilidade. Os quartos são frescos e muito limpos. Voltaremos com certeza.", rating: 5 },
             ].map((item, i) => (
-              <div key={i} className="bg-secondary p-8 relative">
+              <div key={i} className="bg-card p-8 relative shadow-sm border border-border">
                 <Quote className="text-amber/20 absolute top-4 right-4" size={48} />
                 <div className="flex gap-1 mb-4">
                   {[...Array(item.rating)].map((_, i) => <Star key={i} size={16} className="fill-amber text-amber" />)}
