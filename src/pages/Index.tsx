@@ -8,10 +8,12 @@ import fachada from "@/assets/fachada.png";
 import salaAmpla from "@/assets/sala-ampla.jpg";
 import piscina from "@/assets/piscina.jpg";
 import heroReal from "@/assets/hero-real.jpg";
-import { Home, UtensilsCrossed, Waves, Shield, Car, Users, Ship, ChefHat, Bike, Sun, MapPin } from "lucide-react";
+import { Home, UtensilsCrossed, Waves, Shield, Car, Users, Ship, ChefHat, Bike, Sun, MapPin, Star, Quote } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const Index = () => {
+  const whatsappMsg = encodeURIComponent("Olá! Gostaria de saber mais sobre a disponibilidade e reservas na Residencial Paraíso Bilene.");
+
   return (
     <Layout>
       {/* Hero */}
@@ -31,7 +33,7 @@ const Index = () => {
             Descubra um espaço de conforto e hospitalidade a apenas 2 minutos de carro da praia. Apartamentos T1 e T2 equipados para si e para a sua família.
           </p>
           <a
-            href="https://wa.me/258877302100"
+            href={`https://wa.me/258877302100?text=${whatsappMsg}`}
             className="inline-flex items-center gap-2 bg-amber hover:bg-amber-dark text-accent-foreground px-8 py-4 transition font-semibold text-lg font-body"
           >
             Reservar com Desconto
@@ -81,7 +83,7 @@ const Index = () => {
                 </div>
               </div>
               <a
-                href="https://wa.me/258877302100"
+                href={`https://wa.me/258877302100?text=${whatsappMsg}`}
                 className="bg-amber hover:bg-amber-dark px-8 py-4 font-semibold transition text-lg shadow-lg font-body text-accent-foreground whitespace-nowrap"
               >
                 Garantir a Minha Reserva
@@ -91,8 +93,34 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Gallery Preview - O Nosso Paraíso */}
+      {/* Testimonials */}
       <section className="py-24 bg-background">
+        <div className="container mx-auto px-6">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold text-foreground mb-4">O que dizem os nossos hóspedes</h2>
+            <div className="w-20 h-1 bg-amber mx-auto" />
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {[
+              { name: "Ricardo M.", text: "Excelente estadia! O apartamento T2 é muito espaçoso e a cozinha tem tudo o que precisamos. A piscina é ótima para relaxar.", rating: 5 },
+              { name: "Ana Paula", text: "Fomos muito bem recebidos. A localização é perfeita, perto da praia mas longe do barulho. Recomendo vivamente!", rating: 5 },
+              { name: "Sérgio L.", text: "Segurança 24h dá-nos muita tranquilidade. Os quartos são frescos e muito limpos. Voltaremos com certeza.", rating: 5 },
+            ].map((item, i) => (
+              <div key={i} className="bg-secondary p-8 relative">
+                <Quote className="text-amber/20 absolute top-4 right-4" size={48} />
+                <div className="flex gap-1 mb-4">
+                  {[...Array(item.rating)].map((_, i) => <Star key={i} size={16} className="fill-amber text-amber" />)}
+                </div>
+                <p className="text-muted-foreground italic mb-6 font-body">"{item.text}"</p>
+                <h5 className="font-bold text-foreground font-body">— {item.name}</h5>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Gallery Preview */}
+      <section className="py-24 bg-secondary border-t border-border">
         <div className="container mx-auto px-6">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-foreground mb-4">O Nosso Paraíso</h2>
@@ -119,38 +147,6 @@ const Index = () => {
             </div>
           </div>
 
-          {/* Google Maps Street View */}
-          <div className="mt-16">
-            <div className="flex items-center gap-3 mb-6 justify-center">
-              <MapPin className="text-amber" size={28} />
-              <h3 className="text-2xl font-bold text-foreground">Localização & Street View</h3>
-            </div>
-            <div className="relative w-full aspect-video overflow-hidden shadow-2xl rounded-sm">
-              <iframe
-                src="https://www.google.com/maps/embed?pb=!4v1710345678901!6m8!1m7!1sCAoSLEFGMVFpcE9QZzVfXzVfXzVfXzVfXzVfXzVfXzVfXzVfXzVfXzVfXzVfXzVf!2m2!1d-25.2795538!2d33.2490682!3f0!4f0!5f0.7820865974627469"
-                width="100%"
-                height="100%"
-                style={{ border: 0 }}
-                allowFullScreen
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                title="Residencial Paraíso Bilene - Street View"
-                className="absolute inset-0 w-full h-full"
-              />
-            </div>
-            <div className="mt-4 text-center">
-              <a
-                href="https://maps.app.goo.gl/rskhHsLuzh8VC9Z2A"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-amber hover:text-amber-dark font-semibold transition font-body"
-              >
-                <MapPin size={18} />
-                Ver no Google Maps
-              </a>
-            </div>
-          </div>
-
           <div className="mt-12 text-center">
             <Link to="/galeria" className="inline-block border-b-2 border-amber pb-1 font-bold text-foreground hover:text-amber transition font-body">
               Ver Galeria Completa
@@ -160,7 +156,7 @@ const Index = () => {
       </section>
 
       {/* Experiências Memoráveis */}
-      <section className="py-24 bg-secondary border-t border-border">
+      <section className="py-24 bg-background">
         <div className="container mx-auto px-6">
           <h2 className="text-4xl font-bold text-center text-foreground mb-16">Experiências Memoráveis</h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
@@ -182,27 +178,6 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Features */}
-      <section className="py-20 section-dark">
-        <div className="container mx-auto px-6 text-center">
-          <h3 className="text-3xl font-bold mb-12">Porquê Escolher-nos</h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
-            {[
-              { icon: Waves, title: "Piscina Comum", desc: "Área de lazer exclusiva para hóspedes relaxarem após a praia." },
-              { icon: Shield, title: "Segurança 24h", desc: "Tranquilidade garantida com vigilância permanente no recinto." },
-              { icon: Car, title: "Estacionamento", desc: "Lugar reservado e seguro para o seu veículo dentro da propriedade." },
-              { icon: Users, title: "Hospitalidade", desc: "Uma equipa dedicada para tornar a sua estadia inesquecível." },
-            ].map((item) => (
-              <div key={item.title} className="p-8 border border-primary-foreground/10">
-                <item.icon className="mx-auto text-amber mb-4" size={40} />
-                <h5 className="font-bold mb-2 font-body">{item.title}</h5>
-                <p className="text-xs text-muted-foreground leading-relaxed font-body">{item.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* CTA */}
       <section className="py-20 bg-amber">
         <div className="container mx-auto px-6 text-center">
@@ -213,7 +188,7 @@ const Index = () => {
             Aproveite a nossa tarifa promocional e garanta momentos inesquecíveis na Praia do Bilene.
           </p>
           <a
-            href="https://wa.me/258877302100"
+            href={`https://wa.me/258877302100?text=${whatsappMsg}`}
             className="inline-block bg-primary text-primary-foreground px-10 py-4 font-bold uppercase tracking-widest text-sm hover:bg-dark-deeper transition font-body"
           >
             Reservar via WhatsApp
