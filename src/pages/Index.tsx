@@ -1,5 +1,6 @@
+"use client";
+
 import Layout from "@/components/Layout";
-import heroBg from "@/assets/hero-bg.jpg";
 import bilenePraia from "@/assets/bilene-praia.jpg";
 import cozinha from "@/assets/cozinha.jpg";
 import sala from "@/assets/sala.jpg";
@@ -9,13 +10,16 @@ import piscina from "@/assets/piscina.jpg";
 import { Home, UtensilsCrossed, Waves, Shield, Car, Users, Ship, ChefHat, Bike, Sun, MapPin } from "lucide-react";
 import { Link } from "react-router-dom";
 
+// Nova imagem de fundo mais adequada para um aparthotel de luxo
+const heroBgUrl = "https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=2070&auto=format&fit=crop";
+
 const Index = () => {
   return (
     <Layout>
       {/* Hero */}
       <section
         className="h-screen flex items-center pt-16 bg-cover bg-center relative"
-        style={{ backgroundImage: `url(${heroBg})` }}
+        style={{ backgroundImage: `url(${heroBgUrl})` }}
       >
         <div className="absolute inset-0 bg-primary/60" />
         <div className="container mx-auto px-6 text-center relative z-10">

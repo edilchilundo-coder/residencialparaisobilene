@@ -1,8 +1,49 @@
+"use client";
+
 import Layout from "@/components/Layout";
 import PageHeader from "@/components/PageHeader";
-import { Snowflake, Wifi, Tv, BedDouble, Users, UtensilsCrossed, DoorOpen, ShowerHead, Waves, Shield, Car, ConciergeBell } from "lucide-react";
+import {
+  Snowflake,
+  Wifi,
+  Tv,
+  BedDouble,
+  Users,
+  UtensilsCrossed,
+  DoorOpen,
+  ShowerHead,
+  Waves,
+  Shield,
+  Car,
+  ConciergeBell,
+} from "lucide-react";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
 import sala from "@/assets/sala.jpg";
 import salaAmpla from "@/assets/sala-ampla.jpg";
+import cozinha from "@/assets/cozinha.jpg";
+import piscina from "@/assets/piscina.jpg";
+import fachada from "@/assets/fachada.png";
+
+const t1Images = [
+  sala,
+  cozinha,
+  "https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?q=80&w=2071&auto=format&fit=crop", // Quarto moderno
+  "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?q=80&w=2070&auto=format&fit=crop", // Casa de banho luxo
+  "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?q=80&w=1980&auto=format&fit=crop", // Detalhe decoração
+];
+
+const t2Images = [
+  salaAmpla,
+  piscina,
+  fachada,
+  "https://images.unsplash.com/photo-1493809842364-78817add7ffb?q=80&w=2070&auto=format&fit=crop", // Sala jantar ampla
+  "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?q=80&w=2070&auto=format&fit=crop", // Quarto master
+];
 
 const Apartamentos = () => {
   return (
@@ -13,12 +54,24 @@ const Apartamentos = () => {
         <div className="container mx-auto px-6">
           {/* T1 */}
           <div className="flex flex-col md:flex-row gap-12 items-center mb-32">
-            <div className="md:w-1/2 overflow-hidden shadow-2xl">
-              <img
-                src={sala}
-                alt="Apartamento T1 - Sala"
-                className="w-full h-[300px] sm:h-[450px] object-cover hover:scale-105 transition duration-500"
-              />
+            <div className="md:w-1/2 w-full">
+              <Carousel className="w-full shadow-2xl">
+                <CarouselContent>
+                  {t1Images.map((src, index) => (
+                    <CarouselItem key={index}>
+                      <div className="overflow-hidden">
+                        <img
+                          src={src}
+                          alt={`Apartamento T1 - Foto ${index + 1}`}
+                          className="w-full h-[300px] sm:h-[450px] object-cover hover:scale-105 transition duration-500"
+                        />
+                      </div>
+                    </CarouselItem>
+                  ))}
+                </CarouselContent>
+                <CarouselPrevious className="left-4" />
+                <CarouselNext className="right-4" />
+              </Carousel>
             </div>
             <div className="md:w-1/2">
               <h2 className="text-3xl sm:text-4xl font-bold mb-6 text-foreground">Apartamento T1</h2>
@@ -43,12 +96,24 @@ const Apartamentos = () => {
 
           {/* T2 */}
           <div className="flex flex-col md:flex-row-reverse gap-12 items-center">
-            <div className="md:w-1/2 overflow-hidden shadow-2xl">
-              <img
-                src={salaAmpla}
-                alt="Apartamento T2 - Sala Ampla"
-                className="w-full h-[300px] sm:h-[450px] object-cover hover:scale-105 transition duration-500"
-              />
+            <div className="md:w-1/2 w-full">
+              <Carousel className="w-full shadow-2xl">
+                <CarouselContent>
+                  {t2Images.map((src, index) => (
+                    <CarouselItem key={index}>
+                      <div className="overflow-hidden">
+                        <img
+                          src={src}
+                          alt={`Apartamento T2 - Foto ${index + 1}`}
+                          className="w-full h-[300px] sm:h-[450px] object-cover hover:scale-105 transition duration-500"
+                        />
+                      </div>
+                    </CarouselItem>
+                  ))}
+                </CarouselContent>
+                <CarouselPrevious className="left-4" />
+                <CarouselNext className="right-4" />
+              </Carousel>
             </div>
             <div className="md:w-1/2">
               <h2 className="text-3xl sm:text-4xl font-bold mb-6 text-foreground">Apartamento T2</h2>
