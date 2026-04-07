@@ -9,17 +9,17 @@ import fachada from "@/assets/fachada.png";
 import salaAmpla from "@/assets/sala-ampla.jpg";
 import piscina from "@/assets/piscina.jpg";
 import heroReal from "@/assets/hero-real.jpg";
-import { Home, UtensilsCrossed, Waves, Shield, Car, Users, Ship, ChefHat, Bike, Sun, MapPin, Star, Quote, Calendar, Search } from "lucide-react";
+import { Home, UtensilsCrossed, Waves, Shield, Car, Ship, ChefHat, Bike, Sun, MapPin, Star, Quote, Calendar, Search } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const Index = () => {
   const [checkIn, setCheckIn] = useState("");
   const [checkOut, setCheckOut] = useState("");
-  const [guests, setGuests] = useState("2");
+  const [aptType, setAptType] = useState("T1");
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    const msg = `Olá! Gostaria de verificar disponibilidade para:\n📅 Check-in: ${checkIn || "A definir"}\n📅 Check-out: ${checkOut || "A definir"}\n👥 Hóspedes: ${guests}`;
+    const msg = `Olá! Gostaria de verificar disponibilidade para:\n🏠 Tipo: Apartamento ${aptType}\n📅 Check-in: ${checkIn || "A definir"}\n📅 Check-out: ${checkOut || "A definir"}`;
     window.open(`https://wa.me/258877302100?text=${encodeURIComponent(msg)}`, "_blank");
   };
 
@@ -71,14 +71,15 @@ const Index = () => {
               </div>
               <div className="space-y-2">
                 <label className="text-xs font-bold text-primary-foreground uppercase tracking-widest flex items-center gap-2">
-                  <Users size={14} className="text-amber" /> Hóspedes
+                  <Home size={14} className="text-amber" /> Apartamento
                 </label>
                 <select 
                   className="w-full bg-white/90 border-none p-3 text-sm focus:ring-2 focus:ring-amber outline-none rounded-sm"
-                  value={guests}
-                  onChange={(e) => setGuests(e.target.value)}
+                  value={aptType}
+                  onChange={(e) => setAptType(e.target.value)}
                 >
-                  {[1,2,3,4,5,6].map(n => <option key={n} value={n}>{n} {n === 1 ? 'Pessoa' : 'Pessoas'}</option>)}
+                  <option value="T1">Apartamento T1</option>
+                  <option value="T2">Apartamento T2</option>
                 </select>
               </div>
               <button 
