@@ -7,7 +7,7 @@ import sala from "@/assets/sala.jpg";
 import fachada from "@/assets/fachada.png";
 import salaAmpla from "@/assets/sala-ampla.jpg";
 import piscina from "@/assets/piscina.jpg";
-import heroBg from "@/assets/hero-bg.jpg";
+import heroReal from "@/assets/hero-real.jpg";
 import { Home, UtensilsCrossed, Waves, Shield, Car, Users, Ship, ChefHat, Bike, Sun, MapPin } from "lucide-react";
 import { Link } from "react-router-dom";
 
@@ -17,9 +17,9 @@ const Index = () => {
       {/* Hero */}
       <section
         className="h-screen flex items-center pt-16 bg-cover bg-center relative"
-        style={{ backgroundImage: `url(${heroBg})` }}
+        style={{ backgroundImage: `url(${heroReal})` }}
       >
-        <div className="absolute inset-0 bg-primary/60" />
+        <div className="absolute inset-0 bg-primary/40" />
         <div className="container mx-auto px-6 text-center relative z-10">
           <span className="text-amber font-semibold tracking-[0.2em] uppercase text-sm mb-4 block font-body">
             Luxury Hotel & Best Resort
@@ -27,7 +27,7 @@ const Index = () => {
           <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold text-primary-foreground mb-6 leading-tight">
             O Seu Refúgio Perfeito <br className="hidden sm:block" /> na Praia do Bilene
           </h1>
-          <p className="text-primary-foreground/80 text-base sm:text-lg md:text-xl mb-10 max-w-2xl mx-auto font-light font-body">
+          <p className="text-primary-foreground/90 text-base sm:text-lg md:text-xl mb-10 max-w-2xl mx-auto font-light font-body">
             Descubra um espaço de conforto e hospitalidade a apenas 2 minutos de carro da praia. Apartamentos T1 e T2 equipados para si e para a sua família.
           </p>
           <a
