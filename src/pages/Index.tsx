@@ -32,7 +32,9 @@ const Index = () => {
         className="min-h-screen flex items-center pt-24 pb-12 bg-cover bg-center relative"
         style={{ backgroundImage: `url(${heroReal})` }}
       >
-        <div className="absolute inset-0 bg-primary/40" />
+        {/* Overlay escurecido para melhor legibilidade */}
+        <div className="absolute inset-0 bg-black/60" />
+        
         <div className="container mx-auto px-6 relative z-10">
           <div className="max-w-4xl mx-auto text-center mb-12">
             <span className="text-amber font-semibold tracking-[0.2em] uppercase text-sm mb-4 block font-body">
