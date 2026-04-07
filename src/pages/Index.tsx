@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Layout from "@/components/Layout";
 import bilenePraia from "@/assets/bilene-praia.jpg";
 import cozinha from "@/assets/cozinha.jpg";
@@ -8,39 +9,88 @@ import fachada from "@/assets/fachada.png";
 import salaAmpla from "@/assets/sala-ampla.jpg";
 import piscina from "@/assets/piscina.jpg";
 import heroReal from "@/assets/hero-real.jpg";
-import { Home, UtensilsCrossed, Waves, Shield, Car, Users, Ship, ChefHat, Bike, Sun, MapPin, Star, Quote } from "lucide-react";
+import { Home, UtensilsCrossed, Waves, Shield, Car, Users, Ship, ChefHat, Bike, Sun, MapPin, Star, Quote, Calendar, Search } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const Index = () => {
+  const [checkIn, setCheckIn] = useState("");
+  const [checkOut, setCheckOut] = useState("");
+  const [guests, setGuests] = useState("2");
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    const msg = `Olá! Gostaria de verificar disponibilidade para:\n📅 Check-in: ${checkIn || "A definir"}\n📅 Check-out: ${checkOut || "A definir"}\n👥 Hóspedes: ${guests}`;
+    window.open(`https://wa.me/258877302100?text=${encodeURIComponent(msg)}`, "_blank");
+  };
+
   const whatsappMsg = encodeURIComponent("Olá! Gostaria de saber mais sobre a disponibilidade e reservas na Residencial Paraíso Bilene.");
 
   return (
     <Layout>
       {/* Hero */}
       <section
-        className="h-screen flex items-center pt-16 bg-cover bg-center relative"
+        className="min-h-screen flex items-center pt-24 pb-12 bg-cover bg-center relative"
         style={{ backgroundImage: `url(${heroReal})` }}
       >
         <div className="absolute inset-0 bg-primary/40" />
-        <div className="container mx-auto px-6 text-center relative z-10">
-          <span className="text-amber font-semibold tracking-[0.2em] uppercase text-sm mb-4 block font-body">
-            Luxury Hotel & Best Resort
-          </span>
-          <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold text-primary-foreground mb-6 leading-tight">
-            O Seu Refúgio Perfeito <br className="hidden sm:block" /> na Praia do Bilene
-          </h1>
-          <p className="text-primary-foreground/90 text-base sm:text-lg md:text-xl mb-10 max-w-2xl mx-auto font-light font-body">
-            Descubra um espaço de conforto e hospitalidade a apenas 2 minutos de carro da praia. Apartamentos T1 e T2 equipados para si e para a sua família.
-          </p>
-          <a
-            href={`https://wa.me/258877302100?text=${whatsappMsg}`}
-            className="inline-flex items-center gap-2 bg-amber hover:bg-amber-dark text-accent-foreground px-8 py-4 transition font-semibold text-lg font-body"
-          >
-            Reservar com Desconto
-          </a>
+        <div className="container mx-auto px-6 relative z-10">
+          <div className="max-w-4xl mx-auto text-center mb-12">
+            <span className="text-amber font-semibold tracking-[0.2em] uppercase text-sm mb-4 block font-body">
+              Luxury Hotel & Best Resort
+            </span>
+            <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold text-primary-foreground mb-6 leading-tight">
+              O Seu Refúgio Perfeito <br className="hidden sm:block" /> na Praia do Bilene
+            </h1>
+            <p className="text-primary-foreground/90 text-base sm:text-lg md:text-xl mb-10 max-w-2xl mx-auto font-light font-body">
+              Descubra um espaço de conforto e hospitalidade a apenas 2 minutos de carro da praia. Apartamentos T1 e T2 equipados para si e para a sua família.
+            </p>
+          </div>
+
+          {/* Availability Bar */}
+          <div className="max-w-5xl mx-auto bg-white/10 backdrop-blur-md p-4 sm:p-6 rounded-sm border border-white/20 shadow-2xl">
+            <form onSubmit={handleSearch} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 items-end">
+              <div className="space-y-2">
+                <label className="text-xs font-bold text-primary-foreground uppercase tracking-widest flex items-center gap-2">
+                  <Calendar size={14} className="text-amber" /> Check-in
+                </label>
+                <input 
+                  type="date" 
+                  className="w-full bg-white/90 border-none p-3 text-sm focus:ring-2 focus:ring-amber outline-none rounded-sm"
+                  onChange={(e) => setCheckIn(e.target.value)}
+                />
+              </div>
+              <div className="space-y-2">
+                <label className="text-xs font-bold text-primary-foreground uppercase tracking-widest flex items-center gap-2">
+                  <Calendar size={14} className="text-amber" /> Check-out
+                </label>
+                <input 
+                  type="date" 
+                  className="w-full bg-white/90 border-none p-3 text-sm focus:ring-2 focus:ring-amber outline-none rounded-sm"
+                  onChange={(e) => setCheckOut(e.target.value)}
+                />
+              </div>
+              <div className="space-y-2">
+                <label className="text-xs font-bold text-primary-foreground uppercase tracking-widest flex items-center gap-2">
+                  <Users size={14} className="text-amber" /> Hóspedes
+                </label>
+                <select 
+                  className="w-full bg-white/90 border-none p-3 text-sm focus:ring-2 focus:ring-amber outline-none rounded-sm"
+                  value={guests}
+                  onChange={(e) => setGuests(e.target.value)}
+                >
+                  {[1,2,3,4,5,6].map(n => <option key={n} value={n}>{n} {n === 1 ? 'Pessoa' : 'Pessoas'}</option>)}
+                </select>
+              </div>
+              <button 
+                type="submit"
+                className="w-full bg-amber hover:bg-amber-dark text-accent-foreground font-bold py-3 px-6 transition flex items-center justify-center gap-2 uppercase tracking-widest text-sm rounded-sm"
+              >
+                <Search size={18} /> Verificar
+              </button>
+            </form>
+          </div>
         </div>
       </section>
-
 
       {/* Apartments Section */}
       <section className="py-24 bg-secondary border-t border-border">
@@ -129,7 +179,7 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Street View Section - Adicionada com a mesma estrutura responsiva da página de contactos */}
+      {/* Street View Section */}
       <section className="py-24 bg-secondary border-t border-border">
         <div className="container mx-auto px-6">
           <div className="text-center mb-16">
