@@ -93,34 +93,8 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Testimonials */}
-      <section className="py-24 bg-background">
-        <div className="container mx-auto px-6">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-foreground mb-4">O que dizem os nossos hóspedes</h2>
-            <div className="w-20 h-1 bg-amber mx-auto" />
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[
-              { name: "Ricardo M.", text: "Excelente estadia! O apartamento T2 é muito espaçoso e a cozinha tem tudo o que precisamos. A piscina é ótima para relaxar.", rating: 5 },
-              { name: "Ana Paula", text: "Fomos muito bem recebidos. A localização é perfeita, perto da praia mas longe do barulho. Recomendo vivamente!", rating: 5 },
-              { name: "Sérgio L.", text: "Segurança 24h dá-nos muita tranquilidade. Os quartos são frescos e muito limpos. Voltaremos com certeza.", rating: 5 },
-            ].map((item, i) => (
-              <div key={i} className="bg-secondary p-8 relative">
-                <Quote className="text-amber/20 absolute top-4 right-4" size={48} />
-                <div className="flex gap-1 mb-4">
-                  {[...Array(item.rating)].map((_, i) => <Star key={i} size={16} className="fill-amber text-amber" />)}
-                </div>
-                <p className="text-muted-foreground italic mb-6 font-body">"{item.text}"</p>
-                <h5 className="font-bold text-foreground font-body">— {item.name}</h5>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* Gallery Preview */}
-      <section className="py-24 bg-secondary border-t border-border">
+      <section className="py-24 bg-background">
         <div className="container mx-auto px-6">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-foreground mb-4">O Nosso Paraíso</h2>
@@ -156,7 +130,7 @@ const Index = () => {
       </section>
 
       {/* Experiências Memoráveis */}
-      <section className="py-24 bg-background">
+      <section className="py-24 bg-secondary border-t border-border">
         <div className="container mx-auto px-6">
           <h2 className="text-4xl font-bold text-center text-foreground mb-16">Experiências Memoráveis</h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
@@ -172,6 +146,32 @@ const Index = () => {
                 </div>
                 <h4 className="font-bold mb-2 text-foreground">{item.title}</h4>
                 <p className="text-xs text-muted-foreground uppercase tracking-widest font-body">{item.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonials - Agora após Experiências Memoráveis */}
+      <section className="py-24 bg-background">
+        <div className="container mx-auto px-6">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold text-foreground mb-4">O que dizem os nossos hóspedes</h2>
+            <div className="w-20 h-1 bg-amber mx-auto" />
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {[
+              { name: "Ricardo M.", text: "Excelente estadia! O apartamento T2 é muito espaçoso e a cozinha tem tudo o que precisamos. A piscina é ótima para relaxar.", rating: 5 },
+              { name: "Ana Paula", text: "Fomos muito bem recebidos. A localização é perfeita, perto da praia mas longe do barulho. Recomendo vivamente!", rating: 5 },
+              { name: "Sérgio L.", text: "Segurança 24h dá-nos muita tranquilidade. Os quartos são frescos e muito limpos. Voltaremos com certeza.", rating: 5 },
+            ].map((item, i) => (
+              <div key={i} className="bg-secondary p-8 relative">
+                <Quote className="text-amber/20 absolute top-4 right-4" size={48} />
+                <div className="flex gap-1 mb-4">
+                  {[...Array(item.rating)].map((_, i) => <Star key={i} size={16} className="fill-amber text-amber" />)}
+                </div>
+                <p className="text-muted-foreground italic mb-6 font-body">"{item.text}"</p>
+                <h5 className="font-bold text-foreground font-body">— {item.name}</h5>
               </div>
             ))}
           </div>
