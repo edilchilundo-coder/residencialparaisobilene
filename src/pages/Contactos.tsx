@@ -118,7 +118,7 @@ const Contactos = () => {
                     </div>
                     <div>
                       <h4 className="font-bold text-foreground font-body text-sm">Telefone</h4>
-                      <a href="tel:+258877302100" className="text-muted-foreground hover:text-amber transition font-body text-sm">+258 877 302 100</a>
+                      <a href="tel:+258877302100" className="text-muted-foreground hover:text-amber transition font-body text-sm">+258 87 730 2100</a>
                     </div>
                   </div>
                   <div className="flex items-start gap-4">
