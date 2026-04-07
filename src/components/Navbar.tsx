@@ -18,8 +18,8 @@ const Navbar = () => {
     <nav className="fixed top-0 left-0 right-0 z-50 bg-primary/95 backdrop-blur-sm">
       <div className="container mx-auto px-6 flex items-center justify-between h-16">
         {/* Logo */}
-        <Link to="/" className="flex items-center gap-0 text-xl font-bold tracking-wider">
-          <span className="text-primary-foreground">PARAÍSO</span>
+        <Link to="/" className="flex items-center gap-0 text-lg sm:text-xl font-bold tracking-wider">
+          <span className="text-primary-foreground">RESIDENCIAL PARAÍSO</span>
           <span className="text-amber">BILENE</span>
         </Link>
 

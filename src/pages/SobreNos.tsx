@@ -5,14 +5,14 @@ import { Heart, Star, Shield, Users } from "lucide-react";
 const SobreNos = () => {
   return (
     <Layout>
-      <PageHeader title="Sobre Nós" subtitle="Conheça a história por trás do ParaísoBilene" />
+      <PageHeader title="Sobre Nós" subtitle="Conheça a história por trás da Residencial Paraíso Bilene" />
 
       <section className="py-20 bg-background">
         <div className="container mx-auto px-6 max-w-4xl">
           <div className="text-center mb-16">
             <h2 className="text-3xl sm:text-4xl font-bold text-foreground mb-6">A Nossa Missão</h2>
             <p className="text-muted-foreground text-base sm:text-lg leading-relaxed font-body">
-              O ParaísoBilene nasceu do sonho de criar um espaço onde famílias e casais possam desfrutar da beleza natural da Praia do Bilene com todo o conforto moderno. Situados a apenas 2 minutos de carro da praia, oferecemos apartamentos T1 e T2 totalmente equipados, num ambiente seguro e acolhedor.
+              A Residencial Paraíso Bilene nasceu do sonho de criar um espaço onde famílias e casais possam desfrutar da beleza natural da Praia do Bilene com todo o conforto moderno. Situados a apenas 2 minutos de carro da praia, oferecemos apartamentos T1 e T2 totalmente equipados, num ambiente seguro e acolhedor.
             </p>
           </div>
 

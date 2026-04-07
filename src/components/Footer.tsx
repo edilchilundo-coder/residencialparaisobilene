@@ -8,8 +8,8 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
           {/* Brand */}
           <div>
-            <Link to="/" className="text-2xl font-bold tracking-wider mb-4 inline-block">
-              <span className="text-primary-foreground">PARAÍSO</span>
+            <Link to="/" className="text-xl font-bold tracking-wider mb-4 inline-block">
+              <span className="text-primary-foreground">RESIDENCIAL PARAÍSO</span>
               <span className="text-amber">BILENE</span>
             </Link>
             <p className="text-muted-foreground text-sm leading-relaxed">
@@ -54,7 +54,7 @@ const Footer = () => {
 
         <div className="border-t border-primary-foreground/10 pt-8 text-center">
           <p className="text-muted-foreground text-xs">
-            © {new Date().getFullYear()} ParaísoBilene. Todos os direitos reservados.
+            © {new Date().getFullYear()} Residencial Paraíso Bilene. Todos os direitos reservados.
           </p>
         </div>
       </div>
