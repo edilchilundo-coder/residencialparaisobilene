@@ -9,9 +9,13 @@ import salaAmpla from "@/assets/sala-ampla.jpg";
 import piscina from "@/assets/piscina.jpg";
 import piscinaNoite1 from "@/assets/piscina-noite-1.jpg";
 import piscinaNoite2 from "@/assets/piscina-noite-2.jpg";
+import sunsetLoungeExt from "@/assets/sunset-lounge-exterior.webp";
+import sunsetLoungeInt from "@/assets/sunset-lounge-interior.png";
 
 const galleryImages = [
   { src: fachada, alt: "Fachada do Aparthotel", span: "md:col-span-2 md:row-span-2" },
+  { src: sunsetLoungeExt, alt: "Sunset Lounge Exterior", span: "" },
+  { src: sunsetLoungeInt, alt: "Sunset Lounge Interior Artístico", span: "" },
   { src: piscinaNoite1, alt: "Piscina Iluminada à Noite", span: "" },
   { src: piscinaNoite2, alt: "Área de Lazer Noturna", span: "" },
   { src: salaAmpla, alt: "Sala de Estar Ampla", span: "" },

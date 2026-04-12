@@ -1,7 +1,7 @@
 import Layout from "@/components/Layout";
 import PageHeader from "@/components/PageHeader";
 import { Ship, ChefHat, Bike, Sun, ArrowRight } from "lucide-react";
-import { Link } from "react-router-dom";
+import sunsetLoungeExt from "@/assets/sunset-lounge-exterior.webp";
 
 const blogPosts = [
   {
@@ -36,7 +36,7 @@ const blogPosts = [
     title: "Sunset Lounge: Onde o Dia se Encontra com a Noite",
     category: "Lazer",
     icon: Sun,
-    image: "https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?q=80&w=2070&auto=format&fit=crop",
+    image: sunsetLoungeExt,
     excerpt: "Relaxe com música ambiente e cocktails refrescantes enquanto assiste ao pôr do sol mais bonito de Moçambique.",
     content: "Não há melhor forma de terminar o dia do que num dos lounges à beira da lagoa. Com uma seleção de bebidas premium e uma atmosfera descontraída, o pôr do sol no Bilene transforma-se num espetáculo de cores quentes que convida à celebração e ao convívio."
   }
