@@ -19,6 +19,9 @@ const Index = () => {
   const [checkOut, setCheckOut] = useState("");
   const [aptType, setAptType] = useState("T1");
 
+  // Obter a data de hoje no formato YYYY-MM-DD para o atributo 'min'
+  const today = new Date().toISOString().split('T')[0];
+
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     const msg = `Olá! Gostaria de verificar disponibilidade para:\n🏠 Tipo: Apartamento ${aptType}\n📅 Check-in: ${checkIn || "A definir"}\n📅 Check-out: ${checkOut || "A definir"}`;
@@ -59,6 +62,7 @@ const Index = () => {
                 </label>
                 <input 
                   type="date" 
+                  min={today}
                   className="w-full bg-white/90 border-none p-3 text-sm focus:ring-2 focus:ring-amber outline-none rounded-sm"
                   onChange={(e) => setCheckIn(e.target.value)}
                 />
@@ -69,6 +73,7 @@ const Index = () => {
                 </label>
                 <input 
                   type="date" 
+                  min={checkIn || today}
                   className="w-full bg-white/90 border-none p-3 text-sm focus:ring-2 focus:ring-amber outline-none rounded-sm"
                   onChange={(e) => setCheckOut(e.target.value)}
                 />
