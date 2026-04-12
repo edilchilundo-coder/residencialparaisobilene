@@ -1,6 +1,6 @@
 import Layout from "@/components/Layout";
 import PageHeader from "@/components/PageHeader";
-import { Camera, MapPin } from "lucide-react";
+import { Camera, MapPin } from "lucide-center";
 import bilenePraia from "@/assets/bilene-praia.jpg";
 import cozinha from "@/assets/cozinha.jpg";
 import sala from "@/assets/sala.jpg";
@@ -11,9 +11,11 @@ import piscinaNoite1 from "@/assets/piscina-noite-1.jpg";
 import piscinaNoite2 from "@/assets/piscina-noite-2.jpg";
 import sunsetLoungeExt from "@/assets/sunset-lounge-exterior.webp";
 import sunsetLoungeInt from "@/assets/sunset-lounge-interior.png";
+import quadBikingImg from "@/assets/quad-biking.jpg";
 
 const galleryImages = [
   { src: fachada, alt: "Fachada do Aparthotel", span: "md:col-span-2 md:row-span-2" },
+  { src: quadBikingImg, alt: "Aventura de Buggy nas Dunas", span: "" },
   { src: sunsetLoungeExt, alt: "Sunset Lounge Exterior", span: "" },
   { src: sunsetLoungeInt, alt: "Sunset Lounge Interior Artístico", span: "" },
   { src: piscinaNoite1, alt: "Piscina Iluminada à Noite", span: "" },

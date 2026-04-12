@@ -2,6 +2,7 @@ import Layout from "@/components/Layout";
 import PageHeader from "@/components/PageHeader";
 import { Ship, ChefHat, Bike, Sun, ArrowRight } from "lucide-react";
 import sunsetLoungeExt from "@/assets/sunset-lounge-exterior.webp";
+import quadBikingImg from "@/assets/quad-biking.jpg";
 
 const blogPosts = [
   {
@@ -27,7 +28,7 @@ const blogPosts = [
     title: "Quad Biking: Adrenalina nas Dunas Brancas",
     category: "Aventura",
     icon: Bike,
-    image: "https://images.unsplash.com/photo-1531737212413-667205e1cda7?q=80&w=1974&auto=format&fit=crop",
+    image: quadBikingImg,
     excerpt: "Sinta a liberdade ao percorrer as dunas de areia branca em moto-quatro. Uma aventura emocionante com vistas panorâmicas sobre o oceano.",
     content: "Para os amantes de aventura, o Quad Biking é a forma perfeita de explorar a geografia única do Bilene. Com guias experientes, poderá percorrer trilhos que levam a miradouros escondidos no topo das dunas, oferecendo uma vista de 360 graus sobre a lagoa e o mar."
   },
