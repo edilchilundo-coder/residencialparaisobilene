@@ -10,7 +10,6 @@ import piscina from "@/assets/piscina.jpg";
 import piscinaNoite1 from "@/assets/piscina-noite-1.jpg";
 import piscinaNoite2 from "@/assets/piscina-noite-2.jpg";
 import sunsetLoungeExt from "@/assets/sunset-lounge-exterior.webp";
-import sunsetLoungeInt from "@/assets/sunset-lounge-interior.png";
 import quadBikingImg from "@/assets/quad-biking.jpg";
 import gastronomiaImg from "@/assets/gastronomia.jpg";
 import passeiosBarcoImg from "@/assets/passeios-barco.jpg";
@@ -19,13 +18,12 @@ import quartoT2 from "@/assets/quarto-t2.jpg";
 
 const galleryImages = [
   { src: fachada, alt: "Fachada do Aparthotel", span: "md:col-span-2 md:row-span-2" },
-  { src: quartoT1, alt: "Quarto Apartamento T1", span: "" },
-  { src: quartoT2, alt: "Quarto Apartamento T2", span: "" },
   { src: passeiosBarcoImg, alt: "Passeios de Barco na Lagoa", span: "" },
   { src: gastronomiaImg, alt: "Gastronomia Local - Camarões", span: "" },
   { src: quadBikingImg, alt: "Aventura de Buggy nas Dunas", span: "" },
+  { src: quartoT1, alt: "Quarto Apartamento T1", span: "" },
+  { src: quartoT2, alt: "Quarto Apartamento T2", span: "" },
   { src: sunsetLoungeExt, alt: "Sunset Lounge Exterior", span: "" },
-  { src: sunsetLoungeInt, alt: "Sunset Lounge Interior Artístico", span: "" },
   { src: piscinaNoite1, alt: "Piscina Iluminada à Noite", span: "" },
   { src: piscinaNoite2, alt: "Área de Lazer Noturna", span: "" },
   { src: salaAmpla, alt: "Sala de Estar Ampla", span: "" },
@@ -42,7 +40,6 @@ const Galeria = () => {
 
       <section className="py-20 bg-background">
         <div className="container mx-auto px-6">
-          {/* Gallery Photos */}
           <div className="flex items-center gap-3 mb-8">
             <div className="w-10 h-10 bg-amber rounded-full flex items-center justify-center text-accent-foreground">
               <Camera size={20} />
@@ -58,7 +55,6 @@ const Galeria = () => {
             ))}
           </div>
 
-          {/* Google Maps Street View */}
           <div className="flex items-center gap-3 mb-8">
             <div className="w-10 h-10 bg-amber rounded-full flex items-center justify-center text-accent-foreground">
               <MapPin size={20} />

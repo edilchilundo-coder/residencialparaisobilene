@@ -5,13 +5,13 @@ import Layout from "@/components/Layout";
 import bilenePraia from "@/assets/bilene-praia.jpg";
 import cozinha from "@/assets/cozinha.jpg";
 import sala from "@/assets/sala.jpg";
-import fachada from "@/assets/fachada.png";
-import salaAmpla from "@/assets/sala-ampla.jpg";
 import piscina from "@/assets/piscina.jpg";
 import heroReal from "@/assets/hero-real.jpg";
 import piscinaNoite1 from "@/assets/piscina-noite-1.jpg";
-import piscinaNoite2 from "@/assets/piscina-noite-2.jpg";
-import { Home, UtensilsCrossed, Waves, Shield, Car, Ship, ChefHat, Bike, Sun, MapPin, Star, Quote, Calendar, Search, ArrowRight } from "lucide-react";
+import quadBikingImg from "@/assets/quad-biking.jpg";
+import gastronomiaImg from "@/assets/gastronomia.jpg";
+import passeiosBarcoImg from "@/assets/passeios-barco.jpg";
+import { Home, UtensilsCrossed, Waves, Shield, Ship, ChefHat, Bike, Sun, Star, Quote, Calendar, Search, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const Index = () => {
@@ -19,7 +19,6 @@ const Index = () => {
   const [checkOut, setCheckOut] = useState("");
   const [aptType, setAptType] = useState("T1");
 
-  // Obter a data de hoje no formato YYYY-MM-DD para o atributo 'min'
   const today = new Date().toISOString().split('T')[0];
 
   const handleSearch = (e: React.FormEvent) => {
@@ -37,7 +36,6 @@ const Index = () => {
         className="min-h-screen flex items-center pt-24 pb-12 bg-cover bg-center relative"
         style={{ backgroundImage: `url(${heroReal})` }}
       >
-        {/* Overlay escurecido para melhor legibilidade */}
         <div className="absolute inset-0 bg-black/60" />
         
         <div className="container mx-auto px-6 relative z-10">
@@ -165,16 +163,16 @@ const Index = () => {
               <img src={piscinaNoite1} alt="Piscina Iluminada à Noite" className="w-full h-full object-cover" loading="lazy" />
             </div>
             <div className="gallery-item h-48 md:h-auto">
-              <img src={piscinaNoite2} alt="Área de Lazer Noturna" className="w-full h-full object-cover" loading="lazy" />
+              <img src={passeiosBarcoImg} alt="Passeios de Barco na Lagoa" className="w-full h-full object-cover" loading="lazy" />
+            </div>
+            <div className="gallery-item h-48 md:h-auto">
+              <img src={gastronomiaImg} alt="Gastronomia Local" className="w-full h-full object-cover" loading="lazy" />
+            </div>
+            <div className="gallery-item h-48 md:h-auto">
+              <img src={quadBikingImg} alt="Aventura nas Dunas" className="w-full h-full object-cover" loading="lazy" />
             </div>
             <div className="gallery-item h-48 md:h-auto">
               <img src={piscina} alt="Área da Piscina" className="w-full h-full object-cover" loading="lazy" />
-            </div>
-            <div className="gallery-item h-48 md:h-auto">
-              <img src={cozinha} alt="Cozinha Equipada" className="w-full h-full object-cover" loading="lazy" />
-            </div>
-            <div className="gallery-item h-48 md:h-auto">
-              <img src={sala} alt="Sala com TV" className="w-full h-full object-cover" loading="lazy" />
             </div>
             <div className="col-span-2 gallery-item h-64">
               <img src={bilenePraia} alt="Praia do Bilene" className="w-full h-full object-cover" loading="lazy" />
