@@ -15,6 +15,7 @@ import {
   Shield,
   Car,
   ConciergeBell,
+  Construction,
 } from "lucide-react";
 import {
   Carousel,
@@ -35,8 +36,7 @@ const t1Images = [
   quartoT1,
   sala,
   cozinha,
-  "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?q=80&w=2070&auto=format&fit=crop", // Casa de banho luxo
-  "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?q=80&w=1980&auto=format&fit=crop", // Detalhe decoração
+  "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?q=80&w=2070&auto=format&fit=crop",
 ];
 
 const t2Images = [
@@ -44,7 +44,7 @@ const t2Images = [
   salaAmpla,
   piscina,
   fachada,
-  "https://images.unsplash.com/photo-1493809842364-78817add7ffb?q=80&w=2070&auto=format&fit=crop", // Sala jantar ampla
+  "https://images.unsplash.com/photo-1493809842364-78817add7ffb?q=80&w=2070&auto=format&fit=crop",
 ];
 
 const Apartamentos = () => {
@@ -76,9 +76,12 @@ const Apartamentos = () => {
               </Carousel>
             </div>
             <div className="md:w-1/2">
+              <div className="flex items-center gap-2 mb-4">
+                <span className="bg-amber text-accent-foreground text-[10px] font-bold px-2 py-1 uppercase tracking-widest">2 Unidades Disponíveis</span>
+              </div>
               <h2 className="text-3xl sm:text-4xl font-bold mb-6 text-foreground">Apartamento T1</h2>
               <p className="text-muted-foreground text-base sm:text-lg mb-8 leading-relaxed font-body">
-                Concebido para casais que procuram um refúgio romântico e moderno. Este espaço combina funcionalidade com um design minimalista, garantindo que a sua única preocupação seja relaxar.
+                Concebido para casais que procuram um refúgio romântico e moderno. Este espaço combina funcionalidade com um design minimalista.
               </p>
               <div className="grid grid-cols-2 gap-4 sm:gap-6 mb-10">
                 <div className="flex items-center gap-3"><Snowflake size={18} className="text-amber" /> <span className="text-sm font-medium font-body">Ar Condicionado</span></div>
@@ -87,8 +90,8 @@ const Apartamentos = () => {
                 <div className="flex items-center gap-3"><BedDouble size={18} className="text-amber" /> <span className="text-sm font-medium font-body">Cama King Size</span></div>
               </div>
               <div className="bg-secondary p-6 border-l-4 border-amber mb-8">
-                <p className="text-sm text-muted-foreground uppercase tracking-widest font-body">Preço Normal: 8.500 MT</p>
-                <p className="text-3xl font-bold text-foreground">6.500 MT <span className="text-sm font-normal text-muted-foreground font-body">/ noite</span></p>
+                <p className="text-sm text-muted-foreground uppercase tracking-widest font-body">Tarifa por Noite</p>
+                <p className="text-3xl font-bold text-foreground">3.500 MT <span className="text-sm font-normal text-muted-foreground font-body">/ noite</span></p>
               </div>
               <a href="https://wa.me/258877302100" className="inline-block bg-primary hover:bg-amber text-primary-foreground px-10 py-4 transition font-bold uppercase tracking-widest text-sm font-body">
                 Reservar T1
@@ -97,7 +100,7 @@ const Apartamentos = () => {
           </div>
 
           {/* T2 */}
-          <div className="flex flex-col md:flex-row-reverse gap-12 items-center">
+          <div className="flex flex-col md:flex-row-reverse gap-12 items-center mb-32">
             <div className="md:w-1/2 w-full">
               <Carousel className="w-full shadow-2xl">
                 <CarouselContent>
@@ -118,9 +121,12 @@ const Apartamentos = () => {
               </Carousel>
             </div>
             <div className="md:w-1/2">
+              <div className="flex items-center gap-2 mb-4">
+                <span className="bg-amber text-accent-foreground text-[10px] font-bold px-2 py-1 uppercase tracking-widest">7 Unidades Disponíveis</span>
+              </div>
               <h2 className="text-3xl sm:text-4xl font-bold mb-6 text-foreground">Apartamento T2</h2>
               <p className="text-muted-foreground text-base sm:text-lg mb-8 leading-relaxed font-body">
-                A solução ideal para famílias ou grupos de amigos. Com dois quartos espaçosos e uma sala de estar ampla, oferece toda a privacidade e conveniência de uma casa de luxo na praia.
+                A solução ideal para famílias ou grupos de amigos. Com dois quartos espaçosos e uma sala de estar ampla, oferece toda a privacidade de uma casa de luxo.
               </p>
               <div className="grid grid-cols-2 gap-4 sm:gap-6 mb-10">
                 <div className="flex items-center gap-3"><Users size={18} className="text-amber" /> <span className="text-sm font-medium font-body">Capacidade: 4-5 pessoas</span></div>
@@ -129,13 +135,22 @@ const Apartamentos = () => {
                 <div className="flex items-center gap-3"><ShowerHead size={18} className="text-amber" /> <span className="text-sm font-medium font-body">2 Casas de Banho</span></div>
               </div>
               <div className="bg-secondary p-6 border-l-4 border-amber mb-8">
-                <p className="text-sm text-muted-foreground uppercase tracking-widest font-body">Preço Sob Consulta</p>
-                <p className="text-3xl font-bold text-foreground">Sob Consulta</p>
+                <p className="text-sm text-muted-foreground uppercase tracking-widest font-body">Tarifa por Noite</p>
+                <p className="text-3xl font-bold text-foreground">6.500 MT <span className="text-sm font-normal text-muted-foreground font-body">/ noite</span></p>
               </div>
               <a href="https://wa.me/258877302100" className="inline-block bg-primary hover:bg-amber text-primary-foreground px-10 py-4 transition font-bold uppercase tracking-widest text-sm font-body">
                 Reservar T2
               </a>
             </div>
+          </div>
+
+          {/* Quartos em Construção */}
+          <div className="bg-secondary p-8 sm:p-12 border border-border text-center max-w-4xl mx-auto">
+            <Construction className="mx-auto text-amber mb-6" size={48} />
+            <h2 className="text-3xl font-bold mb-4 text-foreground">Novos Quartos em Breve</h2>
+            <p className="text-muted-foreground text-lg mb-0 font-body">
+              Estamos a expandir! Em breve teremos 10 novos quartos disponíveis para lhe oferecer ainda mais opções de estadia com a qualidade Residencial Paraíso Bilene.
+            </p>
           </div>
         </div>
       </section>
