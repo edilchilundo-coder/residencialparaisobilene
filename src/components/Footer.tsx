@@ -25,6 +25,7 @@ const Footer = () => {
                 { label: "Home", path: "/" },
                 { label: "Apartamentos", path: "/apartamentos" },
                 { label: "Galeria", path: "/galeria" },
+                { label: "Blog", path: "/blog" },
                 { label: "Contactos", path: "/contactos" },
                 { label: "Sobre Nós", path: "/sobre-nos" },
               ].map((link) => (
@@ -42,7 +43,7 @@ const Footer = () => {
               <a href="tel:+258877302100" className="flex items-center gap-3 text-muted-foreground text-sm hover:text-amber transition-colors">
                 <Phone size={16} className="text-amber" /> +258 87 730 2100
               </a>
-              <a href="mailto:info@paraisobeline.com" className="flex items-center gap-3 text-muted-foreground text-sm hover:text-amber transition-colors">
+              <a href="mailto:info@paraisobilene.com" className="flex items-center gap-3 text-muted-foreground text-sm hover:text-amber transition-colors">
                 <Mail size={16} className="text-amber" /> info@paraisobilene.com
               </a>
               <div className="flex items-start gap-3 text-muted-foreground text-sm">

@@ -11,7 +11,7 @@ import piscina from "@/assets/piscina.jpg";
 import heroReal from "@/assets/hero-real.jpg";
 import piscinaNoite1 from "@/assets/piscina-noite-1.jpg";
 import piscinaNoite2 from "@/assets/piscina-noite-2.jpg";
-import { Home, UtensilsCrossed, Waves, Shield, Car, Ship, ChefHat, Bike, Sun, MapPin, Star, Quote, Calendar, Search } from "lucide-react";
+import { Home, UtensilsCrossed, Waves, Shield, Car, Ship, ChefHat, Bike, Sun, MapPin, Star, Quote, Calendar, Search, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const Index = () => {
@@ -184,65 +184,42 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Street View Section */}
+      {/* Experiências Memoráveis (Blog Preview) */}
       <section className="py-24 bg-secondary border-t border-border">
         <div className="container mx-auto px-6">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-foreground mb-4">Localização Privilegiada</h2>
-            <p className="text-muted-foreground font-body">Explore a vizinhança e veja como estamos perto da praia.</p>
+            <h2 className="text-4xl font-bold text-foreground mb-4">Experiências Memoráveis</h2>
+            <p className="text-muted-foreground font-body">Descubra o que o Bilene tem de melhor para oferecer.</p>
           </div>
-          <div className="rounded-sm overflow-hidden shadow-lg min-h-[400px] max-w-5xl mx-auto">
-            <iframe
-              src="https://www.google.com/maps/embed?pb=!4v1710345678901!6m8!1m7!1sCAoSLEFGMVFpcE9QZzVfXzVfXzVfXzVfXzVfXzVfXzVfXzVfXzVfXzVfXzVfXzVf!2m2!1d-25.2795538!2d33.2490682!3f0!4f0!5f0.7820865974627469"
-              width="100%"
-              height="100%"
-              style={{ border: 0, minHeight: "400px" }}
-              allowFullScreen
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-              title="Residencial Paraíso Bilene - Street View"
-              className="w-full h-full"
-            />
-          </div>
-          <div className="mt-8 text-center">
-            <a
-              href="https://maps.app.goo.gl/rskhHsLuzh8VC9Z2A"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 text-amber hover:text-amber-dark font-semibold transition font-body"
-            >
-              <MapPin size={18} />
-              Ver no Google Maps
-            </a>
-          </div>
-        </div>
-      </section>
-
-      {/* Experiências Memoráveis */}
-      <section className="py-24 bg-background">
-        <div className="container mx-auto px-6">
-          <h2 className="text-4xl font-bold text-center text-foreground mb-16">Experiências Memoráveis</h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
             {[
               { icon: Ship, title: "Passeios de Barco", desc: "Lagoa do Bilene" },
               { icon: ChefHat, title: "Gastronomia", desc: "Frutos do Mar Frescos" },
               { icon: Bike, title: "Quad Biking", desc: "Aventura nas Dunas" },
               { icon: Sun, title: "Sunset Lounge", desc: "Música e Drinks" },
             ].map((item) => (
-              <div key={item.title} className="text-center group">
-                <div className="w-16 h-16 bg-card shadow-md rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-amber transition-colors duration-300">
+              <Link key={item.title} to="/blog" className="text-center group bg-card p-8 border border-border hover:border-amber transition-all duration-300 shadow-sm hover:shadow-md">
+                <div className="w-16 h-16 bg-secondary rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-amber transition-colors duration-300">
                   <item.icon className="text-amber group-hover:text-accent-foreground transition-colors" size={28} />
                 </div>
-                <h4 className="font-bold mb-2 text-foreground">{item.title}</h4>
-                <p className="text-xs text-muted-foreground uppercase tracking-widest font-body">{item.desc}</p>
-              </div>
+                <h4 className="font-bold mb-2 text-foreground group-hover:text-amber transition-colors">{item.title}</h4>
+                <p className="text-xs text-muted-foreground uppercase tracking-widest font-body mb-4">{item.desc}</p>
+                <span className="text-amber text-xs font-bold flex items-center justify-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                  Saber Mais <ArrowRight size={12} />
+                </span>
+              </Link>
             ))}
+          </div>
+          <div className="mt-12 text-center">
+            <Link to="/blog" className="inline-block bg-primary text-primary-foreground px-10 py-4 font-bold uppercase tracking-widest text-sm hover:bg-amber hover:text-accent-foreground transition font-body">
+              Explorar o Blog
+            </Link>
           </div>
         </div>
       </section>
 
       {/* Testimonials */}
-      <section className="py-24 bg-secondary border-t border-border">
+      <section className="py-24 bg-background">
         <div className="container mx-auto px-6">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-foreground mb-4">O que dizem os nossos hóspedes</h2>
@@ -250,7 +227,7 @@ const Index = () => {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
-              { name: "Ricardo M.", text: "Excelente estadia! O apartamento T2 é muito expansivo e a cozinha tem tudo o que precisamos. A piscina é ótima para relaxar.", rating: 5 },
+              { name: "Ricardo M.", text: "Excelente estadia! O apartamento T2 é muito espaçoso e a cozinha tem tudo o que precisamos. A piscina é ótima para relaxar.", rating: 5 },
               { name: "Ana Paula", text: "Fomos muito bem recebidos. A localização é perfeita, perto da praia mas longe do barulho. Recomendo vivamente!", rating: 5 },
               { name: "Sérgio L.", text: "Segurança 24h dá-nos muita tranquilidade. Os quartos são frescos e muito limpos. Voltaremos com certeza.", rating: 5 },
             ].map((item, i) => (
