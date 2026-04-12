@@ -2,36 +2,34 @@
 
 import { useState } from "react";
 import Layout from "@/components/Layout";
-import bilenePraia from "@/assets/bilene-praia.jpg";
-import cozinha from "@/assets/cozinha.jpg";
-import sala from "@/assets/sala.jpg";
-import fachada from "@/assets/fachada.png";
-import salaAmpla from "@/assets/sala-ampla.jpg";
-import piscina from "@/assets/piscina.jpg";
 import heroReal from "@/assets/hero-real.jpg";
 import piscinaNoite1 from "@/assets/piscina-noite-1.jpg";
 import piscinaNoite2 from "@/assets/piscina-noite-2.jpg";
-import { Home, UtensilsCrossed, Waves, Shield, Car, Ship, ChefHat, Bike, Sun, MapPin, Star, Quote, Calendar, Search, ArrowRight } from "lucide-react";
+import piscina from "@/assets/piscina.jpg";
+import cozinha from "@/assets/cozinha.jpg";
+import sala from "@/assets/sala.jpg";
+import bilenePraia from "@/assets/bilene-praia.jpg";
+import { Home, UtensilsCrossed, Waves, Shield, Car, Ship, ChefHat, Bike, Sun, Calendar, Search, ArrowRight, Quote, Star } from "lucide-react";
 import { Link } from "react-router-dom";
+import BookingModal from "@/components/BookingModal";
 
 const Index = () => {
   const [checkIn, setCheckIn] = useState("");
   const [checkOut, setCheckOut] = useState("");
   const [aptType, setAptType] = useState("T1");
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const today = new Date().toISOString().split('T')[0];
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    const msg = `Olá! Gostaria de verificar disponibilidade para:\n🏠 Tipo: Apartamento ${aptType}\n📅 Check-in: ${checkIn || "A definir"}\n📅 Check-out: ${checkOut || "A definir"}`;
-    window.open(`https://wa.me/258877302100?text=${encodeURIComponent(msg)}`, "_blank");
+    setIsModalOpen(true);
   };
 
   const whatsappMsg = encodeURIComponent("Olá! Gostaria de saber mais sobre a disponibilidade e reservas na Residencial Paraíso Bilene.");
 
   return (
     <Layout>
-      {/* Hero */}
       <section
         className="min-h-screen flex items-center pt-24 pb-12 bg-cover bg-center relative"
         style={{ backgroundImage: `url(${heroReal})` }}
@@ -51,7 +49,6 @@ const Index = () => {
             </p>
           </div>
 
-          {/* Availability Bar */}
           <div className="max-w-5xl mx-auto bg-white/10 backdrop-blur-md p-4 sm:p-6 rounded-sm border border-white/20 shadow-2xl">
             <form onSubmit={handleSearch} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 items-end">
               <div className="space-y-2">
@@ -63,6 +60,7 @@ const Index = () => {
                   min={today}
                   className="w-full bg-white/90 border-none p-3 text-sm focus:ring-2 focus:ring-amber outline-none rounded-sm"
                   onChange={(e) => setCheckIn(e.target.value)}
+                  required
                 />
               </div>
               <div className="space-y-2">
@@ -74,6 +72,7 @@ const Index = () => {
                   min={checkIn || today}
                   className="w-full bg-white/90 border-none p-3 text-sm focus:ring-2 focus:ring-amber outline-none rounded-sm"
                   onChange={(e) => setCheckOut(e.target.value)}
+                  required
                 />
               </div>
               <div className="space-y-2">
@@ -93,14 +92,14 @@ const Index = () => {
                 type="submit"
                 className="w-full bg-amber hover:bg-amber-dark text-accent-foreground font-bold py-3 px-6 transition flex items-center justify-center gap-2 uppercase tracking-widest text-sm rounded-sm"
               >
-                <Search size={18} /> Verificar
+                <Search size={18} /> Reservar Agora
               </button>
             </form>
           </div>
         </div>
       </section>
 
-      {/* Apartments Section */}
+      {/* Resto das secções mantidas... */}
       <section className="py-24 bg-secondary border-t border-border">
         <div className="container mx-auto px-6 text-center max-w-5xl">
           <h2 className="text-4xl font-bold text-foreground mb-4">Acomodações Premium</h2>
@@ -139,12 +138,12 @@ const Index = () => {
                   </p>
                 </div>
               </div>
-              <a
-                href={`https://wa.me/258877302100?text=${whatsappMsg}`}
+              <button
+                onClick={() => setIsModalOpen(true)}
                 className="bg-amber hover:bg-amber-dark px-8 py-4 font-semibold transition text-lg shadow-lg font-body text-accent-foreground whitespace-nowrap"
               >
                 Garantir a Minha Reserva
-              </a>
+              </button>
             </div>
           </div>
         </div>
@@ -177,7 +176,6 @@ const Index = () => {
               <img src={bilenePraia} alt="Praia do Bilene" className="w-full h-full object-cover" loading="lazy" />
             </div>
           </div>
-
           <div className="mt-12 text-center">
             <Link to="/galeria" className="inline-block border-b-2 border-amber pb-1 font-bold text-foreground hover:text-amber transition font-body">
               Ver Galeria Completa
@@ -186,7 +184,7 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Experiências Memoráveis (Blog Preview) */}
+      {/* Experiências Memoráveis */}
       <section className="py-24 bg-secondary border-t border-border">
         <div className="container mx-auto px-6">
           <div className="text-center mb-16">
@@ -211,11 +209,6 @@ const Index = () => {
                 </span>
               </Link>
             ))}
-          </div>
-          <div className="mt-12 text-center">
-            <Link to="/blog" className="inline-block bg-primary text-primary-foreground px-10 py-4 font-bold uppercase tracking-widest text-sm hover:bg-amber hover:text-accent-foreground transition font-body">
-              Explorar o Blog
-            </Link>
           </div>
         </div>
       </section>
@@ -246,7 +239,6 @@ const Index = () => {
         </div>
       </section>
 
-      {/* CTA */}
       <section className="py-20 bg-amber">
         <div className="container mx-auto px-6 text-center">
           <h3 className="text-3xl md:text-4xl font-bold text-accent-foreground mb-4">
@@ -255,14 +247,24 @@ const Index = () => {
           <p className="text-accent-foreground/80 mb-8 max-w-xl mx-auto font-body">
             Aproveite as nossas tarifas oficiais e garanta momentos inesquecíveis na Praia do Bilene.
           </p>
-          <a
-            href={`https://wa.me/258877302100?text=${whatsappMsg}`}
+          <button
+            onClick={() => setIsModalOpen(true)}
             className="inline-block bg-primary text-primary-foreground px-10 py-4 font-bold uppercase tracking-widest text-sm hover:bg-dark-deeper transition font-body"
           >
             Reservar via WhatsApp
-          </a>
+          </button>
         </div>
       </section>
+
+      <BookingModal 
+        isOpen={isModalOpen} 
+        onClose={() => setIsModalOpen(false)}
+        initialData={{
+          check_in: checkIn,
+          check_out: checkOut,
+          apartment_type: aptType
+        }}
+      />
     </Layout>
   );
 };
