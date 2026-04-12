@@ -28,21 +28,23 @@ import salaAmpla from "@/assets/sala-ampla.jpg";
 import cozinha from "@/assets/cozinha.jpg";
 import piscina from "@/assets/piscina.jpg";
 import fachada from "@/assets/fachada.png";
+import quartoT1 from "@/assets/quarto-t1.jpg";
+import quartoT2 from "@/assets/quarto-t2.jpg";
 
 const t1Images = [
+  quartoT1,
   sala,
   cozinha,
-  "https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?q=80&w=2071&auto=format&fit=crop", // Quarto moderno
   "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?q=80&w=2070&auto=format&fit=crop", // Casa de banho luxo
   "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?q=80&w=1980&auto=format&fit=crop", // Detalhe decoração
 ];
 
 const t2Images = [
+  quartoT2,
   salaAmpla,
   piscina,
   fachada,
   "https://images.unsplash.com/photo-1493809842364-78817add7ffb?q=80&w=2070&auto=format&fit=crop", // Sala jantar ampla
-  "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?q=80&w=2070&auto=format&fit=crop", // Quarto master
 ];
 
 const Apartamentos = () => {
