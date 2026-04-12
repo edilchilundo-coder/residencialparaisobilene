@@ -1,18 +1,19 @@
 "use client";
 
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
-import { User, Phone, Send, Calendar as CalendarIcon } from "lucide-react";
+import { Calendar, User, Phone, Send } from "lucide-react";
 
 const bookingSchema = z.object({
   guest_name: z.string().min(3, "Nome muito curto"),
   guest_phone: z.string().min(9, "Telefone inválido"),
-  check_in: z.string().min(1, "Data de check-in obrigatória"),
-  check_out: z.string().min(1, "Data de check-out obrigatória"),
+  check_in: z.string(),
+  check_out: z.string(),
   apartment_type: z.string(),
 });
 
@@ -29,35 +30,26 @@ interface BookingModalProps {
 }
 
 const BookingModal = ({ isOpen, onClose, initialData }: BookingModalProps) => {
-  const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<BookingValues>({
+  const { register, handleSubmit, formState: { isSubmitting } } = useForm<BookingValues>({
     resolver: zodResolver(bookingSchema),
-    values: {
-      ...initialData,
-      // Garante que se vier vazio do Index, o formulário ainda possa ser preenchido
-      check_in: initialData.check_in || "",
-      check_out: initialData.check_out || "",
-    },
+    defaultValues: initialData,
   });
 
   const onSubmit = async (data: BookingValues) => {
     try {
       const { error } = await supabase.from("bookings").insert([data]);
-      
-      if (error) {
-        console.error("Erro Supabase:", error);
-        throw new Error(error.message);
-      }
+      if (error) throw error;
 
       const msg = `Olá! Acabei de solicitar uma reserva pelo site:\n👤 Nome: ${data.guest_name}\n📞 Tel: ${data.guest_phone}\n🏠 Tipo: Apartamento ${data.apartment_type}\n📅 Check-in: ${data.check_in}\n📅 Check-out: ${data.check_out}`;
       
-      toast.success("Solicitação registada com sucesso!");
+      toast.success("Solicitação registada! Redirecionando para o WhatsApp...");
       
       setTimeout(() => {
         window.open(`https://wa.me/258877302100?text=${encodeURIComponent(msg)}`, "_blank");
         onClose();
-      }, 1000);
-    } catch (error: any) {
-      toast.error(`Erro ao processar: ${error.message || "Verifique a ligação à base de dados"}`);
+      }, 1500);
+    } catch (error) {
+      toast.error("Erro ao processar reserva. Tente novamente.");
     }
   };
 
@@ -79,10 +71,9 @@ const BookingModal = ({ isOpen, onClose, initialData }: BookingModalProps) => {
               {...register("guest_name")}
               className="w-full p-3 bg-secondary border border-border focus:border-amber outline-none text-sm"
               placeholder="Seu nome"
+              required
             />
-            {errors.guest_name && <p className="text-red-500 text-[10px] uppercase font-bold">{errors.guest_name.message}</p>}
           </div>
-
           <div className="space-y-2">
             <label className="text-xs font-bold uppercase tracking-widest flex items-center gap-2">
               <Phone size={14} className="text-amber" /> Telefone / WhatsApp
@@ -91,33 +82,19 @@ const BookingModal = ({ isOpen, onClose, initialData }: BookingModalProps) => {
               {...register("guest_phone")}
               className="w-full p-3 bg-secondary border border-border focus:border-amber outline-none text-sm"
               placeholder="Ex: +258 87..."
+              required
             />
-            {errors.guest_phone && <p className="text-red-500 text-[10px] uppercase font-bold">{errors.guest_phone.message}</p>}
           </div>
-
-          <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <label className="text-xs font-bold uppercase tracking-widest flex items-center gap-2">
-                <CalendarIcon size={14} className="text-amber" /> Check-in
-              </label>
-              <input 
-                type="date"
-                {...register("check_in")}
-                className="w-full p-3 bg-secondary border border-border focus:border-amber outline-none text-sm"
-              />
+          <div className="grid grid-cols-2 gap-4 p-4 bg-amber/5 border border-amber/20 rounded-sm">
+            <div>
+              <p className="text-[10px] uppercase font-bold text-muted-foreground">Check-in</p>
+              <p className="text-sm font-bold">{initialData.check_in || "A definir"}</p>
             </div>
-            <div className="space-y-2">
-              <label className="text-xs font-bold uppercase tracking-widest flex items-center gap-2">
-                <CalendarIcon size={14} className="text-amber" /> Check-out
-              </label>
-              <input 
-                type="date"
-                {...register("check_out")}
-                className="w-full p-3 bg-secondary border border-border focus:border-amber outline-none text-sm"
-              />
+            <div>
+              <p className="text-[10px] uppercase font-bold text-muted-foreground">Check-out</p>
+              <p className="text-sm font-bold">{initialData.check_out || "A definir"}</p>
             </div>
           </div>
-
           <button 
             type="submit"
             disabled={isSubmitting}
