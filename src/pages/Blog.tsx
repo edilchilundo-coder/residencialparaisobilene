@@ -4,6 +4,7 @@ import { Ship, ChefHat, Bike, Sun, ArrowRight } from "lucide-react";
 import sunsetLoungeExt from "@/assets/sunset-lounge-exterior.webp";
 import quadBikingImg from "@/assets/quad-biking.jpg";
 import gastronomiaImg from "@/assets/gastronomia.jpg";
+import passeiosBarcoImg from "@/assets/passeios-barco.jpg";
 
 const blogPosts = [
   {
@@ -11,7 +12,7 @@ const blogPosts = [
     title: "Passeios de Barco: Descubra a Magia da Lagoa",
     category: "Atividades",
     icon: Ship,
-    image: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?q=80&w=2070&auto=format&fit=crop",
+    image: passeiosBarcoImg,
     excerpt: "Explore as águas cristalinas da Lagoa do Bilene e visite as praias desertas do outro lado. Uma experiência imperdível para toda a família.",
     content: "A Lagoa do Bilene é famosa pelas suas águas calmas e transparentes. Os passeios de barco permitem chegar a locais exclusivos, como a abertura da lagoa para o mar, onde o encontro das águas cria um cenário deslumbrante. É o local ideal para snorkeling e piqueniques memoráveis."
   },
@@ -93,7 +94,7 @@ const Blog = () => {
         <div className="container mx-auto px-6 text-center">
           <h3 className="text-3xl font-bold mb-6">Quer receber mais dicas do Bilene?</h3>
           <p className="text-muted-foreground mb-10 max-w-2xl mx-auto font-body">
-            Siga-nos nas redes sociais or entre em contacto para planearmos as suas atividades durante a estadia.
+            Siga-nos nas redes sociais ou entre em contacto para planearmos as suas atividades durante a estadia.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
             <a href="https://wa.me/258877302100" className="bg-amber hover:bg-amber-dark text-accent-foreground px-8 py-4 font-bold uppercase tracking-widest text-sm transition">

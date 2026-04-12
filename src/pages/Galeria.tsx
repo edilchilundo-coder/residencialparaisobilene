@@ -13,9 +13,11 @@ import sunsetLoungeExt from "@/assets/sunset-lounge-exterior.webp";
 import sunsetLoungeInt from "@/assets/sunset-lounge-interior.png";
 import quadBikingImg from "@/assets/quad-biking.jpg";
 import gastronomiaImg from "@/assets/gastronomia.jpg";
+import passeiosBarcoImg from "@/assets/passeios-barco.jpg";
 
 const galleryImages = [
   { src: fachada, alt: "Fachada do Aparthotel", span: "md:col-span-2 md:row-span-2" },
+  { src: passeiosBarcoImg, alt: "Passeios de Barco na Lagoa", span: "" },
   { src: gastronomiaImg, alt: "Gastronomia Local - Camarões", span: "" },
   { src: quadBikingImg, alt: "Aventura de Buggy nas Dunas", span: "" },
   { src: sunsetLoungeExt, alt: "Sunset Lounge Exterior", span: "" },
