@@ -14,13 +14,9 @@ import sunsetLoungeInt from "@/assets/sunset-lounge-interior.png";
 import quadBikingImg from "@/assets/quad-biking.jpg";
 import gastronomiaImg from "@/assets/gastronomia.jpg";
 import passeiosBarcoImg from "@/assets/passeios-barco.jpg";
-import quartoT1 from "@/assets/quarto-t1.jpg";
-import quartoT2 from "@/assets/quarto-t2.jpg";
 
 const galleryImages = [
   { src: fachada, alt: "Fachada do Aparthotel", span: "md:col-span-2 md:row-span-2" },
-  { src: quartoT1, alt: "Quarto Apartamento T1", span: "" },
-  { src: quartoT2, alt: "Quarto Apartamento T2", span: "" },
   { src: passeiosBarcoImg, alt: "Passeios de Barco na Lagoa", span: "" },
   { src: gastronomiaImg, alt: "Gastronomia Local - Camarões", span: "" },
   { src: quadBikingImg, alt: "Aventura de Buggy nas Dunas", span: "" },
