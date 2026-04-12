@@ -9,6 +9,8 @@ import fachada from "@/assets/fachada.png";
 import salaAmpla from "@/assets/sala-ampla.jpg";
 import piscina from "@/assets/piscina.jpg";
 import heroReal from "@/assets/hero-real.jpg";
+import piscinaNoite1 from "@/assets/piscina-noite-1.jpg";
+import piscinaNoite2 from "@/assets/piscina-noite-2.jpg";
 import { Home, UtensilsCrossed, Waves, Shield, Car, Ship, ChefHat, Bike, Sun, MapPin, Star, Quote, Calendar, Search } from "lucide-react";
 import { Link } from "react-router-dom";
 
@@ -155,10 +157,10 @@ const Index = () => {
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <div className="col-span-2 row-span-2 gallery-item">
-              <img src={fachada} alt="Fachada do Aparthotel" className="w-full h-full object-cover" loading="lazy" />
+              <img src={piscinaNoite1} alt="Piscina Iluminada à Noite" className="w-full h-full object-cover" loading="lazy" />
             </div>
             <div className="gallery-item h-48 md:h-auto">
-              <img src={salaAmpla} alt="Sala de Estar" className="w-full h-full object-cover" loading="lazy" />
+              <img src={piscinaNoite2} alt="Área de Lazer Noturna" className="w-full h-full object-cover" loading="lazy" />
             </div>
             <div className="gallery-item h-48 md:h-auto">
               <img src={piscina} alt="Área da Piscina" className="w-full h-full object-cover" loading="lazy" />
@@ -248,7 +250,7 @@ const Index = () => {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
-              { name: "Ricardo M.", text: "Excelente estadia! O apartamento T2 é muito espaçoso e a cozinha tem tudo o que precisamos. A piscina é ótima para relaxar.", rating: 5 },
+              { name: "Ricardo M.", text: "Excelente estadia! O apartamento T2 é muito expansivo e a cozinha tem tudo o que precisamos. A piscina é ótima para relaxar.", rating: 5 },
               { name: "Ana Paula", text: "Fomos muito bem recebidos. A localização é perfeita, perto da praia mas longe do barulho. Recomendo vivamente!", rating: 5 },
               { name: "Sérgio L.", text: "Segurança 24h dá-nos muita tranquilidade. Os quartos são frescos e muito limpos. Voltaremos com certeza.", rating: 5 },
             ].map((item, i) => (
