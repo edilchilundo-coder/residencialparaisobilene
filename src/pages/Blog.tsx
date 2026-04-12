@@ -3,6 +3,7 @@ import PageHeader from "@/components/PageHeader";
 import { Ship, ChefHat, Bike, Sun, ArrowRight } from "lucide-react";
 import sunsetLoungeExt from "@/assets/sunset-lounge-exterior.webp";
 import quadBikingImg from "@/assets/quad-biking.jpg";
+import gastronomiaImg from "@/assets/gastronomia.jpg";
 
 const blogPosts = [
   {
@@ -19,7 +20,7 @@ const blogPosts = [
     title: "Gastronomia: O Sabor Autêntico do Mar",
     category: "Culinária",
     icon: ChefHat,
-    image: "https://images.unsplash.com/photo-1551739440-5dd934d3a94a?q=80&w=1964&auto=format&fit=crop",
+    image: gastronomiaImg,
     excerpt: "Dos camarões grelhados à famosa matapa com mariscos. Saiba onde encontrar os melhores frutos do mar frescos do Bilene.",
     content: "A culinária do Bilene é uma celebração do Oceano Índico. Os pescadores locais trazem diariamente o melhor que o mar oferece. Recomendamos vivamente experimentar o peixe da época grelhado na brasa, acompanhado por arroz de coco, uma iguaria que define a hospitalidade moçambicana."
   },
@@ -92,7 +93,7 @@ const Blog = () => {
         <div className="container mx-auto px-6 text-center">
           <h3 className="text-3xl font-bold mb-6">Quer receber mais dicas do Bilene?</h3>
           <p className="text-muted-foreground mb-10 max-w-2xl mx-auto font-body">
-            Siga-nos nas redes sociais ou entre em contacto para planearmos as suas atividades durante a estadia.
+            Siga-nos nas redes sociais or entre em contacto para planearmos as suas atividades durante a estadia.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
             <a href="https://wa.me/258877302100" className="bg-amber hover:bg-amber-dark text-accent-foreground px-8 py-4 font-bold uppercase tracking-widest text-sm transition">
