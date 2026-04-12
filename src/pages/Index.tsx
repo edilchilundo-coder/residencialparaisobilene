@@ -19,7 +19,6 @@ const Index = () => {
   const [checkOut, setCheckOut] = useState("");
   const [aptType, setAptType] = useState("T1");
 
-  // Obter a data de hoje no formato YYYY-MM-DD para o atributo 'min'
   const today = new Date().toISOString().split('T')[0];
 
   const handleSearch = (e: React.FormEvent) => {
@@ -37,7 +36,6 @@ const Index = () => {
         className="min-h-screen flex items-center pt-24 pb-12 bg-cover bg-center relative"
         style={{ backgroundImage: `url(${heroReal})` }}
       >
-        {/* Overlay escurecido para melhor legibilidade */}
         <div className="absolute inset-0 bg-black/60" />
         
         <div className="container mx-auto px-6 relative z-10">
@@ -131,15 +129,14 @@ const Index = () => {
 
             <div className="flex flex-col sm:flex-row justify-between items-center section-dark p-6 sm:p-8 relative overflow-hidden gap-6">
               <div className="absolute top-0 right-0 bg-amber text-xs font-bold px-4 py-1 rounded-bl-lg uppercase font-body text-accent-foreground">
-                Promoção Ativa
+                Melhor Preço Garantido
               </div>
               <div className="pt-4 sm:pt-0">
-                <p className="text-sm text-muted-foreground uppercase tracking-wide mb-1 font-body">Tarifa Promocional</p>
+                <p className="text-sm text-muted-foreground uppercase tracking-wide mb-1 font-body">A partir de</p>
                 <div className="flex items-end gap-3 flex-wrap">
                   <p className="text-3xl sm:text-4xl font-bold text-amber">
-                    6.500 MT <span className="text-sm font-normal text-muted-foreground">/ noite</span>
+                    3.500 MT <span className="text-sm font-normal text-muted-foreground">/ noite</span>
                   </p>
-                  <p className="text-lg text-muted-foreground line-through mb-1 font-body">8.500 MT</p>
                 </div>
               </div>
               <a
@@ -253,10 +250,10 @@ const Index = () => {
       <section className="py-20 bg-amber">
         <div className="container mx-auto px-6 text-center">
           <h3 className="text-3xl md:text-4xl font-bold text-accent-foreground mb-4">
-            Reserve Agora e Poupe 24%
+            Reserve Agora e Garanta o Seu Lugar
           </h3>
           <p className="text-accent-foreground/80 mb-8 max-w-xl mx-auto font-body">
-            Aproveite a nossa tarifa promocional e garanta momentos inesquecíveis na Praia do Bilene.
+            Aproveite as nossas tarifas oficiais e garanta momentos inesquecíveis na Praia do Bilene.
           </p>
           <a
             href={`https://wa.me/258877302100?text=${whatsappMsg}`}

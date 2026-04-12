@@ -35,8 +35,8 @@ const t1Images = [
   quartoT1,
   sala,
   cozinha,
-  "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?q=80&w=2070&auto=format&fit=crop", // Casa de banho luxo
-  "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?q=80&w=1980&auto=format&fit=crop", // Detalhe decoração
+  "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?q=80&w=2070&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?q=80&w=1980&auto=format&fit=crop",
 ];
 
 const t2Images = [
@@ -44,7 +44,7 @@ const t2Images = [
   salaAmpla,
   piscina,
   fachada,
-  "https://images.unsplash.com/photo-1493809842364-78817add7ffb?q=80&w=2070&auto=format&fit=crop", // Sala jantar ampla
+  "https://images.unsplash.com/photo-1493809842364-78817add7ffb?q=80&w=2070&auto=format&fit=crop",
 ];
 
 const Apartamentos = () => {
@@ -87,8 +87,8 @@ const Apartamentos = () => {
                 <div className="flex items-center gap-3"><BedDouble size={18} className="text-amber" /> <span className="text-sm font-medium font-body">Cama King Size</span></div>
               </div>
               <div className="bg-secondary p-6 border-l-4 border-amber mb-8">
-                <p className="text-sm text-muted-foreground uppercase tracking-widest font-body">Preço Normal: 8.500 MT</p>
-                <p className="text-3xl font-bold text-foreground">6.500 MT <span className="text-sm font-normal text-muted-foreground font-body">/ noite</span></p>
+                <p className="text-sm text-muted-foreground uppercase tracking-widest font-body">Tarifa por Noite</p>
+                <p className="text-3xl font-bold text-foreground">3.500 MT <span className="text-sm font-normal text-muted-foreground font-body">/ noite</span></p>
               </div>
               <a href="https://wa.me/258877302100" className="inline-block bg-primary hover:bg-amber text-primary-foreground px-10 py-4 transition font-bold uppercase tracking-widest text-sm font-body">
                 Reservar T1
@@ -129,8 +129,8 @@ const Apartamentos = () => {
                 <div className="flex items-center gap-3"><ShowerHead size={18} className="text-amber" /> <span className="text-sm font-medium font-body">2 Casas de Banho</span></div>
               </div>
               <div className="bg-secondary p-6 border-l-4 border-amber mb-8">
-                <p className="text-sm text-muted-foreground uppercase tracking-widest font-body">Preço Sob Consulta</p>
-                <p className="text-3xl font-bold text-foreground">Sob Consulta</p>
+                <p className="text-sm text-muted-foreground uppercase tracking-widest font-body">Tarifa por Noite</p>
+                <p className="text-3xl font-bold text-foreground">6.500 MT <span className="text-sm font-normal text-muted-foreground font-body">/ noite</span></p>
               </div>
               <a href="https://wa.me/258877302100" className="inline-block bg-primary hover:bg-amber text-primary-foreground px-10 py-4 transition font-bold uppercase tracking-widest text-sm font-body">
                 Reservar T2
