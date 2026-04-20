@@ -32,8 +32,8 @@ const Contactos = () => {
   const onSubmit = async (data: ContactFormValues) => {
     try {
       const { error } = await supabase
-        .from("contact_messages")
-        .insert([data]);
+       .from("contact_messages" as any)
+       .insert([data as any]);
 
       if (error) throw error;
 
