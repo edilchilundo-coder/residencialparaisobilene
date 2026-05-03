@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import Layout from "@/components/Layout";
 import bilenePraia from "@/assets/bilene-praia.jpg";
 import piscina from "@/assets/piscina.jpg";
@@ -8,7 +8,7 @@ import heroReal from "@/assets/hero-real.jpg";
 import piscinaNoite1 from "@/assets/piscina-noite-1.jpg";
 import quartoT1 from "@/assets/quarto-t1.jpg";
 import quartoT2 from "@/assets/quarto-t2.jpg";
-import { Home, UtensilsCrossed, Waves, Calendar, Search, ArrowRight, Star, Quote, MapPin, Loader2 } from "lucide-react";
+import { Home, UtensilsCrossed, Waves, Calendar, Search, ArrowRight, Star, Quote, MapPin } from "lucide-react";
 import { Link } from "react-router-dom";
 import { blogPosts } from "./Blog";
 import { supabase } from "@/integrations/supabase/client";
@@ -21,27 +21,9 @@ const Index = () => {
   const [isSearching, setIsSearching] = useState(false);
   const [hasSearched, setHasSearched] = useState(false);
   const [results, setResults] = useState<any[]>([]);
-  const [featuredRooms, setFeaturedRooms] = useState<any[]>([]);
   const resultsRef = useRef<HTMLDivElement>(null);
 
   const today = new Date().toISOString().split('T')[0];
-
-  useEffect(() => {
-    const fetchFeatured = async () => {
-      const { data } = await supabase.from('apartments').select('*').order('type');
-      if (data) {
-        setFeaturedRooms(data.map(apt => ({
-          ...apt,
-          image: apt.type === 'T1' ? quartoT1 : quartoT2,
-          description: apt.type === 'T1' 
-            ? "Perfeito para casais que buscam privacidade e conforto moderno."
-            : "Espaço ideal para famílias com dois quartos amplos e cozinha completa.",
-          amenities: apt.type === 'T1' ? ["AC", "Wi-Fi", "TV"] : ["2 Quartos", "Cozinha", "AC"]
-        })));
-      }
-    };
-    fetchFeatured();
-  }, []);
 
   const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -53,6 +35,7 @@ const Index = () => {
     setIsSearching(true);
     
     try {
+      // 1. Buscar todos os tipos de apartamentos
       const { data: apartments, error: aptError } = await supabase
         .from('apartments')
         .select('*')
@@ -60,6 +43,7 @@ const Index = () => {
 
       if (aptError) throw aptError;
 
+      // 2. Verificar disponibilidade para cada tipo
       const processedResults = await Promise.all(apartments.map(async (apt) => {
         const { data: bookings, error: bookError } = await supabase
           .from('bookings')
@@ -86,6 +70,7 @@ const Index = () => {
       setResults(processedResults);
       setHasSearched(true);
       
+      // Scroll suave para os resultados
       setTimeout(() => {
         resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }, 100);
@@ -99,29 +84,29 @@ const Index = () => {
   };
 
   const handleBook = (apt: any) => {
-    const msg = `Olá! Gostaria de reservar:\n🏠 ${apt.type} - ${apt.type === 'T1' ? 'Apartamento T1' : 'Apartamento T2'}\n📅 Check-in: ${checkIn || 'A definir'}\n📅 Check-out: ${checkOut || 'A definir'}\n💰 Preço: ${apt.price_per_night} MT/noite`;
+    const msg = `Olá! Gostaria de reservar:\n🏠 ${apt.type} - ${apt.type === 'T1' ? 'Apartamento T1' : 'Apartamento T2'}\n📅 Check-in: ${checkIn}\n📅 Check-out: ${checkOut}\n💰 Preço: ${apt.price_per_night} MT/noite`;
     window.open(`https://wa.me/258877302100?text=${encodeURIComponent(msg)}`, "_blank");
   };
 
   return (
     <Layout>
       {/* Hero Section */}
-      <section className="relative h-screen flex items-center justify-center overflow-hidden">
+      <section className="relative h-[90vh] flex items-center justify-center overflow-hidden">
         <div 
           className="absolute inset-0 bg-cover bg-center scale-105 animate-slow-zoom"
           style={{ backgroundImage: `url(${heroReal})` }}
         />
-        <div className="absolute inset-0 bg-black/40" />
+        <div className="absolute inset-0 bg-black/50" />
         
         <div className="container mx-auto px-6 relative z-10 text-center">
-          <span className="text-amber font-bold tracking-[0.4em] uppercase text-[10px] mb-6 block animate-fade-in">
-            Luxury Residencial & Resort
+          <span className="text-amber font-bold tracking-[0.3em] uppercase text-xs mb-6 block animate-fade-in">
+            Bem-vindo ao Paraíso
           </span>
           <h1 className="text-5xl md:text-8xl font-bold text-white mb-8 leading-tight animate-slide-up">
-            Onde o Conforto <br /> Encontra o Mar
+            Sinta a Brisa <br /> do Bilene
           </h1>
-          <p className="text-white/90 text-lg md:text-xl max-w-2xl mx-auto font-light font-body mb-12 animate-fade-in-delayed">
-            Experiência exclusiva na Praia do Bilene. Apartamentos modernos a apenas 2 minutos da lagoa.
+          <p className="text-white/80 text-lg md:text-xl max-w-2xl mx-auto font-light font-body mb-12 animate-fade-in-delayed">
+            Luxo, conforto e a melhor hospitalidade de Moçambique a apenas 2 minutos da lagoa.
           </p>
 
           {/* Radisson Style Search Bar */}
@@ -165,7 +150,7 @@ const Index = () => {
                 disabled={isSearching}
                 className="bg-primary hover:bg-amber text-white hover:text-accent-foreground px-12 py-4 font-bold uppercase tracking-widest text-sm transition-all flex items-center justify-center gap-3 min-w-[200px]"
               >
-                {isSearching ? <Loader2 className="animate-spin" size={18} /> : <><Search size={18} /> Verificar</>}
+                {isSearching ? "Buscando..." : <><Search size={18} /> Verificar</>}
               </button>
             </form>
           </div>
@@ -203,58 +188,26 @@ const Index = () => {
         </div>
       </div>
 
-      {/* Featured Rooms (Visible before search) */}
-      {!hasSearched && (
-        <section className="py-24 bg-background">
-          <div className="container mx-auto px-6">
-            <div className="text-center mb-16">
-              <span className="text-amber font-bold tracking-[0.3em] uppercase text-[10px] mb-4 block">Acomodações</span>
-              <h2 className="text-4xl font-bold text-foreground mb-4">Nossos Apartamentos</h2>
-              <div className="w-20 h-1 bg-amber mx-auto" />
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto">
-              {featuredRooms.map((apt) => (
-                <div key={apt.id} className="group relative overflow-hidden shadow-xl">
-                  <div className="aspect-[16/10] overflow-hidden">
-                    <img src={apt.image} alt={apt.type} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
-                  </div>
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent flex flex-col justify-end p-8">
-                    <h3 className="text-2xl font-bold text-white mb-2">Apartamento {apt.type}</h3>
-                    <p className="text-white/70 text-sm mb-6 font-body line-clamp-2">{apt.description}</p>
-                    <div className="flex items-center justify-between">
-                      <span className="text-amber font-bold">{apt.price_per_night} MT <span className="text-[10px] text-white/50 font-normal">/ noite</span></span>
-                      <Link to="/apartamentos" className="text-white text-xs font-bold uppercase tracking-widest flex items-center gap-2 hover:text-amber transition-colors">
-                        Ver Detalhes <ArrowRight size={14} />
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
-
       {/* Features Section */}
-      <section className="py-24 bg-secondary">
+      <section className="py-24 bg-background">
         <div className="container mx-auto px-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
             <div className="text-center group">
-              <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-amber transition-colors duration-500 shadow-sm">
+              <div className="w-20 h-20 bg-secondary rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-amber transition-colors duration-500">
                 <Home className="text-amber group-hover:text-white" size={32} />
               </div>
               <h4 className="text-xl font-bold mb-4">Design Moderno</h4>
               <p className="text-muted-foreground text-sm font-body leading-relaxed">Apartamentos decorados com elegância e equipados com tecnologia de ponta para o seu conforto.</p>
             </div>
             <div className="text-center group">
-              <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-amber transition-colors duration-500 shadow-sm">
+              <div className="w-20 h-20 bg-secondary rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-amber transition-colors duration-500">
                 <UtensilsCrossed className="text-amber group-hover:text-white" size={32} />
               </div>
               <h4 className="text-xl font-bold mb-4">Cozinha Completa</h4>
               <p className="text-muted-foreground text-sm font-body leading-relaxed">Liberdade total para preparar as suas refeições com eletrodomésticos de alta qualidade.</p>
             </div>
             <div className="text-center group">
-              <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-amber transition-colors duration-500 shadow-sm">
+              <div className="w-20 h-20 bg-secondary rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-amber transition-colors duration-500">
                 <Waves className="text-amber group-hover:text-white" size={32} />
               </div>
               <h4 className="text-xl font-bold mb-4">Lazer & Piscina</h4>
@@ -265,7 +218,7 @@ const Index = () => {
       </section>
 
       {/* Gallery Preview */}
-      <section className="py-24 bg-background">
+      <section className="py-24 bg-secondary">
         <div className="container mx-auto px-6">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-foreground mb-4">O Nosso Paraíso</h2>
@@ -292,7 +245,7 @@ const Index = () => {
       </section>
 
       {/* Blog Highlights */}
-      <section className="py-24 bg-secondary">
+      <section className="py-24 bg-background">
         <div className="container mx-auto px-6">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-foreground mb-4">Experiências Memoráveis</h2>
@@ -317,7 +270,7 @@ const Index = () => {
       </section>
 
       {/* Testimonials */}
-      <section className="py-24 bg-background">
+      <section className="py-24 bg-secondary">
         <div className="container mx-auto px-6">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-foreground mb-4">O que dizem os nossos hóspedes</h2>
