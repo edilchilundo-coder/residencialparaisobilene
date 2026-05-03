@@ -1,3 +1,5 @@
+"use client";
+
 import Layout from "@/components/Layout";
 import PageHeader from "@/components/PageHeader";
 import { Ship, ChefHat, Bike, Sun, ArrowRight } from "lucide-react";
@@ -6,7 +8,7 @@ import quadBikingImg from "@/assets/quad-biking.jpg";
 import gastronomiaImg from "@/assets/gastronomia.jpg";
 import passeiosBarcoImg from "@/assets/passeios-barco.jpg";
 
-const blogPosts = [
+export const blogPosts = [
   {
     id: "passeios-de-barco",
     title: "Passeios de Barco: Descubra a Magia da Lagoa",

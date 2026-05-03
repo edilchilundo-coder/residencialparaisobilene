@@ -14,8 +14,7 @@ import {
   Waves,
   Shield,
   Car,
-  ConciergeBell,
-  CheckCircle2
+  ConciergeBell
 } from "lucide-react";
 import {
   Carousel,
@@ -84,13 +83,8 @@ const Apartamentos = () => {
                   </div>
                 ))}
               </div>
-              <div className="bg-secondary p-6 border-l-4 border-amber mb-8">
-                <p className="text-xs text-muted-foreground uppercase tracking-widest font-body mb-1">Tarifa Promocional</p>
-                <p className="text-3xl font-bold text-foreground">6.500 MT <span className="text-sm font-normal text-muted-foreground font-body">/ noite</span></p>
-                <p className="text-xs text-muted-foreground line-through font-body">8.500 MT</p>
-              </div>
               <a href="https://wa.me/258877302100" className="inline-block bg-primary hover:bg-amber text-primary-foreground px-10 py-4 transition font-bold uppercase tracking-widest text-sm font-body w-full sm:w-auto text-center">
-                Reservar T1
+                Consultar Disponibilidade T1
               </a>
             </div>
           </div>
@@ -137,13 +131,8 @@ const Apartamentos = () => {
                   </div>
                 ))}
               </div>
-              <div className="bg-secondary p-6 border-l-4 border-amber mb-8">
-                <p className="text-xs text-muted-foreground uppercase tracking-widest font-body mb-1">Preço Sob Consulta</p>
-                <p className="text-3xl font-bold text-foreground">Sob Consulta</p>
-                <p className="text-xs text-muted-foreground font-body">Melhor preço garantido</p>
-              </div>
               <a href="https://wa.me/258877302100" className="inline-block bg-primary hover:bg-amber text-primary-foreground px-10 py-4 transition font-bold uppercase tracking-widest text-sm font-body w-full sm:w-auto text-center">
-                Consultar T2
+                Consultar Disponibilidade T2
               </a>
             </div>
           </div>

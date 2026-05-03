@@ -3,31 +3,75 @@
 import { useState } from "react";
 import Layout from "@/components/Layout";
 import bilenePraia from "@/assets/bilene-praia.jpg";
-import cozinha from "@/assets/cozinha.jpg";
-import sala from "@/assets/sala.jpg";
 import piscina from "@/assets/piscina.jpg";
 import heroReal from "@/assets/hero-real.jpg";
 import piscinaNoite1 from "@/assets/piscina-noite-1.jpg";
-import quadBikingImg from "@/assets/quad-biking.jpg";
-import gastronomiaImg from "@/assets/gastronomia.jpg";
-import passeiosBarcoImg from "@/assets/passeios-barco.jpg";
-import { Home, UtensilsCrossed, Waves, Shield, Ship, ChefHat, Bike, Sun, Star, Quote, Calendar, Search, ArrowRight } from "lucide-react";
+import { Home, UtensilsCrossed, Waves, Calendar, Search, ArrowRight, Star, Quote, AlertCircle, CheckCircle2 } from "lucide-react";
 import { Link } from "react-router-dom";
+import { blogPosts } from "./Blog";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
 
 const Index = () => {
   const [checkIn, setCheckIn] = useState("");
   const [checkOut, setCheckOut] = useState("");
   const [aptType, setAptType] = useState("T1");
+  const [isChecking, setIsChecking] = useState(false);
+  const [availabilityStatus, setAvailabilityStatus] = useState<'idle' | 'available' | 'unavailable'>('idle');
 
   const today = new Date().toISOString().split('T')[0];
 
-  const handleSearch = (e: React.FormEvent) => {
+  const checkAvailability = async (e: React.FormEvent) => {
     e.preventDefault();
-    const msg = `Olá! Gostaria de verificar disponibilidade para:\n🏠 Tipo: Apartamento ${aptType}\n📅 Check-in: ${checkIn || "A definir"}\n📅 Check-out: ${checkOut || "A definir"}`;
-    window.open(`https://wa.me/258877302100?text=${encodeURIComponent(msg)}`, "_blank");
+    if (!checkIn || !checkOut) {
+      toast.error("Por favor, selecione as datas de check-in e check-out.");
+      return;
+    }
+
+    setIsChecking(true);
+    setAvailabilityStatus('idle');
+
+    try {
+      // 1. Buscar total de unidades do tipo selecionado
+      const { data: aptData, error: aptError } = await supabase
+        .from('apartments')
+        .select('total_units')
+        .eq('type', aptType)
+        .single();
+
+      if (aptError) throw aptError;
+
+      // 2. Buscar reservas existentes que conflitam com as datas
+      const { data: bookings, error: bookError } = await supabase
+        .from('bookings')
+        .select('id')
+        .eq('apartment_type', aptType)
+        .eq('status', 'confirmed')
+        .or(`check_in.lte.${checkOut},check_out.gte.${checkIn}`);
+
+      if (bookError) throw bookError;
+
+      const isAvailable = (bookings?.length || 0) < (aptData?.total_units || 0);
+      
+      setAvailabilityStatus(isAvailable ? 'available' : 'unavailable');
+      
+      if (isAvailable) {
+        toast.success("Temos disponibilidade para estas datas!");
+      } else {
+        toast.error("Infelizmente não temos disponibilidade para estas datas.");
+      }
+    } catch (error) {
+      console.error("Erro ao verificar disponibilidade:", error);
+      toast.error("Erro ao verificar disponibilidade. Tente novamente.");
+    } finally {
+      setIsChecking(false);
+    }
   };
 
-  const whatsappMsg = encodeURIComponent("Olá! Gostaria de saber mais sobre a disponibilidade e reservas na Residencial Paraíso Bilene.");
+  const handleFinalizeBooking = () => {
+    const msg = `Olá! Verifiquei no site e gostaria de reservar:\n🏠 Tipo: Apartamento ${aptType}\n📅 Check-in: ${checkIn}\n📅 Check-out: ${checkOut}`;
+    window.open(`https://wa.me/258877302100?text=${encodeURIComponent(msg)}`, "_blank");
+  };
 
   return (
     <Layout>
@@ -53,7 +97,7 @@ const Index = () => {
 
           {/* Availability Bar */}
           <div className="max-w-5xl mx-auto bg-white/10 backdrop-blur-md p-4 sm:p-6 rounded-sm border border-white/20 shadow-2xl">
-            <form onSubmit={handleSearch} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 items-end">
+            <form onSubmit={checkAvailability} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 items-end">
               <div className="space-y-2">
                 <label className="text-xs font-bold text-primary-foreground uppercase tracking-widest flex items-center gap-2">
                   <Calendar size={14} className="text-amber" /> Check-in
@@ -61,8 +105,12 @@ const Index = () => {
                 <input 
                   type="date" 
                   min={today}
+                  required
                   className="w-full bg-white/90 border-none p-3 text-sm focus:ring-2 focus:ring-amber outline-none rounded-sm"
-                  onChange={(e) => setCheckIn(e.target.value)}
+                  onChange={(e) => {
+                    setCheckIn(e.target.value);
+                    setAvailabilityStatus('idle');
+                  }}
                 />
               </div>
               <div className="space-y-2">
@@ -72,8 +120,12 @@ const Index = () => {
                 <input 
                   type="date" 
                   min={checkIn || today}
+                  required
                   className="w-full bg-white/90 border-none p-3 text-sm focus:ring-2 focus:ring-amber outline-none rounded-sm"
-                  onChange={(e) => setCheckOut(e.target.value)}
+                  onChange={(e) => {
+                    setCheckOut(e.target.value);
+                    setAvailabilityStatus('idle');
+                  }}
                 />
               </div>
               <div className="space-y-2">
@@ -83,7 +135,10 @@ const Index = () => {
                 <select 
                   className="w-full bg-white/90 border-none p-3 text-sm focus:ring-2 focus:ring-amber outline-none rounded-sm"
                   value={aptType}
-                  onChange={(e) => setAptType(e.target.value)}
+                  onChange={(e) => {
+                    setAptType(e.target.value);
+                    setAvailabilityStatus('idle');
+                  }}
                 >
                   <option value="T1">Apartamento T1</option>
                   <option value="T2">Apartamento T2</option>
@@ -91,11 +146,35 @@ const Index = () => {
               </div>
               <button 
                 type="submit"
-                className="w-full bg-amber hover:bg-amber-dark text-accent-foreground font-bold py-3 px-6 transition flex items-center justify-center gap-2 uppercase tracking-widest text-sm rounded-sm"
+                disabled={isChecking}
+                className="w-full bg-amber hover:bg-amber-dark text-accent-foreground font-bold py-3 px-6 transition flex items-center justify-center gap-2 uppercase tracking-widest text-sm rounded-sm disabled:opacity-50"
               >
-                <Search size={18} /> Verificar
+                {isChecking ? "Verificando..." : <><Search size={18} /> Verificar</>}
               </button>
             </form>
+
+            {/* Status Messages */}
+            {availabilityStatus === 'available' && (
+              <div className="mt-6 p-4 bg-green-500/20 border border-green-500/50 rounded-sm flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div className="flex items-center gap-3 text-green-400">
+                  <CheckCircle2 size={24} />
+                  <span className="font-bold text-sm uppercase tracking-wider">Disponibilidade Confirmada!</span>
+                </div>
+                <button 
+                  onClick={handleFinalizeBooking}
+                  className="bg-green-500 hover:bg-green-600 text-white px-6 py-2 font-bold text-xs uppercase tracking-widest transition rounded-sm"
+                >
+                  Reservar Agora
+                </button>
+              </div>
+            )}
+
+            {availabilityStatus === 'unavailable' && (
+              <div className="mt-6 p-4 bg-red-500/20 border border-red-500/50 rounded-sm flex items-center gap-3 text-red-400">
+                <AlertCircle size={24} />
+                <span className="font-bold text-sm uppercase tracking-wider">Infelizmente não temos vagas para estas datas. Tente outro período.</span>
+              </div>
+            )}
           </div>
         </div>
       </section>
@@ -109,7 +188,7 @@ const Index = () => {
           </p>
 
           <div className="bg-card p-6 sm:p-8 shadow-xl border border-border text-left">
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 mb-8 border-b border-border pb-8">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
               <div className="text-center">
                 <Home className="mx-auto text-amber mb-3" size={32} />
                 <h4 className="font-bold text-foreground font-body">Apartamentos T1 & T2</h4>
@@ -125,27 +204,6 @@ const Index = () => {
                 <h4 className="font-bold text-foreground font-body">Piscina Comum</h4>
                 <p className="text-sm text-muted-foreground mt-2 font-body">Área de lazer exclusiva</p>
               </div>
-            </div>
-
-            <div className="flex flex-col sm:flex-row justify-between items-center section-dark p-6 sm:p-8 relative overflow-hidden gap-6">
-              <div className="absolute top-0 right-0 bg-amber text-xs font-bold px-4 py-1 rounded-bl-lg uppercase font-body text-accent-foreground">
-                Promoção Ativa
-              </div>
-              <div className="pt-4 sm:pt-0">
-                <p className="text-sm text-muted-foreground uppercase tracking-wide mb-1 font-body">Tarifa Promocional</p>
-                <div className="flex items-end gap-3 flex-wrap">
-                  <p className="text-3xl sm:text-4xl font-bold text-amber">
-                    6.500 MT <span className="text-sm font-normal text-muted-foreground">/ noite</span>
-                  </p>
-                  <p className="text-lg text-muted-foreground line-through mb-1 font-body">8.500 MT</p>
-                </div>
-              </div>
-              <a
-                href={`https://wa.me/258877302100?text=${whatsappMsg}`}
-                className="bg-amber hover:bg-amber-dark px-8 py-4 font-semibold transition text-lg shadow-lg font-body text-accent-foreground whitespace-nowrap"
-              >
-                Garantir a Minha Reserva
-              </a>
             </div>
           </div>
         </div>
@@ -163,19 +221,16 @@ const Index = () => {
               <img src={piscinaNoite1} alt="Piscina Iluminada à Noite" className="w-full h-full object-cover" loading="lazy" />
             </div>
             <div className="gallery-item h-48 md:h-auto">
-              <img src={passeiosBarcoImg} alt="Passeios de Barco na Lagoa" className="w-full h-full object-cover" loading="lazy" />
-            </div>
-            <div className="gallery-item h-48 md:h-auto">
-              <img src={gastronomiaImg} alt="Gastronomia Local" className="w-full h-full object-cover" loading="lazy" />
-            </div>
-            <div className="gallery-item h-48 md:h-auto">
-              <img src={quadBikingImg} alt="Aventura nas Dunas" className="w-full h-full object-cover" loading="lazy" />
-            </div>
-            <div className="gallery-item h-48 md:h-auto">
               <img src={piscina} alt="Área da Piscina" className="w-full h-full object-cover" loading="lazy" />
             </div>
-            <div className="col-span-2 gallery-item h-64">
+            <div className="gallery-item h-48 md:h-auto">
               <img src={bilenePraia} alt="Praia do Bilene" className="w-full h-full object-cover" loading="lazy" />
+            </div>
+            <div className="gallery-item h-48 md:h-auto">
+              <img src={heroReal} alt="Fachada" className="w-full h-full object-cover" loading="lazy" />
+            </div>
+            <div className="gallery-item h-48 md:h-auto">
+              <img src={piscinaNoite1} alt="Piscina" className="w-full h-full object-cover" loading="lazy" />
             </div>
           </div>
 
@@ -187,35 +242,43 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Experiências Memoráveis (Blog Preview) */}
+      {/* Experiências Memoráveis (Blog Highlights) */}
       <section className="py-24 bg-secondary border-t border-border">
         <div className="container mx-auto px-6">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-foreground mb-4">Experiências Memoráveis</h2>
-            <p className="text-muted-foreground font-body">Descubra o que o Bilene tem de melhor para oferecer.</p>
+            <p className="text-muted-foreground font-body">Descubra o que o Bilene tem de melhor para oferecer através do nosso blog.</p>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
-            {[
-              { icon: Ship, title: "Passeios de Barco", desc: "Lagoa do Bilene" },
-              { icon: ChefHat, title: "Gastronomia", desc: "Frutos do Mar Frescos" },
-              { icon: Bike, title: "Quad Biking", desc: "Aventura nas Dunas" },
-              { icon: Sun, title: "Sunset Lounge", desc: "Música e Drinks" },
-            ].map((item) => (
-              <Link key={item.title} to="/blog" className="text-center group bg-card p-8 border border-border hover:border-amber transition-all duration-300 shadow-sm hover:shadow-md">
-                <div className="w-16 h-16 bg-secondary rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-amber transition-colors duration-300">
-                  <item.icon className="text-amber group-hover:text-accent-foreground transition-colors" size={28} />
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {blogPosts.slice(0, 4).map((post) => (
+              <Link key={post.id} to="/blog" className="group bg-card border border-border overflow-hidden shadow-sm hover:shadow-md transition-all duration-300">
+                <div className="relative h-48 overflow-hidden">
+                  <img 
+                    src={post.image} 
+                    alt={post.title} 
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                  />
+                  <div className="absolute top-3 left-3 bg-amber text-accent-foreground px-2 py-0.5 text-[10px] font-bold uppercase tracking-widest">
+                    {post.category}
+                  </div>
                 </div>
-                <h4 className="font-bold mb-2 text-foreground group-hover:text-amber transition-colors">{item.title}</h4>
-                <p className="text-xs text-muted-foreground uppercase tracking-widest font-body mb-4">{item.desc}</p>
-                <span className="text-amber text-xs font-bold flex items-center justify-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                  Saber Mais <ArrowRight size={12} />
-                </span>
+                <div className="p-6">
+                  <h4 className="font-bold mb-3 text-foreground group-hover:text-amber transition-colors line-clamp-2 h-12">
+                    {post.title}
+                  </h4>
+                  <p className="text-xs text-muted-foreground line-clamp-3 mb-4 font-body">
+                    {post.excerpt}
+                  </p>
+                  <span className="text-amber text-xs font-bold flex items-center gap-1">
+                    Ler Mais <ArrowRight size={12} />
+                  </span>
+                </div>
               </Link>
             ))}
           </div>
           <div className="mt-12 text-center">
             <Link to="/blog" className="inline-block bg-primary text-primary-foreground px-10 py-4 font-bold uppercase tracking-widest text-sm hover:bg-amber hover:text-accent-foreground transition font-body">
-              Explorar o Blog
+              Explorar o Blog Completo
             </Link>
           </div>
         </div>
@@ -251,16 +314,16 @@ const Index = () => {
       <section className="py-20 bg-amber">
         <div className="container mx-auto px-6 text-center">
           <h3 className="text-3xl md:text-4xl font-bold text-accent-foreground mb-4">
-            Reserve Agora e Poupe 24%
+            Planeie a Sua Estadia
           </h3>
           <p className="text-accent-foreground/80 mb-8 max-w-xl mx-auto font-body">
-            Aproveite a nossa tarifa promocional e garanta momentos inesquecíveis na Praia do Bilene.
+            Verifique a disponibilidade acima ou fale diretamente connosco para garantir os melhores momentos na Praia do Bilene.
           </p>
           <a
-            href={`https://wa.me/258877302100?text=${whatsappMsg}`}
+            href="https://wa.me/258877302100"
             className="inline-block bg-primary text-primary-foreground px-10 py-4 font-bold uppercase tracking-widest text-sm hover:bg-dark-deeper transition font-body"
           >
-            Reservar via WhatsApp
+            Falar via WhatsApp
           </a>
         </div>
       </section>
