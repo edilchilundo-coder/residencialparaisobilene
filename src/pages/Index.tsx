@@ -104,7 +104,7 @@ const Index = () => {
   return (
     <Layout>
       {/* Hero Section */}
-      <section className="relative h-[85vh] flex items-center justify-center overflow-hidden">
+      <section className="relative min-h-[85vh] flex items-center justify-center overflow-hidden py-20">
         <div 
           className="absolute inset-0 bg-cover bg-center scale-105 animate-slow-zoom"
           style={{ backgroundImage: `url(${heroReal})` }}
@@ -112,19 +112,19 @@ const Index = () => {
         <div className="absolute inset-0 bg-black/40" />
         
         <div className="container mx-auto px-6 relative z-10 text-center">
-          <h1 className="text-5xl md:text-7xl font-bold text-white mb-8 leading-tight animate-slide-up">
+          <h1 className="text-4xl md:text-7xl font-bold text-white mb-6 md:mb-8 leading-tight animate-slide-up">
             {t('hero.title')}
           </h1>
-          <p className="text-white/90 text-lg md:text-xl max-w-2xl mx-auto font-light font-body mb-12 animate-fade-in-delayed">
+          <p className="text-white/90 text-base md:text-xl max-w-2xl mx-auto font-light font-body mb-10 md:mb-12 animate-fade-in-delayed">
             {t('hero.subtitle')}
           </p>
 
-          {/* Search Bar */}
-          <div className="max-w-5xl mx-auto bg-white shadow-2xl p-2 rounded-full animate-slide-up-delayed">
-            <form onSubmit={handleSearch} className="flex flex-col md:flex-row items-center gap-2">
-              <div className="flex-1 grid grid-cols-1 md:grid-cols-3 gap-2 w-full px-4">
-                <div className="flex flex-col items-start py-2">
-                  <label className="text-[10px] font-bold uppercase text-gray-400 tracking-widest">{t('search.checkin')}</label>
+          {/* Search Bar - Improved Responsiveness */}
+          <div className="max-w-5xl mx-auto bg-white shadow-2xl p-4 md:p-2 rounded-2xl md:rounded-full animate-slide-up-delayed">
+            <form onSubmit={handleSearch} className="flex flex-col md:flex-row items-center gap-4 md:gap-2">
+              <div className="flex-1 grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-2 w-full px-2 md:px-4">
+                <div className="flex flex-col items-start py-1 md:py-2">
+                  <label className="text-[10px] font-bold uppercase text-gray-400 tracking-widest mb-1">{t('search.checkin')}</label>
                   <input 
                     type="date" 
                     min={today}
@@ -132,8 +132,8 @@ const Index = () => {
                     onChange={(e) => setCheckIn(e.target.value)}
                   />
                 </div>
-                <div className="flex flex-col items-start py-2 border-l border-gray-100 pl-4">
-                  <label className="text-[10px] font-bold uppercase text-gray-400 tracking-widest">{t('search.checkout')}</label>
+                <div className="flex flex-col items-start py-1 md:py-2 sm:border-l border-gray-100 sm:pl-4">
+                  <label className="text-[10px] font-bold uppercase text-gray-400 tracking-widest mb-1">{t('search.checkout')}</label>
                   <input 
                     type="date" 
                     min={checkIn || today}
@@ -141,8 +141,8 @@ const Index = () => {
                     onChange={(e) => setCheckOut(e.target.value)}
                   />
                 </div>
-                <div className="flex flex-col items-start py-2 border-l border-gray-100 pl-4">
-                  <label className="text-[10px] font-bold uppercase text-gray-400 tracking-widest">{t('search.type')}</label>
+                <div className="flex flex-col items-start py-1 md:py-2 sm:border-l border-gray-100 sm:pl-4">
+                  <label className="text-[10px] font-bold uppercase text-gray-400 tracking-widest mb-1">{t('search.type')}</label>
                   <Select onValueChange={setRoomType}>
                     <SelectTrigger className="w-full bg-transparent border-none p-0 h-auto text-sm font-bold focus:ring-0 shadow-none">
                       <SelectValue placeholder={t('search.placeholder')} />
@@ -158,7 +158,7 @@ const Index = () => {
               <button 
                 type="submit"
                 disabled={isSearching}
-                className="bg-amber hover:bg-amber-dark text-accent-foreground px-10 py-4 rounded-full font-bold uppercase tracking-widest text-xs transition-all flex items-center justify-center gap-2 w-full md:w-auto"
+                className="bg-amber hover:bg-amber-dark text-accent-foreground px-10 py-4 rounded-full font-bold uppercase tracking-widest text-xs transition-all flex items-center justify-center gap-2 w-full md:w-auto shadow-lg"
               >
                 {isSearching ? "..." : <><Search size={16} /> {t('search.button')}</>}
               </button>
@@ -185,7 +185,7 @@ const Index = () => {
                 capacity={room.capacity}
                 bedType={room.bedType}
                 onBook={() => handleBook(room.type)}
-                onReadMore={() => navigate('/apartamentos')}
+                onReadMore={() => navigate('/acomodacoes')}
               />
             ))}
           </div>

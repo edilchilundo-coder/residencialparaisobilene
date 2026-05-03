@@ -9,13 +9,11 @@ import {
   BedDouble,
   Users,
   UtensilsCrossed,
-  DoorOpen,
   ShowerHead,
   Waves,
   Shield,
   Car,
-  ConciergeBell,
-  Heart
+  ConciergeBell
 } from "lucide-react";
 import {
   Carousel,
@@ -31,20 +29,22 @@ import piscina from "@/assets/piscina.jpg";
 import fachada from "@/assets/fachada.png";
 import quartoT1 from "@/assets/quarto-t1.jpg";
 import quartoT2 from "@/assets/quarto-t2.jpg";
-import bilenePraia from "@/assets/bilene-praia.jpg";
 import camaKing from "@/assets/cama-king.jpg";
 import cama1 from "@/assets/cama-1.jpg";
 import camaSolteiro from "@/assets/cama-solteiro.jpg";
 import cadeira from "@/assets/cadeira.jpg";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const t1Images = [camaKing, sala, cozinha2, fachada];
 const t2Images = [quartoT2, salaAmpla, camaSolteiro, fachada];
 const quartoImages = [quartoT1, cadeira, cama1];
 
-const Apartamentos = () => {
+const Acomodacoes = () => {
+  const { t } = useLanguage();
+
   return (
     <Layout>
-      <PageHeader title="Nossas Acomodações" subtitle="Conforto absoluto a 2 minutos da praia" />
+      <PageHeader title={t('nav.apartments')} subtitle="Conforto absoluto a 2 minutos da praia" />
 
       <section className="py-20 bg-background">
         <div className="container mx-auto px-6">
@@ -220,4 +220,4 @@ const Apartamentos = () => {
   );
 };
 
-export default Apartamentos;
+export default Acomodacoes;

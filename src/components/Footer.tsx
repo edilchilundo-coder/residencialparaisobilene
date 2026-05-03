@@ -1,7 +1,10 @@
 import { Link } from "react-router-dom";
 import { Phone, Mail, MapPin } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const Footer = () => {
+  const { t } = useLanguage();
+
   return (
     <footer className="section-darker py-16">
       <div className="container mx-auto px-6">
@@ -13,7 +16,7 @@ const Footer = () => {
               <span className="text-amber">BILENE</span>
             </Link>
             <p className="text-muted-foreground text-sm leading-relaxed">
-              O seu refúgio de luxo na Praia do Bilene. Apartamentos T1 e T2 totalmente equipados a apenas 2 minutos da praia.
+              O seu refúgio de luxo na Praia do Bilene. Acomodações T1 e T2 totalmente equipadas a apenas 2 minutos da praia.
             </p>
           </div>
 
@@ -22,12 +25,12 @@ const Footer = () => {
             <h4 className="font-bold text-primary-foreground mb-4 text-sm tracking-widest uppercase font-body">Navegação</h4>
             <div className="flex flex-col gap-2">
               {[
-                { label: "Home", path: "/" },
-                { label: "Apartamentos", path: "/apartamentos" },
-                { label: "Galeria", path: "/galeria" },
-                { label: "Blog", path: "/blog" },
-                { label: "Contactos", path: "/contactos" },
-                { label: "Sobre Nós", path: "/sobre-nos" },
+                { label: t('nav.home'), path: "/" },
+                { label: t('nav.apartments'), path: "/acomodacoes" },
+                { label: t('nav.gallery'), path: "/galeria" },
+                { label: t('nav.blog'), path: "/blog" },
+                { label: t('nav.contacts'), path: "/contactos" },
+                { label: t('nav.about'), path: "/sobre-nos" },
               ].map((link) => (
                 <Link key={link.path} to={link.path} className="text-muted-foreground text-sm hover:text-amber transition-colors">
                   {link.label}

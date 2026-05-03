@@ -6,7 +6,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { LanguageProvider } from "./contexts/LanguageContext";
 import ScrollToTop from "./components/ScrollToTop";
 import Index from "./pages/Index";
-import Apartamentos from "./pages/Apartamentos";
+import Acomodacoes from "./pages/Acomodacoes";
 import Galeria from "./pages/Galeria";
 import Contactos from "./pages/Contactos";
 import SobreNos from "./pages/SobreNos";
@@ -26,7 +26,7 @@ const App = () => (
           <ScrollToTop />
           <Routes>
             <Route path="/" element={<Index />} />
-            <Route path="/apartamentos" element={<Apartamentos />} />
+            <Route path="/acomodacoes" element={<Acomodacoes />} />
             <Route path="/galeria" element={<Galeria />} />
             <Route path="/contactos" element={<Contactos />} />
             <Route path="/sobre-nos" element={<SobreNos />} />
