@@ -65,16 +65,16 @@ const RoomTypeCard = ({ title, images, size, capacity, bedType, onBook, onReadMo
         <div className="mt-auto space-y-4">
           <button 
             onClick={onReadMore}
-            className="text-red-600 font-bold text-xs uppercase tracking-widest flex items-center gap-2 hover:gap-3 transition-all"
+            className="text-amber font-bold text-xs uppercase tracking-widest flex items-center gap-2 hover:gap-3 transition-all"
           >
-            READ MORE <ArrowRight size={14} />
+            LER MAIS <ArrowRight size={14} />
           </button>
           
           <button 
             onClick={onBook}
-            className="w-full bg-[#C82820] hover:bg-[#A0201A] text-white font-bold py-4 rounded-full text-sm uppercase tracking-widest transition-colors shadow-lg"
+            className="w-full bg-amber hover:bg-amber-dark text-accent-foreground font-bold py-4 rounded-full text-sm uppercase tracking-widest transition-colors shadow-lg"
           >
-            BOOK NOW
+            RESERVAR AGORA
           </button>
         </div>
       </div>

@@ -15,13 +15,13 @@ interface RoomCardProps {
 
 const RoomCard = ({ type, title, description, price, image, isAvailable, onBook, amenities }: RoomCardProps) => {
   return (
-    <div className={`flex flex-col md:flex-row bg-white border ${isAvailable ? 'border-border' : 'border-red-200 opacity-75'} overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 mb-6`}>
+    <div className={`flex flex-col md:flex-row bg-white border ${isAvailable ? 'border-border' : 'border-gray-200 opacity-75'} overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 mb-6`}>
       {/* Imagem */}
       <div className="md:w-1/3 relative h-64 md:h-auto overflow-hidden">
         <img src={image} alt={title} className="w-full h-full object-cover" />
         {!isAvailable && (
           <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
-            <span className="bg-red-600 text-white px-4 py-2 text-xs font-bold uppercase tracking-widest">Esgotado</span>
+            <span className="bg-gray-600 text-white px-4 py-2 text-xs font-bold uppercase tracking-widest">Esgotado</span>
           </div>
         )}
       </div>
