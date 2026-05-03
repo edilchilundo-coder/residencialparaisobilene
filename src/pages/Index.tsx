@@ -16,7 +16,7 @@ import cozinha2 from "@/assets/cozinha-2.jpg";
 import cadeira from "@/assets/cadeira.jpg";
 import { Home, UtensilsCrossed, Waves, Calendar, Search, ArrowRight, Star, Quote, MapPin, ChefHat } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
-import { blogPosts } from "./Blog";
+import { blogPosts } from "./BlogData";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import RoomTypeCard from "@/components/RoomTypeCard";

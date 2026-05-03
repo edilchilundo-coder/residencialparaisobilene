@@ -2,7 +2,7 @@
 
 import { useParams, Link, useNavigate } from "react-router-dom";
 import Layout from "@/components/Layout";
-import { blogPosts } from "./Blog";
+import { blogPosts } from "./BlogData";
 import { ArrowLeft, Calendar, User, Share2 } from "lucide-react";
 import { useEffect } from "react";
 
