@@ -10,7 +10,8 @@ import quartoT1 from "@/assets/quarto-t1.jpg";
 import quartoT2 from "@/assets/quarto-t2.jpg";
 import fachada from "@/assets/fachada.png";
 import salaAmpla from "@/assets/sala-ampla.jpg";
-import { Home, UtensilsCrossed, Waves, Calendar, Search, ArrowRight, Star, Quote, MapPin } from "lucide-react";
+import gastronomiaImg from "@/assets/gastronomia.jpg";
+import { Home, UtensilsCrossed, Waves, Calendar, Search, ArrowRight, Star, Quote, MapPin, ChefHat } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { blogPosts } from "./Blog";
 import { supabase } from "@/integrations/supabase/client";
@@ -33,7 +34,6 @@ const Index = () => {
       return;
     }
     setIsSearching(true);
-    // Simular busca e scroll
     setTimeout(() => {
       setIsSearching(false);
       resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -150,30 +150,68 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Features Section */}
+      {/* Features Section with Images */}
       <section className="py-24 bg-white">
         <div className="container mx-auto px-6">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-            <div className="text-center group">
-              <div className="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-red-50 transition-colors duration-500">
-                <Home className="text-red-600" size={32} />
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            {/* Design Moderno */}
+            <div className="group">
+              <div className="relative h-64 overflow-hidden rounded-lg mb-6">
+                <img src={salaAmpla} alt="Design Moderno" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors" />
+                <div className="absolute bottom-4 left-4">
+                  <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-lg">
+                    <Home className="text-red-600" size={20} />
+                  </div>
+                </div>
               </div>
-              <h4 className="text-xl font-bold mb-4">Design Moderno</h4>
+              <h4 className="text-xl font-bold mb-2">Design Moderno</h4>
               <p className="text-gray-500 text-sm font-body leading-relaxed">Espaços decorados com elegância e equipados para o seu conforto total.</p>
             </div>
-            <div className="text-center group">
-              <div className="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-red-50 transition-colors duration-500">
-                <UtensilsCrossed className="text-red-600" size={32} />
+
+            {/* Cozinha Completa */}
+            <div className="group">
+              <div className="relative h-64 overflow-hidden rounded-lg mb-6">
+                <img src={quartoT2} alt="Cozinha Completa" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors" />
+                <div className="absolute bottom-4 left-4">
+                  <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-lg">
+                    <UtensilsCrossed className="text-red-600" size={20} />
+                  </div>
+                </div>
               </div>
-              <h4 className="text-xl font-bold mb-4">Cozinha Completa</h4>
+              <h4 className="text-xl font-bold mb-2">Cozinha Completa</h4>
               <p className="text-gray-500 text-sm font-body leading-relaxed">Liberdade total para preparar as suas refeições com equipamentos de qualidade.</p>
             </div>
-            <div className="text-center group">
-              <div className="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-red-50 transition-colors duration-500">
-                <Waves className="text-red-600" size={32} />
+
+            {/* Lazer & Piscina */}
+            <div className="group">
+              <div className="relative h-64 overflow-hidden rounded-lg mb-6">
+                <img src={piscina} alt="Lazer & Piscina" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors" />
+                <div className="absolute bottom-4 left-4">
+                  <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-lg">
+                    <Waves className="text-red-600" size={20} />
+                  </div>
+                </div>
               </div>
-              <h4 className="text-xl font-bold mb-4">Lazer & Piscina</h4>
+              <h4 className="text-xl font-bold mb-2">Lazer & Piscina</h4>
               <p className="text-gray-500 text-sm font-body leading-relaxed">Desfrute da nossa piscina e áreas de convívio exclusivas para hóspedes.</p>
+            </div>
+
+            {/* Restaurante */}
+            <div className="group">
+              <div className="relative h-64 overflow-hidden rounded-lg mb-6">
+                <img src={gastronomiaImg} alt="Restaurante" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors" />
+                <div className="absolute bottom-4 left-4">
+                  <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-lg">
+                    <ChefHat className="text-red-600" size={20} />
+                  </div>
+                </div>
+              </div>
+              <h4 className="text-xl font-bold mb-2">Restaurante</h4>
+              <p className="text-gray-500 text-sm font-body leading-relaxed">Saboreie o melhor da gastronomia local com pratos frescos e autênticos.</p>
             </div>
           </div>
         </div>
