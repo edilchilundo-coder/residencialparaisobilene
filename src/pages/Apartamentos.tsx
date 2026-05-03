@@ -1,141 +1,83 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Layout from "@/components/Layout";
 import PageHeader from "@/components/PageHeader";
-import {
-  Snowflake,
-  Wifi,
-  Tv,
-  BedDouble,
-  Users,
-  UtensilsCrossed,
-  DoorOpen,
-  ShowerHead,
-  Waves,
-  Shield,
-  Car,
-  ConciergeBell
-} from "lucide-react";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
-import sala from "@/assets/sala.jpg";
-import salaAmpla from "@/assets/sala-ampla.jpg";
-import cozinha from "@/assets/cozinha.jpg";
-import piscina from "@/assets/piscina.jpg";
-import fachada from "@/assets/fachada.png";
+import RoomCard from "@/components/RoomCard";
+import { supabase } from "@/integrations/supabase/client";
+import { Waves, Shield, Car, ConciergeBell, Loader2 } from "lucide-react";
 import quartoT1 from "@/assets/quarto-t1.jpg";
 import quartoT2 from "@/assets/quarto-t2.jpg";
 
-const t1Images = [quartoT1, sala, cozinha, fachada];
-const t2Images = [quartoT2, salaAmpla, piscina, fachada];
-
 const Apartamentos = () => {
+  const [apartments, setApartments] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchApartments = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('apartments')
+          .select('*')
+          .order('type', { ascending: true });
+
+        if (error) throw error;
+
+        const formattedData = data.map(apt => ({
+          ...apt,
+          image: apt.type === 'T1' ? quartoT1 : quartoT2,
+          description: apt.type === 'T1' 
+            ? "Um refúgio moderno e acolhedor. Este espaço foi desenhado para oferecer privacidade e conforto, com acabamentos de qualidade e uma atmosfera relaxante."
+            : "Espaço e conveniência para o seu grupo. Com dois quartos amplos e uma sala de estar generosa, é a escolha ideal para quem não abdica de estar em família.",
+          amenities: apt.type === 'T1'
+            ? ["Ar Condicionado", "Wi-Fi Grátis", "Smart TV", "Cama King", "Cozinha", "Varanda"]
+            : ["2 Quartos", "2 Casas de Banho", "Cozinha Completa", "Sala Ampla", "Wi-Fi", "AC"]
+        }));
+
+        setApartments(formattedData);
+      } catch (error) {
+        console.error("Erro ao carregar apartamentos:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchApartments();
+  }, []);
+
+  const handleBook = (apt: any) => {
+    const msg = `Olá! Gostaria de saber mais sobre a disponibilidade do ${apt.type === 'T1' ? 'Apartamento T1' : 'Apartamento T2'}.`;
+    window.open(`https://wa.me/258877302100?text=${encodeURIComponent(msg)}`, "_blank");
+  };
+
   return (
     <Layout>
       <PageHeader title="Nossas Acomodações" subtitle="Conforto absoluto a 2 minutos da praia" />
 
       <section className="py-20 bg-background">
-        <div className="container mx-auto px-6">
-          {/* T1 */}
-          <div className="flex flex-col lg:flex-row gap-16 items-center mb-32 max-w-6xl mx-auto">
-            <div className="lg:w-1/2 w-full">
-              <Carousel className="w-full shadow-2xl group">
-                <CarouselContent>
-                  {t1Images.map((src, index) => (
-                    <CarouselItem key={index}>
-                      <div className="overflow-hidden aspect-[4/3]">
-                        <img
-                          src={src}
-                          alt={`Apartamento T1 - Foto ${index + 1}`}
-                          className="w-full h-full object-cover group-hover:scale-105 transition duration-700"
-                        />
-                      </div>
-                    </CarouselItem>
-                  ))}
-                </CarouselContent>
-                <CarouselPrevious className="left-4 opacity-0 group-hover:opacity-100 transition-opacity" />
-                <CarouselNext className="right-4 opacity-0 group-hover:opacity-100 transition-opacity" />
-              </Carousel>
+        <div className="container mx-auto px-6 max-w-6xl">
+          {loading ? (
+            <div className="flex flex-col items-center justify-center py-20">
+              <Loader2 className="text-amber animate-spin mb-4" size={48} />
+              <p className="text-muted-foreground font-body">Carregando acomodações...</p>
             </div>
-            <div className="lg:w-1/2">
-              <div className="inline-block bg-amber/10 text-amber px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest mb-4 font-body">
-                Ideal para Casais
-              </div>
-              <h2 className="text-3xl sm:text-4xl font-bold mb-6 text-foreground">Apartamento T1</h2>
-              <p className="text-muted-foreground text-base sm:text-lg mb-8 leading-relaxed font-body">
-                Um refúgio moderno e acolhedor. Este espaço foi desenhado para oferecer privacidade e conforto, com acabamentos de qualidade e uma atmosfera relaxante.
-              </p>
-              <div className="grid grid-cols-2 gap-4 mb-10">
-                {[
-                  { icon: Snowflake, text: "Ar Condicionado" },
-                  { icon: Wifi, text: "Wi-Fi Grátis" },
-                  { icon: Tv, text: "Smart TV" },
-                  { icon: BedDouble, text: "Cama King Size" },
-                ].map((item, i) => (
-                  <div key={i} className="flex items-center gap-3">
-                    <item.icon size={18} className="text-amber" />
-                    <span className="text-sm font-medium font-body">{item.text}</span>
-                  </div>
-                ))}
-              </div>
-              <a href="https://wa.me/258877302100" className="inline-block bg-primary hover:bg-amber text-primary-foreground px-10 py-4 transition font-bold uppercase tracking-widest text-sm font-body w-full sm:w-auto text-center">
-                Consultar Disponibilidade T1
-              </a>
+          ) : (
+            <div className="space-y-12">
+              {apartments.map((apt) => (
+                <RoomCard 
+                  key={apt.id}
+                  type={apt.type}
+                  title={apt.type === 'T1' ? 'Apartamento T1 - Suite Casal' : 'Apartamento T2 - Familiar'}
+                  description={apt.description}
+                  price={apt.price_per_night}
+                  image={apt.image}
+                  isAvailable={true} // Na página de listagem geral, mostramos como disponível para consulta
+                  amenities={apt.amenities}
+                  onBook={() => handleBook(apt)}
+                />
+              ))}
             </div>
-          </div>
-
-          {/* T2 */}
-          <div className="flex flex-col lg:flex-row-reverse gap-16 items-center max-w-6xl mx-auto">
-            <div className="lg:w-1/2 w-full">
-              <Carousel className="w-full shadow-2xl group">
-                <CarouselContent>
-                  {t2Images.map((src, index) => (
-                    <CarouselItem key={index}>
-                      <div className="overflow-hidden aspect-[4/3]">
-                        <img
-                          src={src}
-                          alt={`Apartamento T2 - Foto ${index + 1}`}
-                          className="w-full h-full object-cover group-hover:scale-105 transition duration-700"
-                        />
-                      </div>
-                    </CarouselItem>
-                  ))}
-                </CarouselContent>
-                <CarouselPrevious className="left-4 opacity-0 group-hover:opacity-100 transition-opacity" />
-                <CarouselNext className="right-4 opacity-0 group-hover:opacity-100 transition-opacity" />
-              </Carousel>
-            </div>
-            <div className="lg:w-1/2">
-              <div className="inline-block bg-amber/10 text-amber px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest mb-4 font-body">
-                Perfeito para Famílias
-              </div>
-              <h2 className="text-3xl sm:text-4xl font-bold mb-6 text-foreground">Apartamento T2</h2>
-              <p className="text-muted-foreground text-base sm:text-lg mb-8 leading-relaxed font-body">
-                Espaço e conveniência para o seu grupo. Com dois quartos amplos e uma sala de estar generosa, é a escolha ideal para quem não abdica de estar em família.
-              </p>
-              <div className="grid grid-cols-2 gap-4 mb-10">
-                {[
-                  { icon: Users, text: "Até 5 Pessoas" },
-                  { icon: UtensilsCrossed, text: "Cozinha Completa" },
-                  { icon: DoorOpen, text: "Varanda Privada" },
-                  { icon: ShowerHead, text: "2 Casas de Banho" },
-                ].map((item, i) => (
-                  <div key={i} className="flex items-center gap-3">
-                    <item.icon size={18} className="text-amber" />
-                    <span className="text-sm font-medium font-body">{item.text}</span>
-                  </div>
-                ))}
-              </div>
-              <a href="https://wa.me/258877302100" className="inline-block bg-primary hover:bg-amber text-primary-foreground px-10 py-4 transition font-bold uppercase tracking-widest text-sm font-body w-full sm:w-auto text-center">
-                Consultar Disponibilidade T2
-              </a>
-            </div>
-          </div>
+          )}
         </div>
       </section>
 
