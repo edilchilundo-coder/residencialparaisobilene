@@ -26,16 +26,20 @@ import {
 } from "@/components/ui/carousel";
 import sala from "@/assets/sala.jpg";
 import salaAmpla from "@/assets/sala-ampla.jpg";
-import cozinha from "@/assets/cozinha.jpg";
+import cozinha2 from "@/assets/cozinha-2.jpg";
 import piscina from "@/assets/piscina.jpg";
 import fachada from "@/assets/fachada.png";
 import quartoT1 from "@/assets/quarto-t1.jpg";
 import quartoT2 from "@/assets/quarto-t2.jpg";
 import bilenePraia from "@/assets/bilene-praia.jpg";
+import camaKing from "@/assets/cama-king.jpg";
+import cama1 from "@/assets/cama-1.jpg";
+import camaSolteiro from "@/assets/cama-solteiro.jpg";
+import cadeira from "@/assets/cadeira.jpg";
 
-const t1Images = [quartoT1, sala, cozinha, fachada];
-const t2Images = [quartoT2, salaAmpla, piscina, fachada];
-const quartoImages = [quartoT1, bilenePraia, piscina];
+const t1Images = [camaKing, sala, cozinha2, fachada];
+const t2Images = [quartoT2, salaAmpla, camaSolteiro, fachada];
+const quartoImages = [quartoT1, cadeira, cama1];
 
 const Apartamentos = () => {
   return (
@@ -66,7 +70,7 @@ const Apartamentos = () => {
               </Carousel>
             </div>
             <div className="lg:w-1/2">
-              <div className="inline-block bg-red-600 text-white px-4 py-1 text-[10px] font-bold uppercase tracking-widest mb-4 font-body">
+              <div className="inline-block bg-amber text-accent-foreground px-4 py-1 text-[10px] font-bold uppercase tracking-widest mb-4 font-body">
                 Ideal para Casais
               </div>
               <h2 className="text-3xl sm:text-4xl font-bold mb-6 text-foreground">Casa T1</h2>
@@ -81,12 +85,12 @@ const Apartamentos = () => {
                   { icon: BedDouble, text: "1 Quarto" },
                 ].map((item, i) => (
                   <div key={i} className="flex items-center gap-3">
-                    <item.icon size={18} className="text-red-600" />
+                    <item.icon size={18} className="text-amber" />
                     <span className="text-sm font-medium font-body">{item.text}</span>
                   </div>
                 ))}
               </div>
-              <a href="https://wa.me/258877302100" className="inline-block bg-[#C82820] hover:bg-[#A0201A] text-white px-10 py-4 transition font-bold uppercase tracking-widest text-sm font-body w-full sm:w-auto text-center rounded-full shadow-lg">
+              <a href="https://wa.me/258877302100" className="inline-block bg-amber hover:bg-amber-dark text-accent-foreground px-10 py-4 transition font-bold uppercase tracking-widest text-sm font-body w-full sm:w-auto text-center rounded-full shadow-lg">
                 Reservar Casa T1
               </a>
             </div>
@@ -114,7 +118,7 @@ const Apartamentos = () => {
               </Carousel>
             </div>
             <div className="lg:w-1/2">
-              <div className="inline-block bg-red-600 text-white px-4 py-1 text-[10px] font-bold uppercase tracking-widest mb-4 font-body">
+              <div className="inline-block bg-amber text-accent-foreground px-4 py-1 text-[10px] font-bold uppercase tracking-widest mb-4 font-body">
                 Perfeito para Famílias
               </div>
               <h2 className="text-3xl sm:text-4xl font-bold mb-6 text-foreground">Casa T2</h2>
@@ -129,12 +133,12 @@ const Apartamentos = () => {
                   { icon: ShowerHead, text: "Casa de Banho" },
                 ].map((item, i) => (
                   <div key={i} className="flex items-center gap-3">
-                    <item.icon size={18} className="text-red-600" />
+                    <item.icon size={18} className="text-amber" />
                     <span className="text-sm font-medium font-body">{item.text}</span>
                   </div>
                 ))}
               </div>
-              <a href="https://wa.me/258877302100" className="inline-block bg-[#C82820] hover:bg-[#A0201A] text-white px-10 py-4 transition font-bold uppercase tracking-widest text-sm font-body w-full sm:w-auto text-center rounded-full shadow-lg">
+              <a href="https://wa.me/258877302100" className="inline-block bg-amber hover:bg-amber-dark text-accent-foreground px-10 py-4 transition font-bold uppercase tracking-widest text-sm font-body w-full sm:w-auto text-center rounded-full shadow-lg">
                 Reservar Casa T2
               </a>
             </div>
@@ -162,7 +166,7 @@ const Apartamentos = () => {
               </Carousel>
             </div>
             <div className="lg:w-1/2">
-              <div className="inline-block bg-red-600 text-white px-4 py-1 text-[10px] font-bold uppercase tracking-widest mb-4 font-body">
+              <div className="inline-block bg-amber text-accent-foreground px-4 py-1 text-[10px] font-bold uppercase tracking-widest mb-4 font-body">
                 Económico & Confortável
               </div>
               <h2 className="text-3xl sm:text-4xl font-bold mb-6 text-foreground">Quarto Suite</h2>
@@ -177,12 +181,12 @@ const Apartamentos = () => {
                   { icon: ShowerHead, text: "WC Privativo" },
                 ].map((item, i) => (
                   <div key={i} className="flex items-center gap-3">
-                    <item.icon size={18} className="text-red-600" />
+                    <item.icon size={18} className="text-amber" />
                     <span className="text-sm font-medium font-body">{item.text}</span>
                   </div>
                 ))}
               </div>
-              <a href="https://wa.me/258877302100" className="inline-block bg-[#C82820] hover:bg-[#A0201A] text-white px-10 py-4 transition font-bold uppercase tracking-widest text-sm font-body w-full sm:w-auto text-center rounded-full shadow-lg">
+              <a href="https://wa.me/258877302100" className="inline-block bg-amber hover:bg-amber-dark text-accent-foreground px-10 py-4 transition font-bold uppercase tracking-widest text-sm font-body w-full sm:w-auto text-center rounded-full shadow-lg">
                 Reservar Quarto
               </a>
             </div>
@@ -202,8 +206,8 @@ const Apartamentos = () => {
               { icon: ConciergeBell, title: "Hospitalidade", desc: "Equipa dedicada para uma estadia inesquecível." },
             ].map((item) => (
               <div key={item.title} className="group">
-                <div className="w-20 h-20 bg-white/5 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-red-600 transition-colors duration-500">
-                  <item.icon className="text-red-600 group-hover:text-white transition-colors" size={32} />
+                <div className="w-20 h-20 bg-white/5 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-amber transition-colors duration-500">
+                  <item.icon className="text-amber group-hover:text-white transition-colors" size={32} />
                 </div>
                 <h5 className="font-bold mb-3 font-body uppercase tracking-widest text-sm">{item.title}</h5>
                 <p className="text-xs text-muted-foreground leading-relaxed font-body max-w-[200px] mx-auto">{item.desc}</p>

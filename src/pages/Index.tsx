@@ -5,12 +5,15 @@ import Layout from "@/components/Layout";
 import bilenePraia from "@/assets/bilene-praia.jpg";
 import piscina from "@/assets/piscina.jpg";
 import heroReal from "@/assets/hero-real.jpg";
-import piscinaNoite1 from "@/assets/piscina-noite-1.jpg";
+import piscinaNoite3 from "@/assets/piscina-noite-3.jpg";
 import quartoT1 from "@/assets/quarto-t1.jpg";
 import quartoT2 from "@/assets/quarto-t2.jpg";
 import fachada from "@/assets/fachada.png";
 import salaAmpla from "@/assets/sala-ampla.jpg";
 import gastronomiaImg from "@/assets/gastronomia.jpg";
+import camaKing from "@/assets/cama-king.jpg";
+import cozinha2 from "@/assets/cozinha-2.jpg";
+import cadeira from "@/assets/cadeira.jpg";
 import { Home, UtensilsCrossed, Waves, Calendar, Search, ArrowRight, Star, Quote, MapPin, ChefHat } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { blogPosts } from "./Blog";
@@ -48,7 +51,7 @@ const Index = () => {
   const roomTypes = [
     {
       title: "Casa T1",
-      images: [quartoT1, salaAmpla, fachada],
+      images: [camaKing, salaAmpla, fachada],
       size: "60 m²",
       capacity: "2 Adultos",
       bedType: "1 Quarto",
@@ -56,7 +59,7 @@ const Index = () => {
     },
     {
       title: "Casa T2",
-      images: [quartoT2, salaAmpla, piscina],
+      images: [quartoT2, cozinha2, piscinaNoite3],
       size: "90 m²",
       capacity: "4 Adultos",
       bedType: "2 Quartos",
@@ -64,7 +67,7 @@ const Index = () => {
     },
     {
       title: "Quarto",
-      images: [quartoT1, bilenePraia, piscinaNoite1],
+      images: [quartoT1, cadeira, piscina],
       size: "30 m²",
       capacity: "2 Adultos",
       bedType: "Suite Casal",
@@ -134,7 +137,7 @@ const Index = () => {
               <button 
                 type="submit"
                 disabled={isSearching}
-                className="bg-[#C82820] hover:bg-[#A0201A] text-white px-10 py-4 rounded-full font-bold uppercase tracking-widest text-xs transition-all flex items-center justify-center gap-2 w-full md:w-auto"
+                className="bg-amber hover:bg-amber-dark text-accent-foreground px-10 py-4 rounded-full font-bold uppercase tracking-widest text-xs transition-all flex items-center justify-center gap-2 w-full md:w-auto"
               >
                 {isSearching ? "..." : <><Search size={16} /> Verificar</>}
               </button>
@@ -148,7 +151,7 @@ const Index = () => {
         <div className="container mx-auto px-6">
           <div className="mb-12">
             <h2 className="text-4xl font-bold text-gray-900 mb-2">Acomodações</h2>
-            <div className="w-12 h-1 bg-red-600" />
+            <div className="w-12 h-1 bg-amber" />
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -179,7 +182,7 @@ const Index = () => {
                 <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors" />
                 <div className="absolute bottom-4 left-4">
                   <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-lg">
-                    <Home className="text-red-600" size={20} />
+                    <Home className="text-amber" size={20} />
                   </div>
                 </div>
               </div>
@@ -190,11 +193,11 @@ const Index = () => {
             {/* Cozinha Completa */}
             <div className="group">
               <div className="relative h-64 overflow-hidden rounded-lg mb-6">
-                <img src={quartoT2} alt="Cozinha Completa" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                <img src={cozinha2} alt="Cozinha Completa" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
                 <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors" />
                 <div className="absolute bottom-4 left-4">
                   <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-lg">
-                    <UtensilsCrossed className="text-red-600" size={20} />
+                    <UtensilsCrossed className="text-amber" size={20} />
                   </div>
                 </div>
               </div>
@@ -205,11 +208,11 @@ const Index = () => {
             {/* Lazer & Piscina */}
             <div className="group">
               <div className="relative h-64 overflow-hidden rounded-lg mb-6">
-                <img src={piscina} alt="Lazer & Piscina" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                <img src={piscinaNoite3} alt="Lazer & Piscina" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
                 <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors" />
                 <div className="absolute bottom-4 left-4">
                   <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-lg">
-                    <Waves className="text-red-600" size={20} />
+                    <Waves className="text-amber" size={20} />
                   </div>
                 </div>
               </div>
@@ -224,7 +227,7 @@ const Index = () => {
                 <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors" />
                 <div className="absolute bottom-4 left-4">
                   <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-lg">
-                    <ChefHat className="text-red-600" size={20} />
+                    <ChefHat className="text-amber" size={20} />
                   </div>
                 </div>
               </div>
@@ -240,15 +243,15 @@ const Index = () => {
         <div className="container mx-auto px-6">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-gray-900 mb-4">O que dizem os nossos hóspedes</h2>
-            <div className="w-12 h-1 bg-red-600 mx-auto" />
+            <div className="w-12 h-1 bg-amber mx-auto" />
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
             {testimonials.map((t, i) => (
               <div key={i} className="bg-white p-8 shadow-sm border border-gray-100 relative">
-                <Quote className="absolute top-4 right-4 text-red-600/10" size={40} />
+                <Quote className="absolute top-4 right-4 text-amber/10" size={40} />
                 <div className="flex gap-1 mb-4">
                   {[...Array(t.rating)].map((_, i) => (
-                    <Star key={i} size={14} className="fill-red-600 text-red-600" />
+                    <Star key={i} size={14} className="fill-amber text-amber" />
                   ))}
                 </div>
                 <p className="text-gray-600 italic mb-6 font-body">"{t.text}"</p>
@@ -271,12 +274,12 @@ const Index = () => {
               <Link key={post.id} to="/blog" className="group bg-white border border-gray-100 overflow-hidden shadow-sm hover:shadow-md transition-all duration-300">
                 <div className="relative h-48 overflow-hidden">
                   <img src={post.image} alt={post.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
-                  <div className="absolute top-3 left-3 bg-red-600 text-white px-2 py-0.5 text-[10px] font-bold uppercase tracking-widest">{post.category}</div>
+                  <div className="absolute top-3 left-3 bg-amber text-white px-2 py-0.5 text-[10px] font-bold uppercase tracking-widest">{post.category}</div>
                 </div>
                 <div className="p-6">
-                  <h4 className="font-bold mb-3 text-gray-900 group-hover:text-red-600 transition-colors line-clamp-2 h-12">{post.title}</h4>
+                  <h4 className="font-bold mb-3 text-gray-900 group-hover:text-amber transition-colors line-clamp-2 h-12">{post.title}</h4>
                   <p className="text-xs text-gray-500 line-clamp-3 mb-4 font-body">{post.excerpt}</p>
-                  <span className="text-red-600 text-xs font-bold flex items-center gap-1">Ler Mais <ArrowRight size={12} /></span>
+                  <span className="text-amber text-xs font-bold flex items-center gap-1">Ler Mais <ArrowRight size={12} /></span>
                 </div>
               </Link>
             ))}

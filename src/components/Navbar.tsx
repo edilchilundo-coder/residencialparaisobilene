@@ -1,6 +1,9 @@
+"use client";
+
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X } from "lucide-react";
+import logo from "@/assets/logo.png";
 
 const navLinks = [
   { label: "HOME", path: "/" },
@@ -17,11 +20,10 @@ const Navbar = () => {
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-primary/95 backdrop-blur-sm">
-      <div className="container mx-auto px-6 flex items-center justify-between h-16">
+      <div className="container mx-auto px-6 flex items-center justify-between h-20">
         {/* Logo */}
-        <Link to="/" className="flex items-center gap-0 text-lg sm:text-xl font-bold tracking-wider">
-          <span className="text-primary-foreground">RESIDENCIAL PARAÍSO</span>
-          <span className="text-amber">BILENE</span>
+        <Link to="/" className="flex items-center h-full py-2">
+          <img src={logo} alt="Residencial Paraíso Bilene" className="h-full w-auto object-contain" />
         </Link>
 
         {/* Desktop Nav */}
@@ -32,7 +34,7 @@ const Navbar = () => {
               to={link.path}
               className={`text-xs font-semibold tracking-widest transition-colors ${
                 location.pathname === link.path
-                  ? "text-primary-foreground border-b-2 border-amber pb-1"
+                  ? "text-amber border-b-2 border-amber pb-1"
                   : "text-primary-foreground/70 hover:text-primary-foreground"
               }`}
             >
@@ -44,7 +46,7 @@ const Navbar = () => {
         {/* Desktop CTA */}
         <a
           href="https://wa.me/258877302100"
-          className="hidden lg:inline-block bg-primary-foreground text-primary px-6 py-2 text-xs font-bold tracking-widest hover:bg-amber hover:text-accent-foreground transition-colors"
+          className="hidden lg:inline-block bg-amber text-accent-foreground px-6 py-2 text-xs font-bold tracking-widest hover:bg-amber-dark transition-colors rounded-sm"
         >
           RESERVAR
         </a>
