@@ -14,17 +14,25 @@ import gastronomiaImg from "@/assets/gastronomia.jpg";
 import camaKing from "@/assets/cama-king.jpg";
 import cozinha2 from "@/assets/cozinha-2.jpg";
 import cadeira from "@/assets/cadeira.jpg";
-import { Home, UtensilsCrossed, Waves, Calendar, Search, ArrowRight, Star, Quote, MapPin, ChefHat } from "lucide-react";
+import { Home, UtensilsCrossed, Waves, Calendar, Search, ArrowRight, Star, Quote, MapPin, ChefHat, Sparkles } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { blogPosts } from "./BlogData";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import RoomTypeCard from "@/components/RoomTypeCard";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const Index = () => {
   const navigate = useNavigate();
   const [checkIn, setCheckIn] = useState("");
   const [checkOut, setCheckOut] = useState("");
+  const [amenity, setAmenity] = useState("");
   const [isSearching, setIsSearching] = useState(false);
   const resultsRef = useRef<HTMLDivElement>(null);
 
@@ -44,7 +52,7 @@ const Index = () => {
   };
 
   const handleBook = (type: string) => {
-    const msg = `Olá! Gostaria de reservar:\n🏠 ${type}\n📅 Check-in: ${checkIn || 'A definir'}\n📅 Check-out: ${checkOut || 'A definir'}`;
+    const msg = `Olá! Gostaria de reservar:\n🏠 ${type}\n📅 Check-in: ${checkIn || 'A definir'}\n📅 Check-out: ${checkOut || 'A definir'}\n✨ Preferência: ${amenity || 'Nenhuma específica'}`;
     window.open(`https://wa.me/258877302100?text=${encodeURIComponent(msg)}`, "_blank");
   };
 
@@ -112,9 +120,9 @@ const Index = () => {
           </p>
 
           {/* Search Bar */}
-          <div className="max-w-4xl mx-auto bg-white shadow-2xl p-2 rounded-full animate-slide-up-delayed">
+          <div className="max-w-5xl mx-auto bg-white shadow-2xl p-2 rounded-full animate-slide-up-delayed">
             <form onSubmit={handleSearch} className="flex flex-col md:flex-row items-center gap-2">
-              <div className="flex-1 grid grid-cols-2 gap-2 w-full px-4">
+              <div className="flex-1 grid grid-cols-1 md:grid-cols-3 gap-2 w-full px-4">
                 <div className="flex flex-col items-start py-2">
                   <label className="text-[10px] font-bold uppercase text-gray-400 tracking-widest">Check-in</label>
                   <input 
@@ -132,6 +140,21 @@ const Index = () => {
                     className="w-full bg-transparent border-none p-0 text-sm font-bold focus:ring-0 outline-none"
                     onChange={(e) => setCheckOut(e.target.value)}
                   />
+                </div>
+                <div className="flex flex-col items-start py-2 border-l border-gray-100 pl-4">
+                  <label className="text-[10px] font-bold uppercase text-gray-400 tracking-widest">Comodidades</label>
+                  <Select onValueChange={setAmenity}>
+                    <SelectTrigger className="w-full bg-transparent border-none p-0 h-auto text-sm font-bold focus:ring-0 shadow-none">
+                      <SelectValue placeholder="O que procura?" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="wifi">Wi-Fi Grátis</SelectItem>
+                      <SelectItem value="piscina">Piscina</SelectItem>
+                      <SelectItem value="ac">Ar Condicionado</SelectItem>
+                      <SelectItem value="cozinha">Cozinha Equipada</SelectItem>
+                      <SelectItem value="seguranca">Segurança 24h</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </div>
               </div>
               <button 
