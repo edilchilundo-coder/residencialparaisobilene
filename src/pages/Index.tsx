@@ -2,9 +2,8 @@
 
 import { useState, useRef } from "react";
 import Layout from "@/components/Layout";
-import bilenePraia from "@/assets/bilene-praia.jpg";
-import piscina from "@/assets/piscina.jpg";
 import heroReal from "@/assets/hero-real.jpg";
+import piscina from "@/assets/piscina.jpg";
 import piscinaNoite3 from "@/assets/piscina-noite-3.jpg";
 import quartoT1 from "@/assets/quarto-t1.jpg";
 import quartoT2 from "@/assets/quarto-t2.jpg";
@@ -14,12 +13,12 @@ import gastronomiaImg from "@/assets/gastronomia.jpg";
 import camaKing from "@/assets/cama-king.jpg";
 import cozinha2 from "@/assets/cozinha-2.jpg";
 import cadeira from "@/assets/cadeira.jpg";
-import { Home, UtensilsCrossed, Waves, Calendar, Search, ArrowRight, Star, Quote, MapPin, ChefHat, Sparkles } from "lucide-react";
+import { Home, UtensilsCrossed, Waves, Search, ArrowRight, Star, Quote, ChefHat } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { blogPosts } from "./BlogData";
-import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import RoomTypeCard from "@/components/RoomTypeCard";
+import { useLanguage } from "@/contexts/LanguageContext";
 import {
   Select,
   SelectContent,
@@ -30,9 +29,10 @@ import {
 
 const Index = () => {
   const navigate = useNavigate();
+  const { t } = useLanguage();
   const [checkIn, setCheckIn] = useState("");
   const [checkOut, setCheckOut] = useState("");
-  const [amenity, setAmenity] = useState("");
+  const [roomType, setRoomType] = useState("");
   const [isSearching, setIsSearching] = useState(false);
   const resultsRef = useRef<HTMLDivElement>(null);
 
@@ -41,7 +41,7 @@ const Index = () => {
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (!checkIn || !checkOut) {
-      toast.error("Por favor, selecione as datas.");
+      toast.error(t('search.error_dates') || "Por favor, selecione as datas.");
       return;
     }
     setIsSearching(true);
@@ -52,13 +52,13 @@ const Index = () => {
   };
 
   const handleBook = (type: string) => {
-    const msg = `Olá! Gostaria de reservar:\n🏠 ${type}\n📅 Check-in: ${checkIn || 'A definir'}\n📅 Check-out: ${checkOut || 'A definir'}\n✨ Preferência: ${amenity || 'Nenhuma específica'}`;
+    const msg = `Olá! Gostaria de reservar:\n🏠 ${type}\n📅 Check-in: ${checkIn || 'A definir'}\n📅 Check-out: ${checkOut || 'A definir'}`;
     window.open(`https://wa.me/258877302100?text=${encodeURIComponent(msg)}`, "_blank");
   };
 
   const roomTypes = [
     {
-      title: "Casa T1",
+      title: t('search.t1'),
       images: [camaKing, salaAmpla, fachada],
       size: "60 m²",
       capacity: "2 Adultos",
@@ -66,7 +66,7 @@ const Index = () => {
       type: "Casa T1"
     },
     {
-      title: "Casa T2",
+      title: t('search.t2'),
       images: [quartoT2, cozinha2, piscinaNoite3],
       size: "90 m²",
       capacity: "4 Adultos",
@@ -74,7 +74,7 @@ const Index = () => {
       type: "Casa T2"
     },
     {
-      title: "Quarto",
+      title: t('search.room'),
       images: [quartoT1, cadeira, piscina],
       size: "30 m²",
       capacity: "2 Adultos",
@@ -113,10 +113,10 @@ const Index = () => {
         
         <div className="container mx-auto px-6 relative z-10 text-center">
           <h1 className="text-5xl md:text-7xl font-bold text-white mb-8 leading-tight animate-slide-up">
-            Residencial Paraíso <br /> Bilene
+            {t('hero.title')}
           </h1>
           <p className="text-white/90 text-lg md:text-xl max-w-2xl mx-auto font-light font-body mb-12 animate-fade-in-delayed">
-            O seu refúgio de luxo a apenas 2 minutos da lagoa.
+            {t('hero.subtitle')}
           </p>
 
           {/* Search Bar */}
@@ -124,7 +124,7 @@ const Index = () => {
             <form onSubmit={handleSearch} className="flex flex-col md:flex-row items-center gap-2">
               <div className="flex-1 grid grid-cols-1 md:grid-cols-3 gap-2 w-full px-4">
                 <div className="flex flex-col items-start py-2">
-                  <label className="text-[10px] font-bold uppercase text-gray-400 tracking-widest">Check-in</label>
+                  <label className="text-[10px] font-bold uppercase text-gray-400 tracking-widest">{t('search.checkin')}</label>
                   <input 
                     type="date" 
                     min={today}
@@ -133,7 +133,7 @@ const Index = () => {
                   />
                 </div>
                 <div className="flex flex-col items-start py-2 border-l border-gray-100 pl-4">
-                  <label className="text-[10px] font-bold uppercase text-gray-400 tracking-widest">Check-out</label>
+                  <label className="text-[10px] font-bold uppercase text-gray-400 tracking-widest">{t('search.checkout')}</label>
                   <input 
                     type="date" 
                     min={checkIn || today}
@@ -142,17 +142,15 @@ const Index = () => {
                   />
                 </div>
                 <div className="flex flex-col items-start py-2 border-l border-gray-100 pl-4">
-                  <label className="text-[10px] font-bold uppercase text-gray-400 tracking-widest">Comodidades</label>
-                  <Select onValueChange={setAmenity}>
+                  <label className="text-[10px] font-bold uppercase text-gray-400 tracking-widest">{t('search.type')}</label>
+                  <Select onValueChange={setRoomType}>
                     <SelectTrigger className="w-full bg-transparent border-none p-0 h-auto text-sm font-bold focus:ring-0 shadow-none">
-                      <SelectValue placeholder="O que procura?" />
+                      <SelectValue placeholder={t('search.placeholder')} />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="wifi">Wi-Fi Grátis</SelectItem>
-                      <SelectItem value="piscina">Piscina</SelectItem>
-                      <SelectItem value="ac">Ar Condicionado</SelectItem>
-                      <SelectItem value="cozinha">Cozinha Equipada</SelectItem>
-                      <SelectItem value="seguranca">Segurança 24h</SelectItem>
+                      <SelectItem value="T1">{t('search.t1')}</SelectItem>
+                      <SelectItem value="T2">{t('search.t2')}</SelectItem>
+                      <SelectItem value="Quarto">{t('search.room')}</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
@@ -162,7 +160,7 @@ const Index = () => {
                 disabled={isSearching}
                 className="bg-amber hover:bg-amber-dark text-accent-foreground px-10 py-4 rounded-full font-bold uppercase tracking-widest text-xs transition-all flex items-center justify-center gap-2 w-full md:w-auto"
               >
-                {isSearching ? "..." : <><Search size={16} /> Verificar</>}
+                {isSearching ? "..." : <><Search size={16} /> {t('search.button')}</>}
               </button>
             </form>
           </div>
@@ -173,7 +171,7 @@ const Index = () => {
       <section ref={resultsRef} className="py-24 bg-gray-50">
         <div className="container mx-auto px-6">
           <div className="mb-12">
-            <h2 className="text-4xl font-bold text-gray-900 mb-2">Acomodações</h2>
+            <h2 className="text-4xl font-bold text-gray-900 mb-2">{t('home.accommodations')}</h2>
             <div className="w-12 h-1 bg-amber" />
           </div>
 
@@ -194,69 +192,30 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Features Section with Images */}
+      {/* Features Section */}
       <section className="py-24 bg-white">
         <div className="container mx-auto px-6">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            {/* Design Moderno */}
-            <div className="group">
-              <div className="relative h-64 overflow-hidden rounded-lg mb-6">
-                <img src={salaAmpla} alt="Design Moderno" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
-                <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors" />
-                <div className="absolute bottom-4 left-4">
-                  <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-lg">
-                    <Home className="text-amber" size={20} />
+            {[
+              { icon: Home, title: t('home.features.design'), desc: t('home.features.designDesc'), img: salaAmpla },
+              { icon: UtensilsCrossed, title: t('home.features.kitchen'), desc: t('home.features.kitchenDesc'), img: cozinha2 },
+              { icon: Waves, title: t('home.features.leisure'), desc: t('home.features.leisureDesc'), img: piscinaNoite3 },
+              { icon: ChefHat, title: t('home.features.restaurant'), desc: t('home.features.restaurantDesc'), img: gastronomiaImg },
+            ].map((feature, i) => (
+              <div key={i} className="group">
+                <div className="relative h-64 overflow-hidden rounded-lg mb-6">
+                  <img src={feature.img} alt={feature.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                  <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors" />
+                  <div className="absolute bottom-4 left-4">
+                    <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-lg">
+                      <feature.icon className="text-amber" size={20} />
+                    </div>
                   </div>
                 </div>
+                <h4 className="text-xl font-bold mb-2">{feature.title}</h4>
+                <p className="text-gray-500 text-sm font-body leading-relaxed">{feature.desc}</p>
               </div>
-              <h4 className="text-xl font-bold mb-2">Design Moderno</h4>
-              <p className="text-gray-500 text-sm font-body leading-relaxed">Espaços decorados com elegância e equipados para o seu conforto total.</p>
-            </div>
-
-            {/* Cozinha Completa */}
-            <div className="group">
-              <div className="relative h-64 overflow-hidden rounded-lg mb-6">
-                <img src={cozinha2} alt="Cozinha Completa" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
-                <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors" />
-                <div className="absolute bottom-4 left-4">
-                  <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-lg">
-                    <UtensilsCrossed className="text-amber" size={20} />
-                  </div>
-                </div>
-              </div>
-              <h4 className="text-xl font-bold mb-2">Cozinha Completa</h4>
-              <p className="text-gray-500 text-sm font-body leading-relaxed">Liberdade total para preparar as suas refeições com equipamentos de qualidade.</p>
-            </div>
-
-            {/* Lazer & Piscina */}
-            <div className="group">
-              <div className="relative h-64 overflow-hidden rounded-lg mb-6">
-                <img src={piscinaNoite3} alt="Lazer & Piscina" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
-                <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors" />
-                <div className="absolute bottom-4 left-4">
-                  <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-lg">
-                    <Waves className="text-amber" size={20} />
-                  </div>
-                </div>
-              </div>
-              <h4 className="text-xl font-bold mb-2">Lazer & Piscina</h4>
-              <p className="text-gray-500 text-sm font-body leading-relaxed">Desfrute da nossa piscina e áreas de convívio exclusivas para hóspedes.</p>
-            </div>
-
-            {/* Restaurante */}
-            <div className="group">
-              <div className="relative h-64 overflow-hidden rounded-lg mb-6">
-                <img src={gastronomiaImg} alt="Restaurante" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
-                <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors" />
-                <div className="absolute bottom-4 left-4">
-                  <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-lg">
-                    <ChefHat className="text-amber" size={20} />
-                  </div>
-                </div>
-              </div>
-              <h4 className="text-xl font-bold mb-2">Restaurante</h4>
-              <p className="text-gray-500 text-sm font-body leading-relaxed">Saboreie o melhor da gastronomia local com pratos frescos e autênticos.</p>
-            </div>
+            ))}
           </div>
         </div>
       </section>
@@ -265,7 +224,7 @@ const Index = () => {
       <section className="py-24 bg-gray-50">
         <div className="container mx-auto px-6">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">O que dizem os nossos hóspedes</h2>
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">{t('home.testimonials')}</h2>
             <div className="w-12 h-1 bg-amber mx-auto" />
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
@@ -289,8 +248,8 @@ const Index = () => {
       <section className="py-24 bg-white">
         <div className="container mx-auto px-6">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">Experiências Memoráveis</h2>
-            <p className="text-gray-500 font-body">Descubra o que o Bilene tem de melhor para oferecer.</p>
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">{t('home.blog')}</h2>
+            <p className="text-gray-500 font-body">{t('home.blogDesc')}</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {blogPosts.slice(0, 4).map((post) => (

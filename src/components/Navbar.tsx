@@ -2,21 +2,23 @@
 
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Globe } from "lucide-react";
 import logo from "@/assets/logo.png";
-
-const navLinks = [
-  { label: "HOME", path: "/" },
-  { label: "APARTAMENTOS", path: "/apartamentos" },
-  { label: "GALERIA", path: "/galeria" },
-  { label: "BLOG", path: "/blog" },
-  { label: "CONTACTOS", path: "/contactos" },
-  { label: "SOBRE NÓS", path: "/sobre-nos" },
-];
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
+  const { language, setLanguage, t } = useLanguage();
+
+  const navLinks = [
+    { label: t('nav.home'), path: "/" },
+    { label: t('nav.apartments'), path: "/apartamentos" },
+    { label: t('nav.gallery'), path: "/galeria" },
+    { label: t('nav.blog'), path: "/blog" },
+    { label: t('nav.contacts'), path: "/contactos" },
+    { label: t('nav.about'), path: "/sobre-nos" },
+  ];
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-primary/95 backdrop-blur-sm">
@@ -32,7 +34,7 @@ const Navbar = () => {
             <Link
               key={link.path}
               to={link.path}
-              className={`text-xs font-semibold tracking-widest transition-colors ${
+              className={`text-[10px] font-bold tracking-widest transition-colors ${
                 location.pathname === link.path
                   ? "text-amber border-b-2 border-amber pb-1"
                   : "text-primary-foreground/70 hover:text-primary-foreground"
@@ -43,13 +45,33 @@ const Navbar = () => {
           ))}
         </div>
 
-        {/* Desktop CTA */}
-        <a
-          href="https://wa.me/258877302100"
-          className="hidden lg:inline-block bg-amber text-accent-foreground px-6 py-2 text-xs font-bold tracking-widest hover:bg-amber-dark transition-colors rounded-sm"
-        >
-          RESERVAR
-        </a>
+        {/* Desktop Actions */}
+        <div className="hidden lg:flex items-center gap-6">
+          {/* Language Switcher */}
+          <div className="flex items-center gap-2 border-r border-primary-foreground/20 pr-6">
+            <Globe size={14} className="text-amber" />
+            <button 
+              onClick={() => setLanguage('pt')}
+              className={`text-[10px] font-bold ${language === 'pt' ? 'text-amber' : 'text-primary-foreground/50'}`}
+            >
+              PT
+            </button>
+            <span className="text-primary-foreground/20">|</span>
+            <button 
+              onClick={() => setLanguage('en')}
+              className={`text-[10px] font-bold ${language === 'en' ? 'text-amber' : 'text-primary-foreground/50'}`}
+            >
+              EN
+            </button>
+          </div>
+
+          <a
+            href="https://wa.me/258877302100"
+            className="bg-amber text-accent-foreground px-6 py-2 text-[10px] font-bold tracking-widest hover:bg-amber-dark transition-colors rounded-sm"
+          >
+            {t('nav.book')}
+          </a>
+        </div>
 
         {/* Mobile Toggle */}
         <button
@@ -79,11 +101,28 @@ const Navbar = () => {
                 {link.label}
               </Link>
             ))}
+            
+            {/* Mobile Language Switcher */}
+            <div className="flex items-center gap-4 py-2 border-t border-primary-foreground/10 mt-2">
+              <button 
+                onClick={() => { setLanguage('pt'); setIsOpen(false); }}
+                className={`text-xs font-bold ${language === 'pt' ? 'text-amber' : 'text-primary-foreground/50'}`}
+              >
+                PORTUGUÊS
+              </button>
+              <button 
+                onClick={() => { setLanguage('en'); setIsOpen(false); }}
+                className={`text-xs font-bold ${language === 'en' ? 'text-amber' : 'text-primary-foreground/50'}`}
+              >
+                ENGLISH
+              </button>
+            </div>
+
             <a
               href="https://wa.me/258877302100"
               className="bg-amber text-accent-foreground px-6 py-3 text-xs font-bold tracking-widest text-center hover:bg-amber-dark transition-colors mt-2"
             >
-              RESERVAR
+              {t('nav.book')}
             </a>
           </div>
         </div>
