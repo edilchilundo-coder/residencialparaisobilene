@@ -45,7 +45,7 @@ const translations = {
   pt: {
     nav: {
       home: "HOME",
-      apartments: "APARTAMENTOS",
+      apartments: "ACOMODAÇÕES",
       gallery: "GALERIA",
       blog: "BLOG",
       contacts: "CONTACTOS",
@@ -64,10 +64,11 @@ const translations = {
       button: "Verificar",
       t1: "Casa T1",
       t2: "Casa T2",
-      room: "Quarto Suite"
+      room: "Quarto Suite",
+      error_dates: "Por favor, selecione as datas."
     },
     home: {
-      accommodations: "Acomodações",
+      accommodations: "Nossas Acomodações",
       features: {
         design: "Design Moderno",
         designDesc: "Espaços decorados com elegância e equipados para o seu conforto total.",
@@ -86,7 +87,7 @@ const translations = {
   en: {
     nav: {
       home: "HOME",
-      apartments: "APARTMENTS",
+      apartments: "ACCOMMODATIONS",
       gallery: "GALLERY",
       blog: "BLOG",
       contacts: "CONTACTS",
@@ -105,10 +106,11 @@ const translations = {
       button: "Check",
       t1: "T1 House",
       t2: "T2 House",
-      room: "Suite Room"
+      room: "Suite Room",
+      error_dates: "Please select the dates."
     },
     home: {
-      accommodations: "Accommodations",
+      accommodations: "Our Accommodations",
       features: {
         design: "Modern Design",
         designDesc: "Elegantly decorated spaces equipped for your total comfort.",
