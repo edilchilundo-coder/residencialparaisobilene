@@ -72,6 +72,24 @@ const Index = () => {
     }
   ];
 
+  const testimonials = [
+    {
+      name: "Ricardo Santos",
+      text: "Experiência fantástica! A casa T2 é super espaçosa e a piscina é ótima para relaxar depois da praia. Atendimento nota 10.",
+      rating: 5
+    },
+    {
+      name: "Ana Paula",
+      text: "O melhor custo-benefício do Bilene. Fiquei no quarto suite e estava tudo impecável. A localização é perfeita.",
+      rating: 5
+    },
+    {
+      name: "Carlos M.",
+      text: "Segurança e tranquilidade. Viajei com a família e nos sentimos em casa. Recomendo vivamente a Casa T1 para casais.",
+      rating: 5
+    }
+  ];
+
   return (
     <Layout>
       {/* Hero Section */}
@@ -217,8 +235,32 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Blog Highlights */}
+      {/* Testimonials Section */}
       <section className="py-24 bg-gray-50">
+        <div className="container mx-auto px-6">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">O que dizem os nossos hóspedes</h2>
+            <div className="w-12 h-1 bg-red-600 mx-auto" />
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            {testimonials.map((t, i) => (
+              <div key={i} className="bg-white p-8 shadow-sm border border-gray-100 relative">
+                <Quote className="absolute top-4 right-4 text-red-600/10" size={40} />
+                <div className="flex gap-1 mb-4">
+                  {[...Array(t.rating)].map((_, i) => (
+                    <Star key={i} size={14} className="fill-red-600 text-red-600" />
+                  ))}
+                </div>
+                <p className="text-gray-600 italic mb-6 font-body">"{t.text}"</p>
+                <h5 className="font-bold text-gray-900">{t.name}</h5>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Blog Highlights */}
+      <section className="py-24 bg-white">
         <div className="container mx-auto px-6">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-gray-900 mb-4">Experiências Memoráveis</h2>
