@@ -47,27 +47,27 @@ const Index = () => {
 
   const roomTypes = [
     {
-      title: "Casa 1 - Familiar Premium",
-      images: [fachada, salaAmpla, piscina],
-      size: "120 m²",
-      capacity: "6 Adultos",
-      bedType: "3 Quartos",
-      type: "Casa 1"
-    },
-    {
-      title: "Casa 2 - Vista Jardim",
-      images: [salaAmpla, piscinaNoite1, fachada],
-      size: "150 m²",
-      capacity: "8 Adultos",
-      bedType: "4 Quartos",
-      type: "Casa 2"
-    },
-    {
-      title: "Quarto - Suite Casal",
-      images: [quartoT1, bilenePraia, piscina],
-      size: "35 m²",
+      title: "Casa T1",
+      images: [quartoT1, salaAmpla, fachada],
+      size: "60 m²",
       capacity: "2 Adultos",
-      bedType: "1 Cama King",
+      bedType: "1 Quarto",
+      type: "Casa T1"
+    },
+    {
+      title: "Casa T2",
+      images: [quartoT2, salaAmpla, piscina],
+      size: "90 m²",
+      capacity: "4 Adultos",
+      bedType: "2 Quartos",
+      type: "Casa T2"
+    },
+    {
+      title: "Quarto",
+      images: [quartoT1, bilenePraia, piscinaNoite1],
+      size: "30 m²",
+      capacity: "2 Adultos",
+      bedType: "Suite Casal",
       type: "Quarto"
     }
   ];
@@ -129,7 +129,7 @@ const Index = () => {
       <section ref={resultsRef} className="py-24 bg-gray-50">
         <div className="container mx-auto px-6">
           <div className="mb-12">
-            <h2 className="text-4xl font-bold text-gray-900 mb-2">Room types</h2>
+            <h2 className="text-4xl font-bold text-gray-900 mb-2">Acomodações</h2>
             <div className="w-12 h-1 bg-red-600" />
           </div>
 
