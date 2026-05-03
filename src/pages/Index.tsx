@@ -6,7 +6,7 @@ import bilenePraia from "@/assets/bilene-praia.jpg";
 import piscina from "@/assets/piscina.jpg";
 import heroReal from "@/assets/hero-real.jpg";
 import piscinaNoite1 from "@/assets/piscina-noite-1.jpg";
-import { Home, UtensilsCrossed, Waves, Calendar, Search, ArrowRight, Star, Quote, AlertCircle, CheckCircle2 } from "lucide-react";
+import { Home, UtensilsCrossed, Waves, Calendar, Search, ArrowRight, Star, Quote, AlertCircle, CheckCircle2, Info } from "lucide-react";
 import { Link } from "react-router-dom";
 import { blogPosts } from "./Blog";
 import { supabase } from "@/integrations/supabase/client";
@@ -18,6 +18,7 @@ const Index = () => {
   const [aptType, setAptType] = useState("T1");
   const [isChecking, setIsChecking] = useState(false);
   const [availabilityStatus, setAvailabilityStatus] = useState<'idle' | 'available' | 'unavailable'>('idle');
+  const [price, setPrice] = useState<number | null>(null);
 
   const today = new Date().toISOString().split('T')[0];
 
@@ -32,16 +33,17 @@ const Index = () => {
     setAvailabilityStatus('idle');
 
     try {
-      // 1. Buscar total de unidades do tipo selecionado
+      // 1. Buscar total de unidades e preço
       const { data: aptData, error: aptError } = await supabase
         .from('apartments')
-        .select('total_units')
+        .select('total_units, price_per_night')
         .eq('type', aptType)
         .single();
 
       if (aptError) throw aptError;
+      setPrice(aptData.price_per_night);
 
-      // 2. Buscar reservas existentes que conflitam com as datas
+      // 2. Buscar reservas existentes que conflitam
       const { data: bookings, error: bookError } = await supabase
         .from('bookings')
         .select('id')
@@ -69,7 +71,7 @@ const Index = () => {
   };
 
   const handleFinalizeBooking = () => {
-    const msg = `Olá! Verifiquei no site e gostaria de reservar:\n🏠 Tipo: Apartamento ${aptType}\n📅 Check-in: ${checkIn}\n📅 Check-out: ${checkOut}`;
+    const msg = `Olá! Verifiquei no site e gostaria de reservar:\n🏠 Tipo: Apartamento ${aptType}\n📅 Check-in: ${checkIn}\n📅 Check-out: ${checkOut}\n💰 Preço por noite: ${price} MT`;
     window.open(`https://wa.me/258877302100?text=${encodeURIComponent(msg)}`, "_blank");
   };
 
@@ -155,24 +157,34 @@ const Index = () => {
 
             {/* Status Messages */}
             {availabilityStatus === 'available' && (
-              <div className="mt-6 p-4 bg-green-500/20 border border-green-500/50 rounded-sm flex flex-col sm:flex-row items-center justify-between gap-4">
-                <div className="flex items-center gap-3 text-green-400">
-                  <CheckCircle2 size={24} />
-                  <span className="font-bold text-sm uppercase tracking-wider">Disponibilidade Confirmada!</span>
+              <div className="mt-6 p-6 bg-green-500/10 border border-green-500/30 rounded-sm flex flex-col md:flex-row items-center justify-between gap-6 animate-in fade-in slide-in-from-top-4 duration-500">
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center text-white shrink-0">
+                    <CheckCircle2 size={28} />
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-green-400 uppercase tracking-wider text-sm">Disponibilidade Confirmada!</h4>
+                    <p className="text-primary-foreground/70 text-xs font-body mt-1">Preço estimado: <span className="text-amber font-bold">{price} MT</span> / noite</p>
+                  </div>
                 </div>
                 <button 
                   onClick={handleFinalizeBooking}
-                  className="bg-green-500 hover:bg-green-600 text-white px-6 py-2 font-bold text-xs uppercase tracking-widest transition rounded-sm"
+                  className="w-full md:w-auto bg-green-500 hover:bg-green-600 text-white px-8 py-3 font-bold text-xs uppercase tracking-widest transition rounded-sm shadow-lg hover:scale-105 duration-300"
                 >
-                  Reservar Agora
+                  Finalizar no WhatsApp
                 </button>
               </div>
             )}
 
             {availabilityStatus === 'unavailable' && (
-              <div className="mt-6 p-4 bg-red-500/20 border border-red-500/50 rounded-sm flex items-center gap-3 text-red-400">
-                <AlertCircle size={24} />
-                <span className="font-bold text-sm uppercase tracking-wider">Infelizmente não temos vagas para estas datas. Tente outro período.</span>
+              <div className="mt-6 p-6 bg-red-500/10 border border-red-500/30 rounded-sm flex items-center gap-4 animate-in fade-in slide-in-from-top-4 duration-500">
+                <div className="w-12 h-12 bg-red-500 rounded-full flex items-center justify-center text-white shrink-0">
+                  <AlertCircle size={28} />
+                </div>
+                <div>
+                  <h4 className="font-bold text-red-400 uppercase tracking-wider text-sm">Sem vagas para este período</h4>
+                  <p className="text-primary-foreground/70 text-xs font-body mt-1">Por favor, tente selecionar outras datas ou outro tipo de apartamento.</p>
+                </div>
               </div>
             )}
           </div>

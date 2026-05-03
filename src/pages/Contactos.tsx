@@ -31,15 +31,11 @@ const Contactos = () => {
 
   const onSubmit = async (data: ContactFormValues) => {
     try {
-     // TODO: Create contact_messages table in Supabase
-     // const { error } = await supabase
-     //   .from("contact_messages")
-     //   .insert([data]);
-     //
-     // if (error) throw error;
+      const { error } = await supabase
+        .from("contact_messages")
+        .insert([data]);
 
-     // Simulando envio bem-sucedido
-     await new Promise(resolve => setTimeout(resolve, 1000));
+      if (error) throw error;
 
       toast.success("Mensagem enviada com sucesso! Entraremos em contacto em breve.");
       reset();
