@@ -15,6 +15,7 @@ const LanguageContext = createContext<LanguageContextType | undefined>(undefined
 export const LanguageProvider = ({ children }: { children: ReactNode }) => {
   const [language, setLanguage] = useState<Language>('pt');
 
+  // Função simples de tradução baseada em chaves
   const t = (path: string) => {
     const keys = path.split('.');
     let current: any = translations[language];
@@ -44,7 +45,7 @@ const translations = {
   pt: {
     nav: {
       home: "HOME",
-      apartments: "ACOMODAÇÕES",
+      apartments: "APARTAMENTOS",
       gallery: "GALERIA",
       blog: "BLOG",
       contacts: "CONTACTOS",
@@ -85,7 +86,7 @@ const translations = {
   en: {
     nav: {
       home: "HOME",
-      apartments: "ACCOMMODATIONS",
+      apartments: "APARTMENTS",
       gallery: "GALLERY",
       blog: "BLOG",
       contacts: "CONTACTS",
