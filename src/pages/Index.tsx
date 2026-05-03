@@ -1,228 +1,224 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import Layout from "@/components/Layout";
 import bilenePraia from "@/assets/bilene-praia.jpg";
 import piscina from "@/assets/piscina.jpg";
 import heroReal from "@/assets/hero-real.jpg";
 import piscinaNoite1 from "@/assets/piscina-noite-1.jpg";
-import { Home, UtensilsCrossed, Waves, Calendar, Search, ArrowRight, Star, Quote, AlertCircle, CheckCircle2, Info } from "lucide-react";
+import quartoT1 from "@/assets/quarto-t1.jpg";
+import quartoT2 from "@/assets/quarto-t2.jpg";
+import { Home, UtensilsCrossed, Waves, Calendar, Search, ArrowRight, Star, Quote, MapPin } from "lucide-react";
 import { Link } from "react-router-dom";
 import { blogPosts } from "./Blog";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import RoomCard from "@/components/RoomCard";
 
 const Index = () => {
   const [checkIn, setCheckIn] = useState("");
   const [checkOut, setCheckOut] = useState("");
-  const [aptType, setAptType] = useState("T1");
-  const [isChecking, setIsChecking] = useState(false);
-  const [availabilityStatus, setAvailabilityStatus] = useState<'idle' | 'available' | 'unavailable'>('idle');
-  const [price, setPrice] = useState<number | null>(null);
+  const [isSearching, setIsSearching] = useState(false);
+  const [hasSearched, setHasSearched] = useState(false);
+  const [results, setResults] = useState<any[]>([]);
+  const resultsRef = useRef<HTMLDivElement>(null);
 
   const today = new Date().toISOString().split('T')[0];
 
-  const checkAvailability = async (e: React.FormEvent) => {
+  const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!checkIn || !checkOut) {
-      toast.error("Por favor, selecione as datas de check-in e check-out.");
+      toast.error("Por favor, selecione as datas.");
       return;
     }
 
-    setIsChecking(true);
-    setAvailabilityStatus('idle');
-
+    setIsSearching(true);
+    
     try {
-      // 1. Buscar total de unidades e preço
-      const { data: aptData, error: aptError } = await supabase
+      // 1. Buscar todos os tipos de apartamentos
+      const { data: apartments, error: aptError } = await supabase
         .from('apartments')
-        .select('total_units, price_per_night')
-        .eq('type', aptType)
-        .single();
+        .select('*')
+        .order('type', { ascending: true });
 
       if (aptError) throw aptError;
-      setPrice(aptData.price_per_night);
 
-      // 2. Buscar reservas existentes que conflitam
-      const { data: bookings, error: bookError } = await supabase
-        .from('bookings')
-        .select('id')
-        .eq('apartment_type', aptType)
-        .eq('status', 'confirmed')
-        .or(`check_in.lte.${checkOut},check_out.gte.${checkIn}`);
+      // 2. Verificar disponibilidade para cada tipo
+      const processedResults = await Promise.all(apartments.map(async (apt) => {
+        const { data: bookings, error: bookError } = await supabase
+          .from('bookings')
+          .select('id')
+          .eq('apartment_type', apt.type)
+          .eq('status', 'confirmed')
+          .or(`check_in.lte.${checkOut},check_out.gte.${checkIn}`);
 
-      if (bookError) throw bookError;
+        if (bookError) throw bookError;
 
-      const isAvailable = (bookings?.length || 0) < (aptData?.total_units || 0);
+        return {
+          ...apt,
+          isAvailable: (bookings?.length || 0) < (apt.total_units || 0),
+          image: apt.type === 'T1' ? quartoT1 : quartoT2,
+          description: apt.type === 'T1' 
+            ? "Perfeito para casais que buscam privacidade e conforto moderno. Suite climatizada com acabamentos de luxo."
+            : "Espaço ideal para famílias. Dois quartos amplos, sala de estar generosa e cozinha totalmente equipada.",
+          amenities: apt.type === 'T1'
+            ? ["Ar Condicionado", "Wi-Fi Grátis", "Smart TV", "Cama King", "Cozinha", "Varanda"]
+            : ["2 Quartos", "2 Casas de Banho", "Cozinha Completa", "Sala Ampla", "Wi-Fi", "AC"]
+        };
+      }));
+
+      setResults(processedResults);
+      setHasSearched(true);
       
-      setAvailabilityStatus(isAvailable ? 'available' : 'unavailable');
-      
-      if (isAvailable) {
-        toast.success("Temos disponibilidade para estas datas!");
-      } else {
-        toast.error("Infelizmente não temos disponibilidade para estas datas.");
-      }
+      // Scroll suave para os resultados
+      setTimeout(() => {
+        resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 100);
+
     } catch (error) {
-      console.error("Erro ao verificar disponibilidade:", error);
-      toast.error("Erro ao verificar disponibilidade. Tente novamente.");
+      console.error("Erro na busca:", error);
+      toast.error("Erro ao verificar disponibilidade.");
     } finally {
-      setIsChecking(false);
+      setIsSearching(false);
     }
   };
 
-  const handleFinalizeBooking = () => {
-    const msg = `Olá! Verifiquei no site e gostaria de reservar:\n🏠 Tipo: Apartamento ${aptType}\n📅 Check-in: ${checkIn}\n📅 Check-out: ${checkOut}\n💰 Preço por noite: ${price} MT`;
+  const handleBook = (apt: any) => {
+    const msg = `Olá! Gostaria de reservar:\n🏠 ${apt.type} - ${apt.type === 'T1' ? 'Apartamento T1' : 'Apartamento T2'}\n📅 Check-in: ${checkIn}\n📅 Check-out: ${checkOut}\n💰 Preço: ${apt.price_per_night} MT/noite`;
     window.open(`https://wa.me/258877302100?text=${encodeURIComponent(msg)}`, "_blank");
   };
 
   return (
     <Layout>
-      {/* Hero */}
-      <section
-        className="min-h-screen flex items-center pt-24 pb-12 bg-cover bg-center relative"
-        style={{ backgroundImage: `url(${heroReal})` }}
-      >
-        <div className="absolute inset-0 bg-black/60" />
+      {/* Hero Section */}
+      <section className="relative h-[90vh] flex items-center justify-center overflow-hidden">
+        <div 
+          className="absolute inset-0 bg-cover bg-center scale-105 animate-slow-zoom"
+          style={{ backgroundImage: `url(${heroReal})` }}
+        />
+        <div className="absolute inset-0 bg-black/50" />
         
-        <div className="container mx-auto px-6 relative z-10">
-          <div className="max-w-4xl mx-auto text-center mb-12">
-            <span className="text-amber font-semibold tracking-[0.2em] uppercase text-sm mb-4 block font-body">
-              Luxury Hotel & Best Resort
-            </span>
-            <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold text-primary-foreground mb-6 leading-tight">
-              O Seu Refúgio Perfeito <br className="hidden sm:block" /> na Praia do Bilene
-            </h1>
-            <p className="text-primary-foreground/90 text-base sm:text-lg md:text-xl mb-10 max-w-2xl mx-auto font-light font-body">
-              Descubra um espaço de conforto e hospitalidade a apenas 2 minutos de carro da praia. Apartamentos T1 e T2 equipados para si e para a sua família.
-            </p>
-          </div>
+        <div className="container mx-auto px-6 relative z-10 text-center">
+          <span className="text-amber font-bold tracking-[0.3em] uppercase text-xs mb-6 block animate-fade-in">
+            Bem-vindo ao Paraíso
+          </span>
+          <h1 className="text-5xl md:text-8xl font-bold text-white mb-8 leading-tight animate-slide-up">
+            Sinta a Brisa <br /> do Bilene
+          </h1>
+          <p className="text-white/80 text-lg md:text-xl max-w-2xl mx-auto font-light font-body mb-12 animate-fade-in-delayed">
+            Luxo, conforto e a melhor hospitalidade de Moçambique a apenas 2 minutos da lagoa.
+          </p>
 
-          {/* Availability Bar */}
-          <div className="max-w-5xl mx-auto bg-white/10 backdrop-blur-md p-4 sm:p-6 rounded-sm border border-white/20 shadow-2xl">
-            <form onSubmit={checkAvailability} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 items-end">
-              <div className="space-y-2">
-                <label className="text-xs font-bold text-primary-foreground uppercase tracking-widest flex items-center gap-2">
-                  <Calendar size={14} className="text-amber" /> Check-in
-                </label>
-                <input 
-                  type="date" 
-                  min={today}
-                  required
-                  className="w-full bg-white/90 border-none p-3 text-sm focus:ring-2 focus:ring-amber outline-none rounded-sm"
-                  onChange={(e) => {
-                    setCheckIn(e.target.value);
-                    setAvailabilityStatus('idle');
-                  }}
-                />
+          {/* Radisson Style Search Bar */}
+          <div className="max-w-5xl mx-auto bg-white shadow-2xl p-2 md:p-3 rounded-sm animate-slide-up-delayed">
+            <form onSubmit={handleSearch} className="flex flex-col lg:flex-row items-stretch gap-2">
+              <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-2">
+                <div className="relative group">
+                  <div className="absolute left-4 top-1/2 -translate-y-1/2 text-amber group-focus-within:scale-110 transition-transform">
+                    <Calendar size={18} />
+                  </div>
+                  <div className="flex flex-col items-start pl-12 pr-4 py-2 border border-gray-100 hover:border-amber transition-colors">
+                    <label className="text-[10px] font-bold uppercase text-muted-foreground tracking-widest">Check-in</label>
+                    <input 
+                      type="date" 
+                      min={today}
+                      required
+                      className="w-full bg-transparent border-none p-0 text-sm font-bold focus:ring-0 outline-none"
+                      onChange={(e) => setCheckIn(e.target.value)}
+                    />
+                  </div>
+                </div>
+                <div className="relative group">
+                  <div className="absolute left-4 top-1/2 -translate-y-1/2 text-amber group-focus-within:scale-110 transition-transform">
+                    <Calendar size={18} />
+                  </div>
+                  <div className="flex flex-col items-start pl-12 pr-4 py-2 border border-gray-100 hover:border-amber transition-colors">
+                    <label className="text-[10px] font-bold uppercase text-muted-foreground tracking-widest">Check-out</label>
+                    <input 
+                      type="date" 
+                      min={checkIn || today}
+                      required
+                      className="w-full bg-transparent border-none p-0 text-sm font-bold focus:ring-0 outline-none"
+                      onChange={(e) => setCheckOut(e.target.value)}
+                    />
+                  </div>
+                </div>
               </div>
-              <div className="space-y-2">
-                <label className="text-xs font-bold text-primary-foreground uppercase tracking-widest flex items-center gap-2">
-                  <Calendar size={14} className="text-amber" /> Check-out
-                </label>
-                <input 
-                  type="date" 
-                  min={checkIn || today}
-                  required
-                  className="w-full bg-white/90 border-none p-3 text-sm focus:ring-2 focus:ring-amber outline-none rounded-sm"
-                  onChange={(e) => {
-                    setCheckOut(e.target.value);
-                    setAvailabilityStatus('idle');
-                  }}
-                />
-              </div>
-              <div className="space-y-2">
-                <label className="text-xs font-bold text-primary-foreground uppercase tracking-widest flex items-center gap-2">
-                  <Home size={14} className="text-amber" /> Apartamento
-                </label>
-                <select 
-                  className="w-full bg-white/90 border-none p-3 text-sm focus:ring-2 focus:ring-amber outline-none rounded-sm"
-                  value={aptType}
-                  onChange={(e) => {
-                    setAptType(e.target.value);
-                    setAvailabilityStatus('idle');
-                  }}
-                >
-                  <option value="T1">Apartamento T1</option>
-                  <option value="T2">Apartamento T2</option>
-                </select>
-              </div>
+              
               <button 
                 type="submit"
-                disabled={isChecking}
-                className="w-full bg-amber hover:bg-amber-dark text-accent-foreground font-bold py-3 px-6 transition flex items-center justify-center gap-2 uppercase tracking-widest text-sm rounded-sm disabled:opacity-50"
+                disabled={isSearching}
+                className="bg-primary hover:bg-amber text-white hover:text-accent-foreground px-12 py-4 font-bold uppercase tracking-widest text-sm transition-all flex items-center justify-center gap-3 min-w-[200px]"
               >
-                {isChecking ? "Verificando..." : <><Search size={18} /> Verificar</>}
+                {isSearching ? "Buscando..." : <><Search size={18} /> Verificar</>}
               </button>
             </form>
-
-            {/* Status Messages */}
-            {availabilityStatus === 'available' && (
-              <div className="mt-6 p-6 bg-green-500/10 border border-green-500/30 rounded-sm flex flex-col md:flex-row items-center justify-between gap-6 animate-in fade-in slide-in-from-top-4 duration-500">
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center text-white shrink-0">
-                    <CheckCircle2 size={28} />
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-green-400 uppercase tracking-wider text-sm">Disponibilidade Confirmada!</h4>
-                    <p className="text-primary-foreground/70 text-xs font-body mt-1">Preço estimado: <span className="text-amber font-bold">{price} MT</span> / noite</p>
-                  </div>
-                </div>
-                <button 
-                  onClick={handleFinalizeBooking}
-                  className="w-full md:w-auto bg-green-500 hover:bg-green-600 text-white px-8 py-3 font-bold text-xs uppercase tracking-widest transition rounded-sm shadow-lg hover:scale-105 duration-300"
-                >
-                  Finalizar no WhatsApp
-                </button>
-              </div>
-            )}
-
-            {availabilityStatus === 'unavailable' && (
-              <div className="mt-6 p-6 bg-red-500/10 border border-red-500/30 rounded-sm flex items-center gap-4 animate-in fade-in slide-in-from-top-4 duration-500">
-                <div className="w-12 h-12 bg-red-500 rounded-full flex items-center justify-center text-white shrink-0">
-                  <AlertCircle size={28} />
-                </div>
-                <div>
-                  <h4 className="font-bold text-red-400 uppercase tracking-wider text-sm">Sem vagas para este período</h4>
-                  <p className="text-primary-foreground/70 text-xs font-body mt-1">Por favor, tente selecionar outras datas ou outro tipo de apartamento.</p>
-                </div>
-              </div>
-            )}
           </div>
         </div>
       </section>
 
-      {/* Apartments Section */}
-      <section className="py-24 bg-secondary border-t border-border">
-        <div className="container mx-auto px-6 text-center max-w-5xl">
-          <h2 className="text-4xl font-bold text-foreground mb-4">Acomodações Premium</h2>
-          <p className="text-muted-foreground mb-16 font-body">
-            Escolha entre os nossos espaçosos Apartamentos T1 ou T2, ambos concebidos para um conforto absoluto.
-          </p>
+      {/* Results Section */}
+      <div ref={resultsRef} className={`py-24 bg-secondary transition-all duration-700 ${hasSearched ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10 pointer-events-none h-0 overflow-hidden'}`}>
+        <div className="container mx-auto px-6 max-w-6xl">
+          <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-4">
+            <div>
+              <h2 className="text-4xl font-bold text-foreground mb-2">Opções Disponíveis</h2>
+              <p className="text-muted-foreground font-body">Resultados para {checkIn} até {checkOut}</p>
+            </div>
+            <div className="flex items-center gap-2 text-sm font-bold text-amber uppercase tracking-widest">
+              <MapPin size={16} /> Praia do Bilene, Moçambique
+            </div>
+          </div>
 
-          <div className="bg-card p-6 sm:p-8 shadow-xl border border-border text-left">
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
-              <div className="text-center">
-                <Home className="mx-auto text-amber mb-3" size={32} />
-                <h4 className="font-bold text-foreground font-body">Apartamentos T1 & T2</h4>
-                <p className="text-sm text-muted-foreground mt-2 font-body">Suítes climatizadas</p>
+          <div className="space-y-8">
+            {results.map((apt) => (
+              <RoomCard 
+                key={apt.id}
+                type={apt.type}
+                title={apt.type === 'T1' ? 'Apartamento T1 - Suite Casal' : 'Apartamento T2 - Familiar'}
+                description={apt.description}
+                price={apt.price_per_night}
+                image={apt.image}
+                isAvailable={apt.isAvailable}
+                amenities={apt.amenities}
+                onBook={() => handleBook(apt)}
+              />
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Features Section */}
+      <section className="py-24 bg-background">
+        <div className="container mx-auto px-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+            <div className="text-center group">
+              <div className="w-20 h-20 bg-secondary rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-amber transition-colors duration-500">
+                <Home className="text-amber group-hover:text-white" size={32} />
               </div>
-              <div className="text-center">
-                <UtensilsCrossed className="mx-auto text-amber mb-3" size={32} />
-                <h4 className="font-bold text-foreground font-body">Cozinha Equipada</h4>
-                <p className="text-sm text-muted-foreground mt-2 font-body">Pronta a usar</p>
+              <h4 className="text-xl font-bold mb-4">Design Moderno</h4>
+              <p className="text-muted-foreground text-sm font-body leading-relaxed">Apartamentos decorados com elegância e equipados com tecnologia de ponta para o seu conforto.</p>
+            </div>
+            <div className="text-center group">
+              <div className="w-20 h-20 bg-secondary rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-amber transition-colors duration-500">
+                <UtensilsCrossed className="text-amber group-hover:text-white" size={32} />
               </div>
-              <div className="text-center">
-                <Waves className="mx-auto text-amber mb-3" size={32} />
-                <h4 className="font-bold text-foreground font-body">Piscina Comum</h4>
-                <p className="text-sm text-muted-foreground mt-2 font-body">Área de lazer exclusiva</p>
+              <h4 className="text-xl font-bold mb-4">Cozinha Completa</h4>
+              <p className="text-muted-foreground text-sm font-body leading-relaxed">Liberdade total para preparar as suas refeições com eletrodomésticos de alta qualidade.</p>
+            </div>
+            <div className="text-center group">
+              <div className="w-20 h-20 bg-secondary rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-amber transition-colors duration-500">
+                <Waves className="text-amber group-hover:text-white" size={32} />
               </div>
+              <h4 className="text-xl font-bold mb-4">Lazer & Piscina</h4>
+              <p className="text-muted-foreground text-sm font-body leading-relaxed">Desfrute da nossa piscina iluminada e áreas de convívio exclusivas para hóspedes.</p>
             </div>
           </div>
         </div>
       </section>
 
       {/* Gallery Preview */}
-      <section className="py-24 bg-background">
+      <section className="py-24 bg-secondary">
         <div className="container mx-auto px-6">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-foreground mb-4">O Nosso Paraíso</h2>
@@ -245,59 +241,36 @@ const Index = () => {
               <img src={piscinaNoite1} alt="Piscina" className="w-full h-full object-cover" loading="lazy" />
             </div>
           </div>
-
-          <div className="mt-12 text-center">
-            <Link to="/galeria" className="inline-block border-b-2 border-amber pb-1 font-bold text-foreground hover:text-amber transition font-body">
-              Ver Galeria Completa
-            </Link>
-          </div>
         </div>
       </section>
 
-      {/* Experiências Memoráveis (Blog Highlights) */}
-      <section className="py-24 bg-secondary border-t border-border">
+      {/* Blog Highlights */}
+      <section className="py-24 bg-background">
         <div className="container mx-auto px-6">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-foreground mb-4">Experiências Memoráveis</h2>
-            <p className="text-muted-foreground font-body">Descubra o que o Bilene tem de melhor para oferecer através do nosso blog.</p>
+            <p className="text-muted-foreground font-body">Descubra o que o Bilene tem de melhor para oferecer.</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {blogPosts.slice(0, 4).map((post) => (
               <Link key={post.id} to="/blog" className="group bg-card border border-border overflow-hidden shadow-sm hover:shadow-md transition-all duration-300">
                 <div className="relative h-48 overflow-hidden">
-                  <img 
-                    src={post.image} 
-                    alt={post.title} 
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                  />
-                  <div className="absolute top-3 left-3 bg-amber text-accent-foreground px-2 py-0.5 text-[10px] font-bold uppercase tracking-widest">
-                    {post.category}
-                  </div>
+                  <img src={post.image} alt={post.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                  <div className="absolute top-3 left-3 bg-amber text-accent-foreground px-2 py-0.5 text-[10px] font-bold uppercase tracking-widest">{post.category}</div>
                 </div>
                 <div className="p-6">
-                  <h4 className="font-bold mb-3 text-foreground group-hover:text-amber transition-colors line-clamp-2 h-12">
-                    {post.title}
-                  </h4>
-                  <p className="text-xs text-muted-foreground line-clamp-3 mb-4 font-body">
-                    {post.excerpt}
-                  </p>
-                  <span className="text-amber text-xs font-bold flex items-center gap-1">
-                    Ler Mais <ArrowRight size={12} />
-                  </span>
+                  <h4 className="font-bold mb-3 text-foreground group-hover:text-amber transition-colors line-clamp-2 h-12">{post.title}</h4>
+                  <p className="text-xs text-muted-foreground line-clamp-3 mb-4 font-body">{post.excerpt}</p>
+                  <span className="text-amber text-xs font-bold flex items-center gap-1">Ler Mais <ArrowRight size={12} /></span>
                 </div>
               </Link>
             ))}
-          </div>
-          <div className="mt-12 text-center">
-            <Link to="/blog" className="inline-block bg-primary text-primary-foreground px-10 py-4 font-bold uppercase tracking-widest text-sm hover:bg-amber hover:text-accent-foreground transition font-body">
-              Explorar o Blog Completo
-            </Link>
           </div>
         </div>
       </section>
 
       {/* Testimonials */}
-      <section className="py-24 bg-background">
+      <section className="py-24 bg-secondary">
         <div className="container mx-auto px-6">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-foreground mb-4">O que dizem os nossos hóspedes</h2>
@@ -305,12 +278,11 @@ const Index = () => {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
-              { name: "Ricardo M.", text: "Excelente estadia! O apartamento T2 é muito espaçoso e a cozinha tem tudo o que precisamos. A piscina é ótima para relaxar.", rating: 5 },
-              { name: "Ana Paula", text: "Fomos muito bem recebidos. A localização é perfeita, perto da praia mas longe do barulho. Recomendo vivamente!", rating: 5 },
-              { name: "Sérgio L.", text: "Segurança 24h dá-nos muita tranquilidade. Os quartos são frescos e muito limpos. Voltaremos com certeza.", rating: 5 },
+              { name: "Ricardo M.", text: "Excelente estadia! O apartamento T2 é muito espaçoso e a cozinha tem tudo o que precisamos.", rating: 5 },
+              { name: "Ana Paula", text: "Fomos muito bem recebidos. A localização é perfeita, perto da praia mas longe do barulho.", rating: 5 },
+              { name: "Sérgio L.", text: "Segurança 24h dá-nos muita tranquilidade. Os quartos são frescos e muito limpos.", rating: 5 },
             ].map((item, i) => (
-              <div key={i} className="bg-card p-8 relative shadow-sm border border-border">
-                <Quote className="text-amber/20 absolute top-4 right-4" size={48} />
+              <div key={i} className="bg-white p-8 shadow-sm border border-border">
                 <div className="flex gap-1 mb-4">
                   {[...Array(item.rating)].map((_, i) => <Star key={i} size={16} className="fill-amber text-amber" />)}
                 </div>
@@ -319,24 +291,6 @@ const Index = () => {
               </div>
             ))}
           </div>
-        </div>
-      </section>
-
-      {/* CTA */}
-      <section className="py-20 bg-amber">
-        <div className="container mx-auto px-6 text-center">
-          <h3 className="text-3xl md:text-4xl font-bold text-accent-foreground mb-4">
-            Planeie a Sua Estadia
-          </h3>
-          <p className="text-accent-foreground/80 mb-8 max-w-xl mx-auto font-body">
-            Verifique a disponibilidade acima ou fale diretamente connosco para garantir os melhores momentos na Praia do Bilene.
-          </p>
-          <a
-            href="https://wa.me/258877302100"
-            className="inline-block bg-primary text-primary-foreground px-10 py-4 font-bold uppercase tracking-widest text-sm hover:bg-dark-deeper transition font-body"
-          >
-            Falar via WhatsApp
-          </a>
         </div>
       </section>
     </Layout>
