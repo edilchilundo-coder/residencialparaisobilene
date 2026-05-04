@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import Layout from "@/components/Layout";
 import heroReal from "@/assets/hero-real.jpg";
 import piscina from "@/assets/piscina.jpg";
@@ -13,12 +13,13 @@ import gastronomiaImg from "@/assets/gastronomia.jpg";
 import camaKing from "@/assets/cama-king.jpg";
 import cozinha2 from "@/assets/cozinha-2.jpg";
 import cadeira from "@/assets/cadeira.jpg";
-import { Home, UtensilsCrossed, Waves, Search, ArrowRight, Star, Quote, ChefHat } from "lucide-react";
+import { Home, UtensilsCrossed, Waves, Search, ArrowRight, Star, Quote, ChefHat, Loader2 } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { blogPosts } from "./BlogData";
 import { toast } from "sonner";
-import RoomTypeCard from "@/components/RoomTypeCard";
+import RoomCard from "@/components/RoomCard";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { supabase } from "@/integrations/supabase/client";
 import {
   Select,
   SelectContent,
@@ -27,79 +28,94 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
+interface RoomAvailability {
+  id: string;
+  name: string;
+  type: string;
+  price_per_night: number;
+  description: string;
+  total_quantity: number;
+  available_count: number;
+}
+
 const Index = () => {
   const navigate = useNavigate();
   const { t } = useLanguage();
   const [checkIn, setCheckIn] = useState("");
   const [checkOut, setCheckOut] = useState("");
-  const [roomType, setRoomType] = useState("");
+  const [roomType, setRoomType] = useState("all");
   const [isSearching, setIsSearching] = useState(false);
+  const [results, setResults] = useState<RoomAvailability[]>([]);
   const resultsRef = useRef<HTMLDivElement>(null);
 
   const today = new Date().toISOString().split('T')[0];
 
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault();
+  const checkAvailability = async () => {
     if (!checkIn || !checkOut) {
       toast.error(t('search.error_dates'));
       return;
     }
+
     setIsSearching(true);
-    setTimeout(() => {
+    
+    try {
+      // 1. Buscar todos os quartos
+      let query = supabase.from('rooms').select('*');
+      if (roomType !== 'all') {
+        query = query.eq('type', roomType);
+      }
+      const { data: rooms, error: roomsError } = await query;
+      if (roomsError) throw roomsError;
+
+      // 2. Buscar reservas que coincidem com as datas
+      const { data: reservations, error: resError } = await supabase
+        .from('reservations')
+        .select('room_id')
+        .filter('check_in', 'lt', checkOut)
+        .filter('check_out', 'gt', checkIn)
+        .eq('status', 'confirmed');
+
+      if (resError) throw resError;
+
+      // 3. Calcular disponibilidade
+      const availability = rooms.map(room => {
+        const occupiedCount = reservations.filter(r => r.room_id === room.id).length;
+        return {
+          ...room,
+          available_count: room.total_quantity - occupiedCount
+        };
+      });
+
+      setResults(availability);
+      
+      setTimeout(() => {
+        resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 100);
+
+    } catch (error) {
+      console.error("Erro ao verificar disponibilidade:", error);
+      toast.error("Erro ao verificar disponibilidade. Tente novamente.");
+    } finally {
       setIsSearching(false);
-      resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }, 800);
+    }
   };
 
-  const handleBook = (type: string) => {
-    const msg = `Olá! Gostaria de reservar:\n🏠 ${type}\n📅 Check-in: ${checkIn || 'A definir'}\n📅 Check-out: ${checkOut || 'A definir'}`;
+  const handleBook = (roomName: string) => {
+    const msg = `Olá! Gostaria de reservar:\n🏠 ${roomName}\n📅 Check-in: ${checkIn}\n📅 Check-out: ${checkOut}`;
     window.open(`https://wa.me/258877302100?text=${encodeURIComponent(msg)}`, "_blank");
   };
 
-  const roomTypes = [
-    {
-      title: t('search.t1'),
-      images: [camaKing, salaAmpla, fachada],
-      size: "60 m²",
-      capacity: "2 Adultos",
-      bedType: "1 Quarto",
-      type: "Casa T1"
-    },
-    {
-      title: t('search.t2'),
-      images: [quartoT2, cozinha2, piscinaNoite3],
-      size: "90 m²",
-      capacity: "4 Adultos",
-      bedType: "2 Quartos",
-      type: "Casa T2"
-    },
-    {
-      title: t('search.room'),
-      images: [quartoT1, cadeira, piscina],
-      size: "30 m²",
-      capacity: "2 Adultos",
-      bedType: "Suite Casal",
-      type: "Quarto"
-    }
-  ];
+  const getRoomImage = (type: string) => {
+    if (type === 'T1') return camaKing;
+    if (type === 'T2') return quartoT2;
+    return quartoT1;
+  };
 
-  const testimonials = [
-    {
-      name: "Ricardo Santos",
-      text: "Experiência fantástica! A casa T2 é super espaçosa e a piscina é ótima para relaxar depois da praia. Atendimento nota 10.",
-      rating: 5
-    },
-    {
-      name: "Ana Paula",
-      text: "O melhor custo-benefício do Bilene. Fiquei no quarto suite e estava tudo impecável. A localização é perfeita.",
-      rating: 5
-    },
-    {
-      name: "Carlos M.",
-      text: "Segurança e tranquilidade. Viajei com a família e nos sentimos em casa. Recomendo vivamente a Casa T1 para casais.",
-      rating: 5
-    }
-  ];
+  const getAmenities = (type: string) => {
+    const base = ["Wi-Fi Grátis", "Ar Condicionado", "Segurança 24h"];
+    if (type === 'T1' || type === 'T2') return [...base, "Cozinha Equipada", "Sala de Estar"];
+    return [...base, "WC Privativo"];
+  };
 
   return (
     <Layout>
@@ -119,9 +135,9 @@ const Index = () => {
             {t('hero.subtitle')}
           </p>
 
-          {/* Search Bar - Improved Responsiveness */}
+          {/* Search Bar */}
           <div className="max-w-5xl mx-auto bg-white shadow-2xl p-4 md:p-2 rounded-2xl md:rounded-full animate-slide-up-delayed">
-            <form onSubmit={handleSearch} className="flex flex-col md:flex-row items-center gap-4 md:gap-2">
+            <div className="flex flex-col md:flex-row items-center gap-4 md:gap-2">
               <div className="flex-1 grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-2 w-full px-2 md:px-4">
                 <div className="flex flex-col items-start py-1 md:py-2">
                   <label className="text-[10px] font-bold uppercase text-gray-400 tracking-widest mb-1">{t('search.checkin')}</label>
@@ -143,11 +159,12 @@ const Index = () => {
                 </div>
                 <div className="flex flex-col items-start py-1 md:py-2 sm:border-l border-gray-100 sm:pl-4">
                   <label className="text-[10px] font-bold uppercase text-gray-400 tracking-widest mb-1">{t('search.type')}</label>
-                  <Select onValueChange={setRoomType}>
+                  <Select onValueChange={setRoomType} defaultValue="all">
                     <SelectTrigger className="w-full bg-transparent border-none p-0 h-auto text-sm font-bold focus:ring-0 shadow-none text-left">
                       <SelectValue placeholder={t('search.placeholder')} />
                     </SelectTrigger>
                     <SelectContent>
+                      <SelectItem value="all">Todos os tipos</SelectItem>
                       <SelectItem value="T1">{t('search.t1')}</SelectItem>
                       <SelectItem value="T2">{t('search.t2')}</SelectItem>
                       <SelectItem value="Quarto">{t('search.room')}</SelectItem>
@@ -156,41 +173,45 @@ const Index = () => {
                 </div>
               </div>
               <button 
-                type="submit"
+                onClick={checkAvailability}
                 disabled={isSearching}
                 className="bg-amber hover:bg-amber-dark text-accent-foreground px-10 py-4 rounded-xl md:rounded-full font-bold uppercase tracking-widest text-xs transition-all flex items-center justify-center gap-2 w-full md:w-auto shadow-lg md:shadow-none"
               >
-                {isSearching ? "..." : <><Search size={16} /> {t('search.button')}</>}
+                {isSearching ? <Loader2 className="animate-spin" size={16} /> : <><Search size={16} /> {t('search.button')}</>}
               </button>
-            </form>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Room Types Section */}
-      <section ref={resultsRef} className="py-24 bg-gray-50">
-        <div className="container mx-auto px-6">
-          <div className="mb-12">
-            <h2 className="text-4xl font-bold text-gray-900 mb-2">{t('home.accommodations')}</h2>
-            <div className="w-12 h-1 bg-amber" />
-          </div>
+      {/* Results Section */}
+      {results.length > 0 && (
+        <section ref={resultsRef} className="py-24 bg-gray-50 scroll-mt-20">
+          <div className="container mx-auto px-6">
+            <div className="mb-12 text-center">
+              <h2 className="text-3xl font-bold text-gray-900 mb-2">Resultados para as suas datas</h2>
+              <p className="text-muted-foreground font-body">De {checkIn} até {checkOut}</p>
+              <div className="w-12 h-1 bg-amber mx-auto mt-4" />
+            </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {roomTypes.map((room, index) => (
-              <RoomTypeCard 
-                key={index}
-                title={room.title}
-                images={room.images}
-                size={room.size}
-                capacity={room.capacity}
-                bedType={room.bedType}
-                onBook={() => handleBook(room.type)}
-                onReadMore={() => navigate('/acomodacoes')}
-              />
-            ))}
+            <div className="max-w-5xl mx-auto">
+              {results.map((room) => (
+                <RoomCard 
+                  key={room.id}
+                  type={room.type}
+                  title={room.name}
+                  description={room.description}
+                  price={room.price_per_night}
+                  image={getRoomImage(room.type)}
+                  isAvailable={room.available_count > 0}
+                  onBook={() => handleBook(room.name)}
+                  amenities={getAmenities(room.type)}
+                />
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* Features Section */}
       <section className="py-24 bg-white">
@@ -230,7 +251,7 @@ const Index = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
             {testimonials.map((t, i) => (
               <div key={i} className="bg-white p-8 shadow-sm border border-gray-100 relative">
-                <Quote className="absolute top-4 right-4 text-amber/10" size={40} />
+                <Star className="absolute top-4 right-4 text-amber/10" size={40} />
                 <div className="flex gap-1 mb-4">
                   {[...Array(t.rating)].map((_, i) => (
                     <Star key={i} size={14} className="fill-amber text-amber" />
