@@ -50,6 +50,24 @@ const Index = () => {
 
   const today = new Date().toISOString().split('T')[0];
 
+  const testimonials = [
+    {
+      name: "Ricardo Santos",
+      text: "Experiência fantástica! A casa T2 é super espaçosa e a piscina é ótima para relaxar depois da praia. Atendimento nota 10.",
+      rating: 5
+    },
+    {
+      name: "Ana Paula",
+      text: "O melhor custo-benefício do Bilene. Fiquei no quarto suite e estava tudo impecável. A localização é perfeita.",
+      rating: 5
+    },
+    {
+      name: "Carlos M.",
+      text: "Segurança e tranquilidade. Viajei com a família e nos sentimos em casa. Recomendo vivamente a Casa T1 para casais.",
+      rating: 5
+    }
+  ];
+
   const checkAvailability = async () => {
     if (!checkIn || !checkOut) {
       toast.error(t('search.error_dates'));
