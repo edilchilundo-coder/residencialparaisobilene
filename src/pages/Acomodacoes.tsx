@@ -1,21 +1,12 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Layout from "@/components/Layout";
 import PageHeader from "@/components/PageHeader";
-import {
-  Snowflake,
-  Wifi,
-  Tv,
-  BedDouble,
-  Users,
-  UtensilsCrossed,
-  DoorOpen,
-  ShowerHead,
-  Waves,
-  Shield,
-  Car,
-  ConciergeBell,
-  Heart
+import { supabase } from "@/integrations/supabase/client";
+import { 
+  Snowflake, Wifi, Tv, BedDouble, Users, UtensilsCrossed, 
+  ShowerHead, Waves, Shield, Car, ConciergeBell, Loader2 
 } from "lucide-react";
 import {
   Carousel,
@@ -24,26 +15,50 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import sala from "@/assets/sala.jpg";
-import salaAmpla from "@/assets/sala-ampla.jpg";
-import cozinha2 from "@/assets/cozinha-2.jpg";
-import piscina from "@/assets/piscina.jpg";
-import fachada from "@/assets/fachada.png";
-import quartoT1 from "@/assets/quarto-t1.jpg";
-import quartoT2 from "@/assets/quarto-t2.jpg";
-import bilenePraia from "@/assets/bilene-praia.jpg";
+import BookingDialog from "@/components/BookingDialog";
+import { useLanguage } from "@/contexts/LanguageContext";
 import camaKing from "@/assets/cama-king.jpg";
-import cama1 from "@/assets/cama-1.jpg";
+import quartoT2 from "@/assets/quarto-t2.jpg";
+import quartoT1 from "@/assets/quarto-t1.jpg";
+import sala from "@/assets/sala.jpg";
+import cozinha2 from "@/assets/cozinha-2.jpg";
+import fachada from "@/assets/fachada.png";
+import salaAmpla from "@/assets/sala-ampla.jpg";
 import camaSolteiro from "@/assets/cama-solteiro.jpg";
 import cadeira from "@/assets/cadeira.jpg";
-import { useLanguage } from "@/contexts/LanguageContext";
-
-const t1Images = [camaKing, sala, cozinha2, fachada];
-const t2Images = [quartoT2, salaAmpla, camaSolteiro, fachada];
-const quartoImages = [quartoT1, cadeira, cama1];
+import cama1 from "@/assets/cama-1.jpg";
 
 const Acomodacoes = () => {
   const { t } = useLanguage();
+  const [rooms, setRooms] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [selectedRoom, setSelectedRoom] = useState<any>(null);
+
+  useEffect(() => {
+    const fetchRooms = async () => {
+      const { data, error } = await supabase.from('rooms').select('*').order('price_per_night', { ascending: true });
+      if (!error && data) setRooms(data);
+      setLoading(false);
+    };
+    fetchRooms();
+  }, []);
+
+  const getRoomImages = (type: string) => {
+    if (type === 'T1') return [camaKing, sala, cozinha2, fachada];
+    if (type === 'T2') return [quartoT2, salaAmpla, camaSolteiro, fachada];
+    return [quartoT1, cadeira, cama1];
+  };
+
+  const getAmenities = (type: string) => {
+    const base = [
+      { icon: Snowflake, text: "Ar Condicionado" },
+      { icon: Wifi, text: "Wi-Fi Grátis" },
+      { icon: Tv, text: "Smart TV" },
+    ];
+    if (type === 'T1') return [...base, { icon: BedDouble, text: "1 Quarto" }, { icon: UtensilsCrossed, text: "Cozinha" }];
+    if (type === 'T2') return [...base, { icon: BedDouble, text: "2 Quartos" }, { icon: Users, text: "Até 5 Pessoas" }];
+    return [...base, { icon: BedDouble, text: "Cama Casal" }, { icon: ShowerHead, text: "WC Privativo" }];
+  };
 
   return (
     <Layout>
@@ -51,149 +66,64 @@ const Acomodacoes = () => {
 
       <section className="py-20 bg-background">
         <div className="container mx-auto px-6">
-          {/* Casa T1 */}
-          <div className="flex flex-col lg:flex-row gap-16 items-center mb-32 max-w-6xl mx-auto">
-            <div className="lg:w-1/2 w-full">
-              <Carousel className="w-full shadow-2xl group">
-                <CarouselContent>
-                  {t1Images.map((src, index) => (
-                    <CarouselItem key={index}>
-                      <div className="overflow-hidden aspect-[4/3]">
-                        <img
-                          src={src}
-                          alt={`Casa T1 - Foto ${index + 1}`}
-                          className="w-full h-full object-cover group-hover:scale-105 transition duration-700"
-                        />
-                      </div>
-                    </CarouselItem>
-                  ))}
-                </CarouselContent>
-                <CarouselPrevious className="left-4 opacity-0 group-hover:opacity-100 transition-opacity" />
-                <CarouselNext className="right-4 opacity-0 group-hover:opacity-100 transition-opacity" />
-              </Carousel>
+          {loading ? (
+            <div className="flex justify-center py-20">
+              <Loader2 className="animate-spin text-amber" size={48} />
             </div>
-            <div className="lg:w-1/2">
-              <div className="inline-block bg-amber text-accent-foreground px-4 py-1 text-[10px] font-bold uppercase tracking-widest mb-4 font-body">
-                Ideal para Casais
-              </div>
-              <h2 className="text-3xl sm:text-4xl font-bold mb-6 text-foreground">Casa T1</h2>
-              <p className="text-muted-foreground text-base sm:text-lg mb-8 leading-relaxed font-body">
-                Um refúgio moderno e acolhedor com um quarto privativo. Este espaço foi desenhado para oferecer privacidade e conforto, com acabamentos de qualidade e uma atmosfera relaxante.
-              </p>
-              <div className="grid grid-cols-2 gap-4 mb-10">
-                {[
-                  { icon: Snowflake, text: "Ar Condicionado" },
-                  { icon: Wifi, text: "Wi-Fi Grátis" },
-                  { icon: Tv, text: "Smart TV" },
-                  { icon: BedDouble, text: "1 Quarto" },
-                ].map((item, i) => (
-                  <div key={i} className="flex items-center gap-3">
-                    <item.icon size={18} className="text-amber" />
-                    <span className="text-sm font-medium font-body">{item.text}</span>
+          ) : (
+            <div className="space-y-32">
+              {rooms.map((room, index) => (
+                <div 
+                  key={room.id} 
+                  className={`flex flex-col lg:flex-row gap-16 items-center max-w-6xl mx-auto ${index % 2 !== 0 ? 'lg:flex-row-reverse' : ''}`}
+                >
+                  <div className="lg:w-1/2 w-full">
+                    <Carousel className="w-full shadow-2xl group">
+                      <CarouselContent>
+                        {getRoomImages(room.type).map((src, i) => (
+                          <CarouselItem key={i}>
+                            <div className="overflow-hidden aspect-[4/3]">
+                              <img
+                                src={src}
+                                alt={`${room.name} - Foto ${i + 1}`}
+                                className="w-full h-full object-cover group-hover:scale-105 transition duration-700"
+                              />
+                            </div>
+                          </CarouselItem>
+                        ))}
+                      </CarouselContent>
+                      <CarouselPrevious className="left-4 opacity-0 group-hover:opacity-100 transition-opacity" />
+                      <CarouselNext className="right-4 opacity-0 group-hover:opacity-100 transition-opacity" />
+                    </Carousel>
                   </div>
-                ))}
-              </div>
-              <a href="https://wa.me/258877302100" className="inline-block bg-amber hover:bg-amber-dark text-accent-foreground px-10 py-4 transition font-bold uppercase tracking-widest text-sm font-body w-full sm:w-auto text-center rounded-full shadow-lg">
-                Reservar Casa T1
-              </a>
-            </div>
-          </div>
-
-          {/* Casa T2 */}
-          <div className="flex flex-col lg:flex-row-reverse gap-16 items-center mb-32 max-w-6xl mx-auto">
-            <div className="lg:w-1/2 w-full">
-              <Carousel className="w-full shadow-2xl group">
-                <CarouselContent>
-                  {t2Images.map((src, index) => (
-                    <CarouselItem key={index}>
-                      <div className="overflow-hidden aspect-[4/3]">
-                        <img
-                          src={src}
-                          alt={`Casa T2 - Foto ${index + 1}`}
-                          className="w-full h-full object-cover group-hover:scale-105 transition duration-700"
-                        />
-                      </div>
-                    </CarouselItem>
-                  ))}
-                </CarouselContent>
-                <CarouselPrevious className="left-4 opacity-0 group-hover:opacity-100 transition-opacity" />
-                <CarouselNext className="right-4 opacity-0 group-hover:opacity-100 transition-opacity" />
-              </Carousel>
-            </div>
-            <div className="lg:w-1/2">
-              <div className="inline-block bg-amber text-accent-foreground px-4 py-1 text-[10px] font-bold uppercase tracking-widest mb-4 font-body">
-                Perfeito para Famílias
-              </div>
-              <h2 className="text-3xl sm:text-4xl font-bold mb-6 text-foreground">Casa T2</h2>
-              <p className="text-muted-foreground text-base sm:text-lg mb-8 leading-relaxed font-body">
-                Espaço e conveniência para o seu grupo com dois quartos amplos. Com uma sala de estar generosa e cozinha equipada, é a escolha ideal para quem não abdica de estar em família.
-              </p>
-              <div className="grid grid-cols-2 gap-4 mb-10">
-                {[
-                  { icon: Users, text: "Até 4 Adultos" },
-                  { icon: UtensilsCrossed, text: "Cozinha Completa" },
-                  { icon: BedDouble, text: "2 Quartos" },
-                  { icon: ShowerHead, text: "Casa de Banho" },
-                ].map((item, i) => (
-                  <div key={i} className="flex items-center gap-3">
-                    <item.icon size={18} className="text-amber" />
-                    <span className="text-sm font-medium font-body">{item.text}</span>
+                  <div className="lg:w-1/2">
+                    <div className="inline-block bg-amber text-accent-foreground px-4 py-1 text-[10px] font-bold uppercase tracking-widest mb-4 font-body">
+                      {room.type === 'T2' ? 'Perfeito para Famílias' : room.type === 'T1' ? 'Ideal para Casais' : 'Económico & Confortável'}
+                    </div>
+                    <h2 className="text-3xl sm:text-4xl font-bold mb-4 text-foreground">{room.name}</h2>
+                    <p className="text-2xl font-bold text-amber mb-6">{room.price_per_night} MT <span className="text-sm text-muted-foreground font-normal">/ noite</span></p>
+                    <p className="text-muted-foreground text-base sm:text-lg mb-8 leading-relaxed font-body">
+                      {room.description}
+                    </p>
+                    <div className="grid grid-cols-2 gap-4 mb-10">
+                      {getAmenities(room.type).map((item, i) => (
+                        <div key={i} className="flex items-center gap-3">
+                          <item.icon size={18} className="text-amber" />
+                          <span className="text-sm font-medium font-body">{item.text}</span>
+                        </div>
+                      ))}
+                    </div>
+                    <button 
+                      onClick={() => setSelectedRoom(room)}
+                      className="inline-block bg-amber hover:bg-amber-dark text-accent-foreground px-10 py-4 transition font-bold uppercase tracking-widest text-sm font-body w-full sm:w-auto text-center rounded-full shadow-lg"
+                    >
+                      Reservar {room.name}
+                    </button>
                   </div>
-                ))}
-              </div>
-              <a href="https://wa.me/258877302100" className="inline-block bg-amber hover:bg-amber-dark text-accent-foreground px-10 py-4 transition font-bold uppercase tracking-widest text-sm font-body w-full sm:w-auto text-center rounded-full shadow-lg">
-                Reservar Casa T2
-              </a>
+                </div>
+              ))}
             </div>
-          </div>
-
-          {/* Quarto */}
-          <div className="flex flex-col lg:flex-row gap-16 items-center max-w-6xl mx-auto">
-            <div className="lg:w-1/2 w-full">
-              <Carousel className="w-full shadow-2xl group">
-                <CarouselContent>
-                  {quartoImages.map((src, index) => (
-                    <CarouselItem key={index}>
-                      <div className="overflow-hidden aspect-[4/3]">
-                        <img
-                          src={src}
-                          alt={`Quarto - Foto ${index + 1}`}
-                          className="w-full h-full object-cover group-hover:scale-105 transition duration-700"
-                        />
-                      </div>
-                    </CarouselItem>
-                  ))}
-                </CarouselContent>
-                <CarouselPrevious className="left-4 opacity-0 group-hover:opacity-100 transition-opacity" />
-                <CarouselNext className="right-4 opacity-0 group-hover:opacity-100 transition-opacity" />
-              </Carousel>
-            </div>
-            <div className="lg:w-1/2">
-              <div className="inline-block bg-amber text-accent-foreground px-4 py-1 text-[10px] font-bold uppercase tracking-widest mb-4 font-body">
-                Económico & Confortável
-              </div>
-              <h2 className="text-3xl sm:text-4xl font-bold mb-6 text-foreground">Quarto Suite</h2>
-              <p className="text-muted-foreground text-base sm:text-lg mb-8 leading-relaxed font-body">
-                A opção perfeita para estadias curtas ou viajantes individuais. Um quarto suite moderno com todo o conforto essencial para uma noite tranquila no Bilene.
-              </p>
-              <div className="grid grid-cols-2 gap-4 mb-10">
-                {[
-                  { icon: Snowflake, text: "Ar Condicionado" },
-                  { icon: Wifi, text: "Wi-Fi Grátis" },
-                  { icon: BedDouble, text: "Cama de Casal" },
-                  { icon: ShowerHead, text: "WC Privativo" },
-                ].map((item, i) => (
-                  <div key={i} className="flex items-center gap-3">
-                    <item.icon size={18} className="text-amber" />
-                    <span className="text-sm font-medium font-body">{item.text}</span>
-                  </div>
-                ))}
-              </div>
-              <a href="https://wa.me/258877302100" className="inline-block bg-amber hover:bg-amber-dark text-accent-foreground px-10 py-4 transition font-bold uppercase tracking-widest text-sm font-body w-full sm:w-auto text-center rounded-full shadow-lg">
-                Reservar Quarto
-              </a>
-            </div>
-          </div>
+          )}
         </div>
       </section>
 
@@ -219,6 +149,18 @@ const Acomodacoes = () => {
           </div>
         </div>
       </section>
+
+      {selectedRoom && (
+        <BookingDialog 
+          isOpen={!!selectedRoom}
+          onClose={() => setSelectedRoom(null)}
+          roomData={selectedRoom}
+          dates={{ 
+            checkIn: new Date().toISOString().split('T')[0], 
+            checkOut: new Date(Date.now() + 86400000).toISOString().split('T')[0] 
+          }}
+        />
+      )}
     </Layout>
   );
 };
