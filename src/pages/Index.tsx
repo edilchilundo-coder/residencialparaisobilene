@@ -18,6 +18,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { blogPosts } from "./BlogData";
 import { toast } from "sonner";
 import RoomCard from "@/components/RoomCard";
+import BookingDialog from "@/components/BookingDialog";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
 import {
@@ -46,6 +47,7 @@ const Index = () => {
   const [roomType, setRoomType] = useState("all");
   const [isSearching, setIsSearching] = useState(false);
   const [results, setResults] = useState<RoomAvailability[]>([]);
+  const [selectedRoom, setSelectedRoom] = useState<any>(null);
   const resultsRef = useRef<HTMLDivElement>(null);
 
   const today = new Date().toISOString().split('T')[0];
@@ -77,7 +79,6 @@ const Index = () => {
     setIsSearching(true);
     
     try {
-      // 1. Buscar todos os quartos
       let query = supabase.from('rooms').select('*');
       if (roomType !== 'all') {
         query = query.eq('type', roomType);
@@ -85,7 +86,6 @@ const Index = () => {
       const { data: rooms, error: roomsError } = await query;
       if (roomsError) throw roomsError;
 
-      // 2. Buscar reservas que coincidem com as datas
       const { data: reservations, error: resError } = await supabase
         .from('reservations')
         .select('room_id')
@@ -95,7 +95,6 @@ const Index = () => {
 
       if (resError) throw resError;
 
-      // 3. Calcular disponibilidade
       const availability = rooms.map(room => {
         const occupiedCount = reservations.filter(r => r.room_id === room.id).length;
         return {
@@ -116,11 +115,6 @@ const Index = () => {
     } finally {
       setIsSearching(false);
     }
-  };
-
-  const handleBook = (roomName: string) => {
-    const msg = `Olá! Gostaria de reservar:\n🏠 ${roomName}\n📅 Check-in: ${checkIn}\n📅 Check-out: ${checkOut}`;
-    window.open(`https://wa.me/258877302100?text=${encodeURIComponent(msg)}`, "_blank");
   };
 
   const getRoomImage = (type: string) => {
@@ -222,7 +216,11 @@ const Index = () => {
                   price={room.price_per_night}
                   image={getRoomImage(room.type)}
                   isAvailable={room.available_count > 0}
-                  onBook={() => handleBook(room.name)}
+                  onBook={() => setSelectedRoom({
+                    id: room.id,
+                    name: room.name,
+                    price: room.price_per_night
+                  })}
                   amenities={getAmenities(room.type)}
                 />
               ))}
@@ -307,6 +305,16 @@ const Index = () => {
           </div>
         </div>
       </section>
+
+      {/* Booking Dialog */}
+      {selectedRoom && (
+        <BookingDialog 
+          isOpen={!!selectedRoom}
+          onClose={() => setSelectedRoom(null)}
+          roomData={selectedRoom}
+          dates={{ checkIn, checkOut }}
+        />
+      )}
     </Layout>
   );
 };
