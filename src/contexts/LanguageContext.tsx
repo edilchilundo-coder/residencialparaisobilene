@@ -15,7 +15,6 @@ const LanguageContext = createContext<LanguageContextType | undefined>(undefined
 export const LanguageProvider = ({ children }: { children: ReactNode }) => {
   const [language, setLanguage] = useState<Language>('pt');
 
-  // Função simples de tradução baseada em chaves
   const t = (path: string) => {
     const keys = path.split('.');
     let current: any = translations[language];
@@ -46,6 +45,8 @@ const translations = {
     nav: {
       home: "HOME",
       apartments: "ACOMODAÇÕES",
+      restaurant: "RESTAURANTE",
+      leisure: "LAZER",
       gallery: "GALERIA",
       blog: "BLOG",
       contacts: "CONTACTOS",
@@ -82,12 +83,29 @@ const translations = {
       testimonials: "O que dizem os nossos hóspedes",
       blog: "Experiências Memoráveis",
       blogDesc: "Descubra o que o Bilene tem de melhor para oferecer."
+    },
+    restaurant: {
+      title: "Restaurante Paraíso",
+      subtitle: "Sabores autênticos com vista para a piscina",
+      ambience: "Um Ambiente Único",
+      description: "O nosso restaurante oferece uma experiência gastronómica que combina a tradição moçambicana com toques contemporâneos. Localizado estrategicamente junto à piscina, é o local ideal para refeições relaxadas.",
+      specialties: "As Nossas Especialidades",
+      menu: {
+        seafood: "Frutos do Mar",
+        seafoodDesc: "Camarões, lulas e peixe fresco capturado diariamente na nossa costa.",
+        traditional: "Pratos Tradicionais",
+        traditionalDesc: "A famosa matapa e arroz de coco preparados com receitas ancestrais.",
+        drinks: "Cocktails & Vinhos",
+        drinksDesc: "Uma seleção premium para acompanhar os seus momentos de lazer."
+      }
     }
   },
   en: {
     nav: {
       home: "HOME",
       apartments: "ACCOMMODATIONS",
+      restaurant: "RESTAURANT",
+      leisure: "LEISURE",
       gallery: "GALLERY",
       blog: "BLOG",
       contacts: "CONTACTS",
@@ -124,6 +142,21 @@ const translations = {
       testimonials: "What our guests say",
       blog: "Memorable Experiences",
       blogDesc: "Discover the best that Bilene has to offer."
+    },
+    restaurant: {
+      title: "Paraíso Restaurant",
+      subtitle: "Authentic flavors with a pool view",
+      ambience: "A Unique Atmosphere",
+      description: "Our restaurant offers a gastronomic experience that combines Mozambican tradition with contemporary touches. Strategically located by the pool, it's the ideal spot for relaxed meals.",
+      specialties: "Our Specialties",
+      menu: {
+        seafood: "Seafood",
+        seafoodDesc: "Shrimp, squid, and fresh fish caught daily on our coast.",
+        traditional: "Traditional Dishes",
+        traditionalDesc: "The famous matapa and coconut rice prepared with ancestral recipes.",
+        drinks: "Cocktails & Wines",
+        drinksDesc: "A premium selection to accompany your leisure moments."
+      }
     }
   }
 };
