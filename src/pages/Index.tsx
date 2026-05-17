@@ -9,7 +9,7 @@ import quartoT1 from "@/assets/quarto-t1.jpg";
 import quartoT2 from "@/assets/quarto-t2.jpg";
 import fachada from "@/assets/fachada.png";
 import salaAmpla from "@/assets/sala-ampla.jpg";
-import gastronomiaImg from "@/assets/gastronomia.jpg";
+import restauranteImg from "@/assets/Restaurante.png";
 import camaKing from "@/assets/cama-king.jpg";
 import cozinha2 from "@/assets/cozinha-2.jpg";
 import cadeira from "@/assets/cadeira.jpg";
@@ -236,12 +236,12 @@ const Index = () => {
         <div className="container mx-auto px-6">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {[
-              { icon: Home, title: t('home.features.design'), desc: t('home.features.designDesc'), img: salaAmpla },
-              { icon: UtensilsCrossed, title: t('home.features.kitchen'), desc: t('home.features.kitchenDesc'), img: cozinha2 },
-              { icon: Waves, title: t('home.features.leisure'), desc: t('home.features.leisureDesc'), img: piscinaNoite3 },
-              { icon: ChefHat, title: t('home.features.restaurant'), desc: t('home.features.restaurantDesc'), img: gastronomiaImg },
+              { icon: Home, title: t('home.features.design'), desc: t('home.features.designDesc'), img: salaAmpla, link: "/acomodacoes" },
+              { icon: UtensilsCrossed, title: t('home.features.kitchen'), desc: t('home.features.kitchenDesc'), img: cozinha2, link: "/acomodacoes" },
+              { icon: Waves, title: t('home.features.leisure'), desc: t('home.features.leisureDesc'), img: piscinaNoite3, link: "/galeria" },
+              { icon: ChefHat, title: t('home.features.restaurant'), desc: t('home.features.restaurantDesc'), img: restauranteImg, link: "/restaurante" },
             ].map((feature, i) => (
-              <div key={i} className="group">
+              <Link key={i} to={feature.link} className="group">
                 <div className="relative h-64 overflow-hidden rounded-lg mb-6">
                   <img src={feature.img} alt={feature.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
                   <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors" />
@@ -253,7 +253,7 @@ const Index = () => {
                 </div>
                 <h4 className="text-xl font-bold mb-2">{feature.title}</h4>
                 <p className="text-gray-500 text-sm font-body leading-relaxed">{feature.desc}</p>
-              </div>
+              </Link>
             ))}
           </div>
         </div>

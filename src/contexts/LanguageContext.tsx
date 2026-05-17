@@ -46,6 +46,7 @@ const translations = {
     nav: {
       home: "HOME",
       apartments: "ACOMODAÇÕES",
+      restaurant: "RESTAURANTE",
       gallery: "GALERIA",
       blog: "BLOG",
       contacts: "CONTACTOS",
@@ -82,12 +83,29 @@ const translations = {
       testimonials: "O que dizem os nossos hóspedes",
       blog: "Experiências Memoráveis",
       blogDesc: "Descubra o que o Bilene tem de melhor para oferecer."
+    },
+    restaurant: {
+      title: "Gastronomia & Sabor",
+      subtitle: "Uma experiência culinária autêntica no coração do Bilene",
+      description: "O nosso restaurante oferece uma fusão perfeita entre a cozinha tradicional moçambicana e pratos internacionais, sempre com os ingredientes mais frescos da nossa costa.",
+      specialties: "Nossas Especialidades",
+      ambience: "O Ambiente",
+      ambienceDesc: "Um espaço sofisticado e acolhedor, ideal para jantares românticos ou momentos em família.",
+      menu: {
+        seafood: "Mariscos Frescos",
+        seafoodDesc: "Camarão, lagosta e peixe do dia capturados localmente.",
+        traditional: "Pratos Tradicionais",
+        traditionalDesc: "A famosa Matapa e o Arroz de Coco que definem a nossa terra.",
+        drinks: "Cocktails & Vinhos",
+        drinksDesc: "Uma seleção premium para acompanhar a sua refeição."
+      }
     }
   },
   en: {
     nav: {
       home: "HOME",
       apartments: "ACCOMMODATIONS",
+      restaurant: "RESTAURANT",
       gallery: "GALLERY",
       blog: "BLOG",
       contacts: "CONTACTS",
@@ -124,6 +142,22 @@ const translations = {
       testimonials: "What our guests say",
       blog: "Memorable Experiences",
       blogDesc: "Discover the best that Bilene has to offer."
+    },
+    restaurant: {
+      title: "Gastronomy & Flavor",
+      subtitle: "An authentic culinary experience in the heart of Bilene",
+      description: "Our restaurant offers a perfect fusion between traditional Mozambican cuisine and international dishes, always with the freshest ingredients from our coast.",
+      specialties: "Our Specialties",
+      ambience: "The Ambience",
+      ambienceDesc: "A sophisticated and welcoming space, ideal for romantic dinners or family moments.",
+      menu: {
+        seafood: "Fresh Seafood",
+        seafoodDesc: "Shrimp, lobster and fish of the day caught locally.",
+        traditional: "Traditional Dishes",
+        traditionalDesc: "The famous Matapa and Coconut Rice that define our land.",
+        drinks: "Cocktails & Wines",
+        drinksDesc: "A premium selection to accompany your meal."
+      }
     }
   }
 };
