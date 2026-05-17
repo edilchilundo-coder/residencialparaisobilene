@@ -7,9 +7,6 @@ export type Json =
   | Json[]
 
 export type Database = {
-  __InternalSupabase: {
-    PostgrestVersion: "14.5"
-  }
   public: {
     Tables: {
       rooms: {
@@ -120,7 +117,7 @@ export type Database = {
   }
 }
 
-type PublicSchema = Database["public"]
+type PublicSchema = Database[Extract<keyof Database, "public">]
 
 export type Tables<
   PublicTableNameOrOptions extends

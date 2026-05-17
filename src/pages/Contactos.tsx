@@ -14,6 +14,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import type { TablesInsert } from "@/integrations/supabase/types";
 
 const contactSchema = z.object({
   name: z.string().min(2, "Nome deve ter pelo menos 2 caracteres"),
@@ -31,9 +32,17 @@ const Contactos = () => {
 
   const onSubmit = async (data: ContactFormValues) => {
     try {
+      // Garantindo que os dados passados ao insert correspondam exatamente ao esperado pela tabela
+      const insertData: TablesInsert<"contact_messages"> = {
+        name: data.name,
+        email: data.email,
+        subject: data.subject,
+        message: data.message,
+      };
+
       const { error } = await supabase
         .from("contact_messages")
-        .insert([data]);
+        .insert([insertData]);
 
       if (error) throw error;
 
