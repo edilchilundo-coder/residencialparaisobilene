@@ -7,59 +7,65 @@ export type Json =
   | Json[]
 
 export type Database = {
+  __InternalSupabase: {
+    PostgrestVersion: "14.5"
+  }
   public: {
     Tables: {
-      contact_messages: {
+      rooms: {
         Row: {
-          created_at: string
-          email: string
           id: string
-          message: string
           name: string
-          subject: string
+          type: string
+          price_per_night: number
+          description: string
+          total_quantity: number
+          created_at: string
         }
         Insert: {
-          created_at?: string
-          email: string
           id?: string
-          message: string
           name: string
-          subject: string
+          type: string
+          price_per_night: number
+          description: string
+          total_quantity: number
+          created_at?: string
         }
         Update: {
-          created_at?: string
-          email?: string
           id?: string
-          message?: string
           name?: string
-          subject?: string
+          type?: string
+          price_per_night?: number
+          description?: string
+          total_quantity?: number
+          created_at?: string
         }
         Relationships: []
       }
       reservations: {
         Row: {
-          check_in: string
-          check_out: string
-          created_at: string
           id: string
           room_id: string
-          status: string
-        }
-        Insert: {
           check_in: string
           check_out: string
-          created_at?: string
+          status: string
+          created_at: string
+        }
+        Insert: {
           id?: string
           room_id: string
+          check_in: string
+          check_out: string
           status?: string
+          created_at?: string
         }
         Update: {
-          check_in?: string
-          check_out?: string
-          created_at?: string
           id?: string
           room_id?: string
+          check_in?: string
+          check_out?: string
           status?: string
+          created_at?: string
         }
         Relationships: [
           {
@@ -68,36 +74,33 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "rooms"
             referencedColumns: ["id"]
-          },
+          }
         ]
       }
-      rooms: {
+      contact_messages: {
         Row: {
-          created_at: string
-          description: string
           id: string
           name: string
-          price_per_night: number
-          total_quantity: number
-          type: string
+          email: string
+          subject: string
+          message: string
+          created_at: string
         }
         Insert: {
-          created_at?: string
-          description: string
           id?: string
           name: string
-          price_per_night: number
-          total_quantity: number
-          type: string
+          email: string
+          subject: string
+          message: string
+          created_at?: string
         }
         Update: {
-          created_at?: string
-          description?: string
           id?: string
           name?: string
-          price_per_night?: number
-          total_quantity?: number
-          type?: string
+          email?: string
+          subject?: string
+          message?: string
+          created_at?: string
         }
         Relationships: []
       }
@@ -117,7 +120,7 @@ export type Database = {
   }
 }
 
-type PublicSchema = Database[Extract<keyof Database, "public">]
+type PublicSchema = Database["public"]
 
 export type Tables<
   PublicTableNameOrOptions extends
