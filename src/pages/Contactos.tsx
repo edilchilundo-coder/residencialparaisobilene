@@ -33,7 +33,7 @@ const Contactos = () => {
     try {
       const { error } = await supabase
         .from("contact_messages")
-        .insert([data]);
+        .insert([data as Required<ContactFormValues>]);
 
       if (error) throw error;
 
