@@ -9,13 +9,11 @@ import {
   BedDouble,
   Users,
   UtensilsCrossed,
-  DoorOpen,
   ShowerHead,
   Waves,
   Shield,
   Car,
-  ConciergeBell,
-  Heart
+  ConciergeBell
 } from "lucide-react";
 import {
   Carousel,
@@ -27,11 +25,9 @@ import {
 import sala from "@/assets/sala.jpg";
 import salaAmpla from "@/assets/sala-ampla.jpg";
 import cozinha2 from "@/assets/cozinha-2.jpg";
-import piscina from "@/assets/piscina.jpg";
 import fachada from "@/assets/fachada.png";
 import quartoT1 from "@/assets/quarto-t1.jpg";
 import quartoT2 from "@/assets/quarto-t2.jpg";
-import bilenePraia from "@/assets/bilene-praia.jpg";
 import camaKing from "@/assets/cama-king.jpg";
 import cama1 from "@/assets/cama-1.jpg";
 import camaSolteiro from "@/assets/cama-solteiro.jpg";
@@ -47,7 +43,7 @@ const Acomodacoes = () => {
 
   return (
     <Layout>
-      <PageHeader title={t('nav.apartments')} subtitle="Conforto absoluto a 2 minutos da praia" />
+      <PageHeader title={t('nav.apartments')} subtitle={t('accommodations.subtitle')} />
 
       <section className="py-20 bg-background">
         <div className="container mx-auto px-6">
@@ -74,18 +70,18 @@ const Acomodacoes = () => {
             </div>
             <div className="lg:w-1/2">
               <div className="inline-block bg-amber text-accent-foreground px-4 py-1 text-[10px] font-bold uppercase tracking-widest mb-4 font-body">
-                Ideal para Casais
+                {t('accommodations.t1.tag')}
               </div>
-              <h2 className="text-3xl sm:text-4xl font-bold mb-6 text-foreground">Casa T1</h2>
+              <h2 className="text-3xl sm:text-4xl font-bold mb-6 text-foreground">{t('accommodations.t1.title')}</h2>
               <p className="text-muted-foreground text-base sm:text-lg mb-8 leading-relaxed font-body">
-                Um refúgio moderno e acolhedor com um quarto privativo. Este espaço foi desenhado para oferecer privacidade e conforto, com acabamentos de qualidade e uma atmosfera relaxante.
+                {t('accommodations.t1.desc')}
               </p>
               <div className="grid grid-cols-2 gap-4 mb-10">
                 {[
-                  { icon: Snowflake, text: "Ar Condicionado" },
-                  { icon: Wifi, text: "Wi-Fi Grátis" },
-                  { icon: Tv, text: "Smart TV" },
-                  { icon: BedDouble, text: "1 Quarto" },
+                  { icon: Snowflake, text: t('accommodations.t1.features.ac') },
+                  { icon: Wifi, text: t('accommodations.t1.features.wifi') },
+                  { icon: Tv, text: t('accommodations.t1.features.tv') },
+                  { icon: BedDouble, text: t('accommodations.t1.features.bed') },
                 ].map((item, i) => (
                   <div key={i} className="flex items-center gap-3">
                     <item.icon size={18} className="text-amber" />
@@ -94,7 +90,7 @@ const Acomodacoes = () => {
                 ))}
               </div>
               <a href="https://wa.me/258877302100" className="inline-block bg-amber hover:bg-amber-dark text-accent-foreground px-10 py-4 transition font-bold uppercase tracking-widest text-sm font-body w-full sm:w-auto text-center rounded-full shadow-lg">
-                Reservar Casa T1
+                {t('accommodations.t1.button')}
               </a>
             </div>
           </div>
@@ -122,18 +118,18 @@ const Acomodacoes = () => {
             </div>
             <div className="lg:w-1/2">
               <div className="inline-block bg-amber text-accent-foreground px-4 py-1 text-[10px] font-bold uppercase tracking-widest mb-4 font-body">
-                Perfeito para Famílias
+                {t('accommodations.t2.tag')}
               </div>
-              <h2 className="text-3xl sm:text-4xl font-bold mb-6 text-foreground">Casa T2</h2>
+              <h2 className="text-3xl sm:text-4xl font-bold mb-6 text-foreground">{t('accommodations.t2.title')}</h2>
               <p className="text-muted-foreground text-base sm:text-lg mb-8 leading-relaxed font-body">
-                Espaço e conveniência para o seu grupo com dois quartos amplos. Com uma sala de estar generosa e cozinha equipada, é a escolha ideal para quem não abdica de estar em família.
+                {t('accommodations.t2.desc')}
               </p>
               <div className="grid grid-cols-2 gap-4 mb-10">
                 {[
-                  { icon: Users, text: "Até 4 Adultos" },
-                  { icon: UtensilsCrossed, text: "Cozinha Completa" },
-                  { icon: BedDouble, text: "2 Quartos" },
-                  { icon: ShowerHead, text: "Casa de Banho" },
+                  { icon: Users, text: t('accommodations.t2.features.capacity') },
+                  { icon: UtensilsCrossed, text: t('accommodations.t2.features.kitchen') },
+                  { icon: BedDouble, text: t('accommodations.t2.features.bed') },
+                  { icon: ShowerHead, text: t('accommodations.t2.features.bath') },
                 ].map((item, i) => (
                   <div key={i} className="flex items-center gap-3">
                     <item.icon size={18} className="text-amber" />
@@ -142,7 +138,7 @@ const Acomodacoes = () => {
                 ))}
               </div>
               <a href="https://wa.me/258877302100" className="inline-block bg-amber hover:bg-amber-dark text-accent-foreground px-10 py-4 transition font-bold uppercase tracking-widest text-sm font-body w-full sm:w-auto text-center rounded-full shadow-lg">
-                Reservar Casa T2
+                {t('accommodations.t2.button')}
               </a>
             </div>
           </div>
@@ -170,18 +166,18 @@ const Acomodacoes = () => {
             </div>
             <div className="lg:w-1/2">
               <div className="inline-block bg-amber text-accent-foreground px-4 py-1 text-[10px] font-bold uppercase tracking-widest mb-4 font-body">
-                Económico & Confortável
+                {t('accommodations.suite.tag')}
               </div>
-              <h2 className="text-3xl sm:text-4xl font-bold mb-6 text-foreground">Quarto Suite</h2>
+              <h2 className="text-3xl sm:text-4xl font-bold mb-6 text-foreground">{t('accommodations.suite.title')}</h2>
               <p className="text-muted-foreground text-base sm:text-lg mb-8 leading-relaxed font-body">
-                A opção perfeita para estadias curtas ou viajantes individuais. Um quarto suite moderno com todo o conforto essencial para uma noite tranquila no Bilene.
+                {t('accommodations.suite.desc')}
               </p>
               <div className="grid grid-cols-2 gap-4 mb-10">
                 {[
-                  { icon: Snowflake, text: "Ar Condicionado" },
-                  { icon: Wifi, text: "Wi-Fi Grátis" },
-                  { icon: BedDouble, text: "Cama de Casal" },
-                  { icon: ShowerHead, text: "WC Privativo" },
+                  { icon: Snowflake, text: t('accommodations.suite.features.ac') },
+                  { icon: Wifi, text: t('accommodations.suite.features.wifi') },
+                  { icon: BedDouble, text: t('accommodations.suite.features.bed') },
+                  { icon: ShowerHead, text: t('accommodations.suite.features.bath') },
                 ].map((item, i) => (
                   <div key={i} className="flex items-center gap-3">
                     <item.icon size={18} className="text-amber" />
@@ -190,7 +186,7 @@ const Acomodacoes = () => {
                 ))}
               </div>
               <a href="https://wa.me/258877302100" className="inline-block bg-amber hover:bg-amber-dark text-accent-foreground px-10 py-4 transition font-bold uppercase tracking-widest text-sm font-body w-full sm:w-auto text-center rounded-full shadow-lg">
-                Reservar Quarto
+                {t('accommodations.suite.button')}
               </a>
             </div>
           </div>
@@ -200,13 +196,13 @@ const Acomodacoes = () => {
       {/* Amenities */}
       <section className="py-24 section-dark">
         <div className="container mx-auto px-6 text-center">
-          <h3 className="text-3xl font-bold mb-16">Serviços Incluídos</h3>
+          <h3 className="text-3xl font-bold mb-16">{t('accommodations.services.title')}</h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 max-w-6xl mx-auto">
             {[
-              { icon: Waves, title: "Piscina Comum", desc: "Área de lazer exclusiva para relaxar após a praia." },
-              { icon: Shield, title: "Segurança 24h", desc: "Tranquilidade garantida com vigilância permanente." },
-              { icon: Car, title: "Estacionamento", desc: "Lugar reservado e seguro dentro da propriedade." },
-              { icon: ConciergeBell, title: "Hospitalidade", desc: "Equipa dedicada para uma estadia inesquecível." },
+              { icon: Waves, title: t('accommodations.services.pool'), desc: t('accommodations.services.poolDesc') },
+              { icon: Shield, title: t('accommodations.services.security'), desc: t('accommodations.services.securityDesc') },
+              { icon: Car, title: t('accommodations.services.parking'), desc: t('accommodations.services.parkingDesc') },
+              { icon: ConciergeBell, title: t('accommodations.services.hospitality'), desc: t('accommodations.services.hospitalityDesc') },
             ].map((item) => (
               <div key={item.title} className="group">
                 <div className="w-20 h-20 bg-white/5 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-amber transition-colors duration-500">
