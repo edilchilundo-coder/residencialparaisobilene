@@ -2,14 +2,12 @@
 
 import Layout from "@/components/Layout";
 import PageHeader from "@/components/PageHeader";
-import { Sun, Moon, Wind, Coffee, Users, Sparkles } from "lucide-react";
-import { useLanguage } from "@/contexts/LanguageContext";
-import piscinaNoite3 from "@/assets/piscina-noite-3.jpg";
-import sunsetLoungeExt from "@/assets/sunset-lounge-exterior.webp";
+import { Sun, Moon, Wind, Users, Sparkles } from "lucide-react";
+
+const discoImg = "dyad-media://media/residencialparaisobilene/.dyad/media/86666666666666666666666666666670.png";
+const patioNoite = "dyad-media://media/residencialparaisobilene/.dyad/media/86666666666666666666666666666667.png";
 
 const Lazer = () => {
-  const { t } = useLanguage();
-
   return (
     <Layout>
       <PageHeader 
@@ -48,7 +46,7 @@ const Lazer = () => {
             <div className="lg:w-1/2">
               <div className="relative rounded-sm overflow-hidden shadow-2xl aspect-[4/3]">
                 <img 
-                  src={piscinaNoite3} 
+                  src={patioNoite} 
                   alt="Lounge Noturno" 
                   className="w-full h-full object-cover"
                 />
@@ -58,25 +56,25 @@ const Lazer = () => {
         </div>
       </section>
 
-      {/* Beach Lounge & Gazebos */}
+      {/* Disco & Entretenimento */}
       <section className="py-20 bg-secondary">
         <div className="container mx-auto px-6">
           <div className="flex flex-col lg:flex-row-reverse gap-16 items-center max-w-6xl mx-auto">
             <div className="lg:w-1/2">
               <div className="flex items-center gap-2 text-amber mb-4">
                 <Sun size={18} />
-                <span className="text-xs font-bold uppercase tracking-widest font-body">Pé na Areia</span>
+                <span className="text-xs font-bold uppercase tracking-widest font-body">Diversão Garantida</span>
               </div>
-              <h2 className="text-3xl sm:text-4xl font-bold text-foreground mb-6">Beach Lounge & Gazebos</h2>
+              <h2 className="text-3xl sm:text-4xl font-bold text-foreground mb-6">Espaço Disco & Lounge</h2>
               <p className="text-muted-foreground text-base sm:text-lg leading-relaxed font-body mb-8">
-                Sinta a vibração do Bilene nos nossos espaços "pé na areia". Murais coloridos, gazebos de madeira e áreas de sombra proporcionam o refúgio ideal para ler um livro ou desfrutar de um cocktail refrescante durante o dia.
+                O nosso espaço interior oferece um ambiente vibrante com iluminação LED e som de alta qualidade, ideal para eventos privados ou momentos de descontração com amigos.
               </p>
               <div className="space-y-4">
                 {[
-                  "Gazebos privativos com sofás",
-                  "Área de areia branca relaxante",
-                  "Decoração artística e local",
-                  "Sombra natural e brisa constante"
+                  "Iluminação LED atmosférica",
+                  "Mobiliário confortável e moderno",
+                  "Ambiente climatizado",
+                  "Som de alta fidelidade"
                 ].map((item, i) => (
                   <div key={i} className="flex items-center gap-3">
                     <Wind size={18} className="text-amber" />
@@ -88,31 +86,13 @@ const Lazer = () => {
             <div className="lg:w-1/2">
               <div className="relative rounded-sm overflow-hidden shadow-2xl aspect-[4/3]">
                 <img 
-                  src={sunsetLoungeExt} 
-                  alt="Beach Lounge" 
+                  src={discoImg} 
+                  alt="Espaço Disco" 
                   className="w-full h-full object-cover"
                 />
               </div>
             </div>
           </div>
-        </div>
-      </section>
-
-      {/* CTA Final */}
-      <section className="py-20 section-dark">
-        <div className="container mx-auto px-6 text-center">
-          <h3 className="text-2xl sm:text-4xl font-bold mb-6">
-            O seu momento de paz espera por si
-          </h3>
-          <p className="text-muted-foreground mb-10 max-w-xl mx-auto font-body">
-            Na Residencial Paraíso Bilene, o lazer é levado a sério. Venha descobrir os nossos recantos favoritos.
-          </p>
-          <a
-            href="https://wa.me/258877302100"
-            className="inline-block bg-amber text-accent-foreground px-10 py-4 font-bold uppercase tracking-widest text-sm hover:bg-amber-dark transition font-body"
-          >
-            Reservar Estadia
-          </a>
         </div>
       </section>
     </Layout>

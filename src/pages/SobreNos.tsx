@@ -1,8 +1,11 @@
+"use client";
+
 import Layout from "@/components/Layout";
 import PageHeader from "@/components/PageHeader";
 import { Heart, Star, Shield, Users, CheckCircle2 } from "lucide-react";
-import fachada from "@/assets/fachada.png";
-import piscina from "@/assets/piscina.jpg";
+
+const fachadaImg = "dyad-media://media/residencialparaisobilene/.dyad/media/86666666666666666666666666666666.png";
+const arcoFloral = "dyad-media://media/residencialparaisobilene/.dyad/media/86666666666666666666666666666671.png";
 
 const SobreNos = () => {
   return (
@@ -32,10 +35,10 @@ const SobreNos = () => {
             </div>
             <div className="lg:w-1/2 relative">
               <div className="relative z-10 rounded-sm overflow-hidden shadow-2xl">
-                <img src={fachada} alt="Fachada Residencial Paraíso" className="w-full h-auto object-cover" />
+                <img src={fachadaImg} alt="Fachada Residencial Paraíso" className="w-full h-auto object-cover" />
               </div>
               <div className="absolute -bottom-6 -right-6 w-2/3 z-0 hidden sm:block">
-                <img src={piscina} alt="Piscina Residencial" className="rounded-sm shadow-xl border-4 border-white" />
+                <img src={arcoFloral} alt="Arco Floral" className="rounded-sm shadow-xl border-4 border-white" />
               </div>
             </div>
           </div>
@@ -59,24 +62,6 @@ const SobreNos = () => {
               </div>
             ))}
           </div>
-        </div>
-      </section>
-
-      {/* CTA Final */}
-      <section className="py-20 section-dark">
-        <div className="container mx-auto px-6 text-center">
-          <h3 className="text-2xl sm:text-4xl font-bold mb-6">
-            Pronto para viver esta experiência?
-          </h3>
-          <p className="text-muted-foreground mb-10 max-w-xl mx-auto font-body">
-            Estamos à sua espera para lhe proporcionar os melhores dias na Praia do Bilene.
-          </p>
-          <a
-            href="https://wa.me/258877302100"
-            className="inline-block bg-amber text-accent-foreground px-10 py-4 font-bold uppercase tracking-widest text-sm hover:bg-amber-dark transition font-body"
-          >
-            Falar com a Equipa
-          </a>
         </div>
       </section>
     </Layout>

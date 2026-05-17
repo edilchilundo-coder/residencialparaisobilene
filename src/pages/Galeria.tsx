@@ -4,36 +4,20 @@ import { useState } from "react";
 import Layout from "@/components/Layout";
 import PageHeader from "@/components/PageHeader";
 import { Camera, MapPin, X, ChevronLeft, ChevronRight } from "lucide-react";
-import bilenePraia from "@/assets/bilene-praia.jpg";
-import cozinha from "@/assets/cozinha.jpg";
-import sala from "@/assets/sala.jpg";
-import fachada from "@/assets/fachada.png";
-import salaAmpla from "@/assets/sala-ampla.jpg";
-import piscina from "@/assets/piscina.jpg";
-import piscinaNoite1 from "@/assets/piscina-noite-1.jpg";
-import piscinaNoite2 from "@/assets/piscina-noite-2.jpg";
-import sunsetLoungeExt from "@/assets/sunset-lounge-exterior.webp";
-import quadBikingImg from "@/assets/quad-biking.jpg";
-import gastronomiaImg from "@/assets/gastronomia.jpg";
-import passeiosBarcoImg from "@/assets/passeios-barco.jpg";
-import quartoT1 from "@/assets/quarto-t1.jpg";
-import quartoT2 from "@/assets/quarto-t2.jpg";
 
 const galleryImages = [
-  { src: fachada, alt: "Fachada do Aparthotel", span: "md:col-span-2 md:row-span-2" },
-  { src: passeiosBarcoImg, alt: "Passeios de Barco na Lagoa", span: "" },
-  { src: gastronomiaImg, alt: "Gastronomia Local - Camarões", span: "" },
-  { src: quadBikingImg, alt: "Aventura de Buggy nas Dunas", span: "" },
-  { src: quartoT1, alt: "Quarto Apartamento T1", span: "" },
-  { src: quartoT2, alt: "Quarto Apartamento T2", span: "" },
-  { src: sunsetLoungeExt, alt: "Sunset Lounge Exterior", span: "" },
-  { src: piscinaNoite1, alt: "Piscina Iluminada à Noite", span: "" },
-  { src: piscinaNoite2, alt: "Área de Lazer Noturna", span: "" },
-  { src: salaAmpla, alt: "Sala de Estar Ampla", span: "" },
-  { src: piscina, alt: "Área da Piscina de Dia", span: "" },
-  { src: cozinha, alt: "Cozinha Equipada", span: "" },
-  { src: sala, alt: "Sala com TV", span: "" },
-  { src: bilenePraia, alt: "Praia do Bilene", span: "md:col-span-2" },
+  { src: "dyad-media://media/residencialparaisobilene/.dyad/media/86666666666666666666666666666666.png", alt: "Fachada Noturna da Residencial", span: "md:col-span-2 md:row-span-2" },
+  { src: "dyad-media://media/residencialparaisobilene/.dyad/media/1c9d6e5f4982e6d059d0f4851996ab8a.png", alt: "Vista Principal da Piscina à Noite", span: "" },
+  { src: "dyad-media://media/residencialparaisobilene/.dyad/media/46bbd0275b1cc969c64deb4a1ef38a0a.jpg", alt: "Piscina Iluminada", span: "" },
+  { src: "dyad-media://media/residencialparaisobilene/.dyad/media/b291ffbe6fbf6c631806b6f9432ce7b4.jpg", alt: "Pátio e Área de Lazer", span: "" },
+  { src: "dyad-media://media/residencialparaisobilene/.dyad/media/b9d6338fa3013bcd5471d8073e701a30.jpg", alt: "Vista Frontal do Edifício", span: "" },
+  { src: "dyad-media://media/residencialparaisobilene/.dyad/media/7748c3233fe0711b64e160b022001984.JPG", alt: "Pátio durante o Dia", span: "" },
+  { src: "dyad-media://media/residencialparaisobilene/.dyad/media/86666666666666666666666666666668.png", alt: "Foto Artística ao Pôr do Sol", span: "md:col-span-2" },
+  { src: "dyad-media://media/residencialparaisobilene/.dyad/media/86666666666666666666666666666673.png", alt: "Área do Pátio", span: "" },
+  { src: "dyad-media://media/residencialparaisobilene/.dyad/media/86666666666666666666666666666669.png", alt: "Bar da Residencial", span: "" },
+  { src: "dyad-media://media/residencialparaisobilene/.dyad/media/86666666666666666666666666666670.png", alt: "Lounge e Disco", span: "" },
+  { src: "dyad-media://media/residencialparaisobilene/.dyad/media/86666666666666666666666666666676.png", alt: "Vista Aérea da Piscina", span: "" },
+  { src: "dyad-media://media/residencialparaisobilene/.dyad/media/86666666666666666666666666666677.png", alt: "Pátio Dia 1", span: "" },
 ];
 
 const Galeria = () => {
@@ -46,7 +30,7 @@ const Galeria = () => {
 
   return (
     <Layout>
-      <PageHeader title="Explore o Paraíso" subtitle="Conheça cada detalhe do nosso espaço, desde os interiores modernos até à nossa área de lazer" />
+      <PageHeader title="Explore o Paraíso" subtitle="Conheça cada detalhe do nosso espaço através das nossas novas fotografias" />
 
       <section className="py-20 bg-background">
         <div className="container mx-auto px-6">
@@ -60,7 +44,7 @@ const Galeria = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mb-16">
             {galleryImages.map((img, index) => (
               <div 
-                key={img.alt} 
+                key={index} 
                 className={`gallery-item cursor-pointer ${img.span} h-48 sm:h-auto ${img.span ? "sm:h-full" : "sm:h-48"}`}
                 onClick={() => openLightbox(index)}
               >
@@ -124,17 +108,6 @@ const Galeria = () => {
               title="Residencial Paraíso Bilene - Street View"
               className="w-full h-full"
             />
-          </div>
-          <div className="mt-4 text-center">
-            <a
-              href="https://maps.app.goo.gl/rskhHsLuzh8VC9Z2A"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 text-amber hover:text-amber-dark font-semibold transition font-body"
-            >
-              <MapPin size={18} />
-              Ver no Google Maps
-            </a>
           </div>
         </div>
       </section>
