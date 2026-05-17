@@ -2,10 +2,9 @@
 
 import Layout from "@/components/Layout";
 import PageHeader from "@/components/PageHeader";
-import { Utensils, Clock, MapPin, Star, Wine, Pizza } from "lucide-react";
+import { Utensils, Clock, MapPin, Star, Coffee, Wine, Pizza } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
-
-const barImg = "dyad-media://media/residencialparaisobilene/.dyad/media/86666666666666666666666666666669.png";
+import gastronomiaImg from "@/assets/gastronomia.jpg";
 
 const Restaurante = () => {
   const { t } = useLanguage();
@@ -54,8 +53,8 @@ const Restaurante = () => {
             <div className="lg:w-1/2">
               <div className="relative rounded-sm overflow-hidden shadow-2xl aspect-video">
                 <img 
-                  src={barImg} 
-                  alt="Bar da Residencial" 
+                  src={gastronomiaImg} 
+                  alt="Ambiente do Restaurante" 
                   className="w-full h-full object-cover"
                 />
               </div>
@@ -98,6 +97,24 @@ const Restaurante = () => {
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-20 section-dark">
+        <div className="container mx-auto px-6 text-center">
+          <h3 className="text-2xl sm:text-4xl font-bold mb-6">
+            Deseja reservar uma mesa?
+          </h3>
+          <p className="text-muted-foreground mb-10 max-w-xl mx-auto font-body">
+            Garanta o seu lugar para uma noite inesquecível com a melhor vista do Bilene.
+          </p>
+          <a
+            href="https://wa.me/258877302100"
+            className="inline-block bg-amber text-accent-foreground px-10 py-4 font-bold uppercase tracking-widest text-sm hover:bg-amber-dark transition font-body"
+          >
+            Reservar Mesa
+          </a>
         </div>
       </section>
     </Layout>

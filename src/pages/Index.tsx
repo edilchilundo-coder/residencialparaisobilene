@@ -1,9 +1,20 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import Layout from "@/components/Layout";
-import { Home, UtensilsCrossed, Waves, Search, ArrowRight, Star, ChefHat, Loader2 } from "lucide-react";
-import { Link } from "react-router-dom";
+import heroReal from "@/assets/hero-real.jpg";
+import piscina from "@/assets/piscina.jpg";
+import piscinaNoite3 from "@/assets/piscina-noite-3.jpg";
+import quartoT1 from "@/assets/quarto-t1.jpg";
+import quartoT2 from "@/assets/quarto-t2.jpg";
+import fachada from "@/assets/fachada.png";
+import salaAmpla from "@/assets/sala-ampla.jpg";
+import gastronomiaImg from "@/assets/gastronomia.jpg";
+import camaKing from "@/assets/cama-king.jpg";
+import cozinha2 from "@/assets/cozinha-2.jpg";
+import cadeira from "@/assets/cadeira.jpg";
+import { Home, UtensilsCrossed, Waves, Search, ArrowRight, Star, Quote, ChefHat, Loader2 } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
 import { blogPosts } from "./BlogData";
 import { toast } from "sonner";
 import RoomCard from "@/components/RoomCard";
@@ -17,13 +28,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-// Novas imagens das attachments
-const heroImg = "dyad-media://media/residencialparaisobilene/.dyad/media/1c9d6e5f4982e6d059d0f4851996ab8a.png"; // Foto proncipal.png
-const patioDia = "dyad-media://media/residencialparaisobilene/.dyad/media/7748c3233fe0711b64e160b022001984.JPG"; // Patio dia.jpg
-const barImg = "dyad-media://media/residencialparaisobilene/.dyad/media/86666666666666666666666666666669.png"; // BAR.png
-const piscinaNoite = "dyad-media://media/residencialparaisobilene/.dyad/media/46bbd0275b1cc969c64deb4a1ef38a0a.jpg"; // Piscina.png
-const fotoArtistica = "dyad-media://media/residencialparaisobilene/.dyad/media/86666666666666666666666666666668.png"; // Foto Artistica.png
-
 interface RoomAvailability {
   id: string;
   name: string;
@@ -35,6 +39,7 @@ interface RoomAvailability {
 }
 
 const Index = () => {
+  const navigate = useNavigate();
   const { t } = useLanguage();
   const [checkIn, setCheckIn] = useState("");
   const [checkOut, setCheckOut] = useState("");
@@ -72,6 +77,7 @@ const Index = () => {
     setIsSearching(true);
     
     try {
+      // 1. Buscar todos os quartos
       let query = supabase.from('rooms').select('*');
       if (roomType !== 'all') {
         query = query.eq('type', roomType);
@@ -79,6 +85,7 @@ const Index = () => {
       const { data: rooms, error: roomsError } = await query;
       if (roomsError) throw roomsError;
 
+      // 2. Buscar reservas que coincidem com as datas
       const { data: reservations, error: resError } = await supabase
         .from('reservations')
         .select('room_id')
@@ -88,6 +95,7 @@ const Index = () => {
 
       if (resError) throw resError;
 
+      // 3. Calcular disponibilidade
       const availability = rooms.map(room => {
         const occupiedCount = reservations.filter(r => r.room_id === room.id).length;
         return {
@@ -115,13 +123,25 @@ const Index = () => {
     window.open(`https://wa.me/258877302100?text=${encodeURIComponent(msg)}`, "_blank");
   };
 
+  const getRoomImage = (type: string) => {
+    if (type === 'T1') return camaKing;
+    if (type === 'T2') return quartoT2;
+    return quartoT1;
+  };
+
+  const getAmenities = (type: string) => {
+    const base = ["Wi-Fi Grátis", "Ar Condicionado", "Segurança 24h"];
+    if (type === 'T1' || type === 'T2') return [...base, "Cozinha Equipada", "Sala de Estar"];
+    return [...base, "WC Privativo"];
+  };
+
   return (
     <Layout>
       {/* Hero Section */}
       <section className="relative h-[85vh] flex items-center justify-center overflow-hidden">
         <div 
           className="absolute inset-0 bg-cover bg-center scale-105 animate-slow-zoom"
-          style={{ backgroundImage: `url(${heroImg})` }}
+          style={{ backgroundImage: `url(${heroReal})` }}
         />
         <div className="absolute inset-0 bg-black/40" />
         
@@ -200,10 +220,10 @@ const Index = () => {
                   title={room.name}
                   description={room.description}
                   price={room.price_per_night}
-                  image={heroImg}
+                  image={getRoomImage(room.type)}
                   isAvailable={room.available_count > 0}
                   onBook={() => handleBook(room.name)}
-                  amenities={["Wi-Fi Grátis", "Ar Condicionado", "Segurança 24h"]}
+                  amenities={getAmenities(room.type)}
                 />
               ))}
             </div>
@@ -216,10 +236,10 @@ const Index = () => {
         <div className="container mx-auto px-6">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {[
-              { icon: Home, title: t('home.features.design'), desc: t('home.features.designDesc'), img: fotoArtistica },
-              { icon: UtensilsCrossed, title: t('home.features.kitchen'), desc: t('home.features.kitchenDesc'), img: barImg },
-              { icon: Waves, title: t('home.features.leisure'), desc: t('home.features.leisureDesc'), img: piscinaNoite },
-              { icon: ChefHat, title: t('home.features.restaurant'), desc: t('home.features.restaurantDesc'), img: patioDia },
+              { icon: Home, title: t('home.features.design'), desc: t('home.features.designDesc'), img: salaAmpla },
+              { icon: UtensilsCrossed, title: t('home.features.kitchen'), desc: t('home.features.kitchenDesc'), img: cozinha2 },
+              { icon: Waves, title: t('home.features.leisure'), desc: t('home.features.leisureDesc'), img: piscinaNoite3 },
+              { icon: ChefHat, title: t('home.features.restaurant'), desc: t('home.features.restaurantDesc'), img: gastronomiaImg },
             ].map((feature, i) => (
               <div key={i} className="group">
                 <div className="relative h-64 overflow-hidden rounded-lg mb-6">
