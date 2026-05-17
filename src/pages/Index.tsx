@@ -1,17 +1,20 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import Layout from "@/components/Layout";
 import heroReal from "@/assets/hero-real.jpg";
+import piscina from "@/assets/piscina.jpg";
 import piscinaNoite3 from "@/assets/piscina-noite-3.jpg";
 import quartoT1 from "@/assets/quarto-t1.jpg";
 import quartoT2 from "@/assets/quarto-t2.jpg";
+import fachada from "@/assets/fachada.png";
 import salaAmpla from "@/assets/sala-ampla.jpg";
-import restauranteImg from "@/assets/Restaurante.png";
+import gastronomiaImg from "@/assets/gastronomia.jpg";
 import camaKing from "@/assets/cama-king.jpg";
 import cozinha2 from "@/assets/cozinha-2.jpg";
-import { Home, UtensilsCrossed, Waves, Search, ArrowRight, Star, ChefHat, Loader2 } from "lucide-react";
-import { Link } from "react-router-dom";
+import cadeira from "@/assets/cadeira.jpg";
+import { Home, UtensilsCrossed, Waves, Search, ArrowRight, Star, Quote, ChefHat, Loader2 } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
 import { blogPosts } from "./BlogData";
 import { toast } from "sonner";
 import RoomCard from "@/components/RoomCard";
@@ -24,13 +27,19 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import type { Tables } from "@/integrations/supabase/types";
 
-interface RoomAvailability extends Tables<"rooms"> {
+interface RoomAvailability {
+  id: string;
+  name: string;
+  type: string;
+  price_per_night: number;
+  description: string;
+  total_quantity: number;
   available_count: number;
 }
 
 const Index = () => {
+  const navigate = useNavigate();
   const { t } = useLanguage();
   const [checkIn, setCheckIn] = useState("");
   const [checkOut, setCheckOut] = useState("");
@@ -68,6 +77,7 @@ const Index = () => {
     setIsSearching(true);
     
     try {
+      // 1. Buscar todos os quartos
       let query = supabase.from('rooms').select('*');
       if (roomType !== 'all') {
         query = query.eq('type', roomType);
@@ -75,6 +85,7 @@ const Index = () => {
       const { data: rooms, error: roomsError } = await query;
       if (roomsError) throw roomsError;
 
+      // 2. Buscar reservas que coincidem com as datas
       const { data: reservations, error: resError } = await supabase
         .from('reservations')
         .select('room_id')
@@ -84,8 +95,9 @@ const Index = () => {
 
       if (resError) throw resError;
 
-      const availability = (rooms || []).map(room => {
-        const occupiedCount = (reservations || []).filter(r => r.room_id === room.id).length;
+      // 3. Calcular disponibilidade
+      const availability = rooms.map(room => {
+        const occupiedCount = reservations.filter(r => r.room_id === room.id).length;
         return {
           ...room,
           available_count: room.total_quantity - occupiedCount
@@ -224,12 +236,12 @@ const Index = () => {
         <div className="container mx-auto px-6">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {[
-              { icon: Home, title: t('home.features.design'), desc: t('home.features.designDesc'), img: salaAmpla, link: "/acomodacoes" },
-              { icon: UtensilsCrossed, title: t('home.features.kitchen'), desc: t('home.features.kitchenDesc'), img: cozinha2, link: "/acomodacoes" },
-              { icon: Waves, title: t('home.features.leisure'), desc: t('home.features.leisureDesc'), img: piscinaNoite3, link: "/galeria" },
-              { icon: ChefHat, title: t('home.features.restaurant'), desc: t('home.features.restaurantDesc'), img: restauranteImg, link: "/restaurante" },
+              { icon: Home, title: t('home.features.design'), desc: t('home.features.designDesc'), img: salaAmpla },
+              { icon: UtensilsCrossed, title: t('home.features.kitchen'), desc: t('home.features.kitchenDesc'), img: cozinha2 },
+              { icon: Waves, title: t('home.features.leisure'), desc: t('home.features.leisureDesc'), img: piscinaNoite3 },
+              { icon: ChefHat, title: t('home.features.restaurant'), desc: t('home.features.restaurantDesc'), img: gastronomiaImg },
             ].map((feature, i) => (
-              <Link key={i} to={feature.link} className="group">
+              <div key={i} className="group">
                 <div className="relative h-64 overflow-hidden rounded-lg mb-6">
                   <img src={feature.img} alt={feature.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
                   <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors" />
@@ -241,7 +253,7 @@ const Index = () => {
                 </div>
                 <h4 className="text-xl font-bold mb-2">{feature.title}</h4>
                 <p className="text-gray-500 text-sm font-body leading-relaxed">{feature.desc}</p>
-              </Link>
+              </div>
             ))}
           </div>
         </div>
