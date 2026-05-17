@@ -2,7 +2,7 @@
 
 import { useState, useRef } from "react";
 import Layout from "@/components/Layout";
-import { Home, UtensilsCrossed, Waves, Search, ArrowRight, Star, ChefHat, Loader2 } from "lucide-react";
+import { Home, UtensilsCrossed, Waves, Search, ArrowRight, Star, ChefHat, Loader2, ShieldCheck, MapPin, Heart } from "lucide-react";
 import { Link } from "react-router-dom";
 import { blogPosts } from "./BlogData";
 import { toast } from "sonner";
@@ -17,12 +17,12 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-// Novas imagens das attachments
-const heroImg = "dyad-media://media/residencialparaisobilene/.dyad/media/1c9d6e5f4982e6d059d0f4851996ab8a.png"; // Foto proncipal.png
-const patioDia = "dyad-media://media/residencialparaisobilene/.dyad/media/7748c3233fe0711b64e160b022001984.JPG"; // Patio dia.jpg
-const barImg = "dyad-media://media/residencialparaisobilene/.dyad/media/86666666666666666666666666666669.png"; // BAR.png
-const piscinaNoite = "dyad-media://media/residencialparaisobilene/.dyad/media/46bbd0275b1cc969c64deb4a1ef38a0a.jpg"; // Piscina.png
-const fotoArtistica = "dyad-media://media/residencialparaisobilene/.dyad/media/86666666666666666666666666666668.png"; // Foto Artistica.png
+// Imagens profissionais
+const heroImg = "dyad-media://media/residencialparaisobilene/.dyad/media/1c9d6e5f4982e6d059d0f4851996ab8a.png";
+const patioDia = "dyad-media://media/residencialparaisobilene/.dyad/media/7748c3233fe0711b64e160b022001984.JPG";
+const barImg = "dyad-media://media/residencialparaisobilene/.dyad/media/86666666666666666666666666666669.png";
+const piscinaNoite = "dyad-media://media/residencialparaisobilene/.dyad/media/46bbd0275b1cc969c64deb4a1ef38a0a.jpg";
+const fotoArtistica = "dyad-media://media/residencialparaisobilene/.dyad/media/86666666666666666666666666666668.png";
 
 interface RoomAvailability {
   id: string;
@@ -44,24 +44,6 @@ const Index = () => {
   const resultsRef = useRef<HTMLDivElement>(null);
 
   const today = new Date().toISOString().split('T')[0];
-
-  const testimonials = [
-    {
-      name: "Ricardo Santos",
-      text: "Experiência fantástica! A casa T2 é super espaçosa e a piscina é ótima para relaxar depois da praia. Atendimento nota 10.",
-      rating: 5
-    },
-    {
-      name: "Ana Paula",
-      text: "O melhor custo-benefício do Bilene. Fiquei no quarto suite e estava tudo impecável. A localização é perfeita.",
-      rating: 5
-    },
-    {
-      name: "Carlos M.",
-      text: "Segurança e tranquilidade. Viajei com a família e nos sentimos em casa. Recomendo vivamente a Casa T1 para casais.",
-      rating: 5
-    }
-  ];
 
   const checkAvailability = async () => {
     if (!checkIn || !checkOut) {
@@ -118,7 +100,7 @@ const Index = () => {
   return (
     <Layout>
       {/* Hero Section */}
-      <section className="relative h-[85vh] flex items-center justify-center overflow-hidden">
+      <section className="relative h-[90vh] flex items-center justify-center overflow-hidden">
         <div 
           className="absolute inset-0 bg-cover bg-center scale-105 animate-slow-zoom"
           style={{ backgroundImage: `url(${heroImg})` }}
@@ -211,8 +193,46 @@ const Index = () => {
         </section>
       )}
 
-      {/* Features Section */}
+      {/* Why Choose Us Section */}
       <section className="py-24 bg-white">
+        <div className="container mx-auto px-6">
+          <div className="flex flex-col lg:flex-row gap-16 items-center max-w-6xl mx-auto">
+            <div className="lg:w-1/2">
+              <span className="text-amber text-xs font-bold uppercase tracking-[0.3em] mb-4 block">Excelência no Bilene</span>
+              <h2 className="text-4xl font-bold text-gray-900 mb-8 leading-tight">Porquê escolher a Residencial Paraíso?</h2>
+              <div className="space-y-8">
+                {[
+                  { icon: MapPin, title: "Localização Privilegiada", desc: "A apenas 2 minutos da lagoa, oferecemos o equilíbrio perfeito entre proximidade e tranquilidade." },
+                  { icon: ShieldCheck, title: "Segurança & Privacidade", desc: "Recinto fechado com vigilância 24h e estacionamento privado para sua total paz de espírito." },
+                  { icon: Heart, title: "Hospitalidade Genuína", desc: "Uma equipa dedicada a tornar a sua estadia memorável, cuidando de cada detalhe com carinho." },
+                ].map((item, i) => (
+                  <div key={i} className="flex gap-6">
+                    <div className="w-12 h-12 bg-secondary rounded-full flex items-center justify-center shrink-0">
+                      <item.icon className="text-amber" size={24} />
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-lg mb-2">{item.title}</h4>
+                      <p className="text-gray-500 text-sm font-body leading-relaxed">{item.desc}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="lg:w-1/2 relative">
+              <div className="aspect-[4/5] rounded-sm overflow-hidden shadow-2xl">
+                <img src={fotoArtistica} alt="Ambiente Paraíso" className="w-full h-full object-cover" />
+              </div>
+              <div className="absolute -bottom-10 -left-10 bg-amber p-8 text-accent-foreground hidden md:block shadow-xl">
+                <p className="text-4xl font-bold mb-1">100%</p>
+                <p className="text-xs font-bold uppercase tracking-widest">Satisfação dos Hóspedes</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Features Grid */}
+      <section className="py-24 bg-gray-50">
         <div className="container mx-auto px-6">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {[
@@ -221,42 +241,13 @@ const Index = () => {
               { icon: Waves, title: t('home.features.leisure'), desc: t('home.features.leisureDesc'), img: piscinaNoite },
               { icon: ChefHat, title: t('home.features.restaurant'), desc: t('home.features.restaurantDesc'), img: patioDia },
             ].map((feature, i) => (
-              <div key={i} className="group">
-                <div className="relative h-64 overflow-hidden rounded-lg mb-6">
+              <div key={i} className="group bg-white p-4 rounded-sm shadow-sm hover:shadow-xl transition-all duration-500">
+                <div className="relative h-64 overflow-hidden rounded-sm mb-6">
                   <img src={feature.img} alt={feature.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
                   <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors" />
-                  <div className="absolute bottom-4 left-4">
-                    <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-lg">
-                      <feature.icon className="text-amber" size={20} />
-                    </div>
-                  </div>
                 </div>
-                <h4 className="text-xl font-bold mb-2">{feature.title}</h4>
-                <p className="text-gray-500 text-sm font-body leading-relaxed">{feature.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Testimonials Section */}
-      <section className="py-24 bg-gray-50">
-        <div className="container mx-auto px-6">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">{t('home.testimonials')}</h2>
-            <div className="w-12 h-1 bg-amber mx-auto" />
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            {testimonials.map((t, i) => (
-              <div key={i} className="bg-white p-8 shadow-sm border border-gray-100 relative">
-                <Star className="absolute top-4 right-4 text-amber/10" size={40} />
-                <div className="flex gap-1 mb-4">
-                  {[...Array(t.rating)].map((_, i) => (
-                    <Star key={i} size={14} className="fill-amber text-amber" />
-                  ))}
-                </div>
-                <p className="text-gray-600 italic mb-6 font-body">"{t.text}"</p>
-                <h5 className="font-bold text-gray-900">{t.name}</h5>
+                <h4 className="text-xl font-bold mb-2 px-2">{feature.title}</h4>
+                <p className="text-gray-500 text-sm font-body leading-relaxed px-2 mb-4">{feature.desc}</p>
               </div>
             ))}
           </div>
@@ -272,7 +263,7 @@ const Index = () => {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {blogPosts.slice(0, 4).map((post) => (
-              <Link key={post.id} to="/blog" className="group bg-white border border-gray-100 overflow-hidden shadow-sm hover:shadow-md transition-all duration-300">
+              <Link key={post.id} to={`/blog/${post.id}`} className="group bg-white border border-gray-100 overflow-hidden shadow-sm hover:shadow-md transition-all duration-300">
                 <div className="relative h-48 overflow-hidden">
                   <img src={post.image} alt={post.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
                   <div className="absolute top-3 left-3 bg-amber text-white px-2 py-0.5 text-[10px] font-bold uppercase tracking-widest">{post.category}</div>
