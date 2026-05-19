@@ -31,6 +31,9 @@ function rpbilene_setup() {
     add_theme_support( 'align-wide' );
     add_theme_support( 'editor-styles' );
 
+    // Hybrid theme: enable block template parts so header/footer are editable in the Site Editor
+    add_theme_support( 'block-template-parts' );
+
     // Gutenberg / block editor
     add_theme_support( 'wp-block-styles' );
     add_theme_support( 'responsive-embeds' );
