@@ -31,6 +31,18 @@ function rpbilene_setup() {
     add_theme_support( 'align-wide' );
     add_theme_support( 'editor-styles' );
 
+    // Gutenberg / block editor
+    add_theme_support( 'wp-block-styles' );
+    add_theme_support( 'responsive-embeds' );
+    add_theme_support( 'custom-spacing' );
+    add_theme_support( 'custom-units' );
+    add_theme_support( 'border' );
+    add_theme_support( 'link-color' );
+    add_editor_style( 'assets/css/editor.css' );
+
+    // Permite usar o editor de blocos também em widgets e no CPT apartamento
+    add_post_type_support( 'page', 'editor' );
+
     // Menus
     register_nav_menus( array(
         'primary' => __( 'Menu Principal', 'rpbilene' ),
@@ -172,3 +184,4 @@ add_filter( 'excerpt_more', 'rpbilene_excerpt_more' );
  * Include demo importer
  */
 require_once RPBILENE_DIR . '/inc/demo-content.php';
+require_once RPBILENE_DIR . '/inc/block-patterns.php';
