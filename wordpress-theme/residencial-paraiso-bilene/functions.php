@@ -188,3 +188,4 @@ add_filter( 'excerpt_more', 'rpbilene_excerpt_more' );
  */
 require_once RPBILENE_DIR . '/inc/demo-content.php';
 require_once RPBILENE_DIR . '/inc/block-patterns.php';
+require_once RPBILENE_DIR . '/inc/wpbakery.php';
