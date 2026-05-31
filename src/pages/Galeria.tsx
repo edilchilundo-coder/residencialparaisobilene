@@ -4,7 +4,7 @@ import { useState } from "react";
 import Layout from "@/components/Layout";
 import PageHeader from "@/components/PageHeader";
 import { Camera, MapPin, X, ChevronLeft, ChevronRight } from "lucide-react";
-import patioHero from "@/assets/patio-hero.jpg";
+import fotoArtistica from "@/assets/foto-artistica.png";
 import bilenePraia from "@/assets/bilene-praia.jpg";
 import cozinha from "@/assets/cozinha.jpg";
 import sala from "@/assets/sala.jpg";
@@ -21,7 +21,7 @@ import quartoT1 from "@/assets/quarto-t1.jpg";
 import quartoT2 from "@/assets/quarto-t2.jpg";
 
 const galleryImages = [
-  { src: patioHero, alt: "Pátio Iluminado à Noite", span: "md:col-span-2 md:row-span-2" },
+  { src: fotoArtistica, alt: "Pôr-do-sol no Paraíso", span: "md:col-span-2 md:row-span-2" },
   { src: fachada, alt: "Fachada do Aparthotel", span: "" },
   { src: passeiosBarcoImg, alt: "Passeios de Barco na Lagoa", span: "" },
   { src: gastronomiaImg, alt: "Gastronomia Local - Camarões", span: "" },
