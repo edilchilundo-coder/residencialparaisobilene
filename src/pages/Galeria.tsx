@@ -4,7 +4,6 @@ import { useState } from "react";
 import Layout from "@/components/Layout";
 import PageHeader from "@/components/PageHeader";
 import { Camera, MapPin, X, ChevronLeft, ChevronRight } from "lucide-react";
-import fotoArtistica from "@/assets/foto-artistica.png";
 import frontal from "@/assets/frontal.png";
 import patioDia from "@/assets/patio-dia.jpg";
 import entradaLateral from "@/assets/entrada-lateral.jpg";
@@ -18,8 +17,7 @@ import disco from "@/assets/disco.jpg";
 import bilenePraia from "@/assets/bilene-praia.jpg";
 
 const galleryImages = [
-  { src: fotoArtistica, alt: "Pôr-do-sol no Paraíso", span: "md:col-span-2 md:row-span-2" },
-  { src: frontal, alt: "Vista Frontal", span: "" },
+  { src: frontal, alt: "Vista Frontal", span: "md:col-span-2 md:row-span-2" },
   { src: patioDia, alt: "Pátio de Dia", span: "" },
   { src: entradaLateral, alt: "Entrada Lateral", span: "" },
   { src: patio, alt: "Pátio", span: "" },
