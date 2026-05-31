@@ -3,44 +3,33 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { LanguageProvider } from "./contexts/LanguageContext";
-import ScrollToTop from "./components/ScrollToTop";
 import Index from "./pages/Index";
-import Acomodacoes from "./pages/Acomodacoes";
-import Restaurante from "./pages/Restaurante";
-import Lazer from "./pages/Lazer";
+import Apartamentos from "./pages/Apartamentos";
 import Galeria from "./pages/Galeria";
 import Contactos from "./pages/Contactos";
 import SobreNos from "./pages/SobreNos";
 import Blog from "./pages/Blog";
-import BlogPost from "./pages/BlogPost";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <LanguageProvider>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
-          <ScrollToTop />
-          <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/acomodacoes" element={<Acomodacoes />} />
-            <Route path="/restaurante" element={<Restaurante />} />
-            <Route path="/lazer" element={<Lazer />} />
-            <Route path="/galeria" element={<Galeria />} />
-            <Route path="/contactos" element={<Contactos />} />
-            <Route path="/sobre-nos" element={<SobreNos />} />
-            <Route path="/blog" element={<Blog />} />
-            <Route path="/blog/:id" element={<BlogPost />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </BrowserRouter>
-      </TooltipProvider>
-    </LanguageProvider>
+    <TooltipProvider>
+      <Toaster />
+      <Sonner />
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Index />} />
+          <Route path="/apartamentos" element={<Apartamentos />} />
+          <Route path="/galeria" element={<Galeria />} />
+          <Route path="/contactos" element={<Contactos />} />
+          <Route path="/sobre-nos" element={<SobreNos />} />
+          <Route path="/blog" element={<Blog />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </BrowserRouter>
+    </TooltipProvider>
   </QueryClientProvider>
 );
 

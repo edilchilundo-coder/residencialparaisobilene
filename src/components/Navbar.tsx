@@ -1,33 +1,27 @@
-"use client";
-
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, Globe } from "lucide-react";
-import logo from "@/assets/logo.png";
-import { useLanguage } from "@/contexts/LanguageContext";
+import { Menu, X } from "lucide-react";
+
+const navLinks = [
+  { label: "HOME", path: "/" },
+  { label: "APARTAMENTOS", path: "/apartamentos" },
+  { label: "GALERIA", path: "/galeria" },
+  { label: "BLOG", path: "/blog" },
+  { label: "CONTACTOS", path: "/contactos" },
+  { label: "SOBRE NÓS", path: "/sobre-nos" },
+];
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
-  const { language, setLanguage, t } = useLanguage();
-
-  const navLinks = [
-    { label: t('nav.home'), path: "/" },
-    { label: t('nav.apartments'), path: "/acomodacoes" },
-    { label: t('nav.restaurant'), path: "/restaurante" },
-    { label: t('nav.leisure'), path: "/lazer" },
-    { label: t('nav.gallery'), path: "/galeria" },
-    { label: t('nav.blog'), path: "/blog" },
-    { label: t('nav.contacts'), path: "/contactos" },
-    { label: t('nav.about'), path: "/sobre-nos" },
-  ];
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-primary/95 backdrop-blur-sm">
-      <div className="container mx-auto px-6 flex items-center justify-between h-20">
+      <div className="container mx-auto px-6 flex items-center justify-between h-16">
         {/* Logo */}
-        <Link to="/" className="flex items-center h-full py-2">
-          <img src={logo} alt="Residencial Paraíso Bilene" className="h-full w-auto object-contain" />
+        <Link to="/" className="flex items-center gap-0 text-lg sm:text-xl font-bold tracking-wider">
+          <span className="text-primary-foreground">RESIDENCIAL PARAÍSO</span>
+          <span className="text-amber">BILENE</span>
         </Link>
 
         {/* Desktop Nav */}
@@ -36,9 +30,9 @@ const Navbar = () => {
             <Link
               key={link.path}
               to={link.path}
-              className={`text-[10px] font-bold tracking-widest transition-colors ${
+              className={`text-xs font-semibold tracking-widest transition-colors ${
                 location.pathname === link.path
-                  ? "text-amber border-b-2 border-amber pb-1"
+                  ? "text-primary-foreground border-b-2 border-amber pb-1"
                   : "text-primary-foreground/70 hover:text-primary-foreground"
               }`}
             >
@@ -47,33 +41,13 @@ const Navbar = () => {
           ))}
         </div>
 
-        {/* Desktop Actions */}
-        <div className="hidden lg:flex items-center gap-6">
-          {/* Language Switcher */}
-          <div className="flex items-center gap-2 border-r border-primary-foreground/20 pr-6">
-            <Globe size={14} className="text-amber" />
-            <button 
-              onClick={() => setLanguage('pt')}
-              className={`text-[10px] font-bold ${language === 'pt' ? 'text-amber' : 'text-primary-foreground/50'}`}
-            >
-              PT
-            </button>
-            <span className="text-primary-foreground/20">|</span>
-            <button 
-              onClick={() => setLanguage('en')}
-              className={`text-[10px] font-bold ${language === 'en' ? 'text-amber' : 'text-primary-foreground/50'}`}
-            >
-              EN
-            </button>
-          </div>
-
-          <a
-            href="https://wa.me/258877302100"
-            className="bg-amber text-accent-foreground px-6 py-2 text-[10px] font-bold tracking-widest hover:bg-amber-dark transition-colors rounded-sm"
-          >
-            {t('nav.book')}
-          </a>
-        </div>
+        {/* Desktop CTA */}
+        <a
+          href="https://wa.me/258877302100"
+          className="hidden lg:inline-block bg-primary-foreground text-primary px-6 py-2 text-xs font-bold tracking-widest hover:bg-amber hover:text-accent-foreground transition-colors"
+        >
+          RESERVAR
+        </a>
 
         {/* Mobile Toggle */}
         <button
@@ -103,28 +77,11 @@ const Navbar = () => {
                 {link.label}
               </Link>
             ))}
-            
-            {/* Mobile Language Switcher */}
-            <div className="flex items-center gap-4 py-2 border-t border-primary-foreground/10 mt-2">
-              <button 
-                onClick={() => { setLanguage('pt'); setIsOpen(false); }}
-                className={`text-xs font-bold ${language === 'pt' ? 'text-amber' : 'text-primary-foreground/50'}`}
-              >
-                PORTUGUÊS
-              </button>
-              <button 
-                onClick={() => { setLanguage('en'); setIsOpen(false); }}
-                className={`text-xs font-bold ${language === 'en' ? 'text-amber' : 'text-primary-foreground/50'}`}
-              >
-                ENGLISH
-              </button>
-            </div>
-
             <a
               href="https://wa.me/258877302100"
               className="bg-amber text-accent-foreground px-6 py-3 text-xs font-bold tracking-widest text-center hover:bg-amber-dark transition-colors mt-2"
             >
-              {t('nav.book')}
+              RESERVAR
             </a>
           </div>
         </div>
