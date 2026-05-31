@@ -14,7 +14,10 @@ import camaKing from "@/assets/cama-king.jpg";
 import cozinha2 from "@/assets/cozinha-2.jpg";
 import fotoArtistica from "@/assets/foto-artistica.png";
 import restauranteImg from "@/assets/Restaurante.png";
-import { Home, UtensilsCrossed, Waves, Search, ArrowRight, Star, Quote, ChefHat, Loader2 } from "lucide-react";
+import frontal from "@/assets/frontal.png";
+import bilenePraia from "@/assets/bilene-praia.jpg";
+import restauranteNovo from "@/assets/restaurante-novo.png";
+import { Home, UtensilsCrossed, Waves, Search, ArrowRight, Star, Quote, ChefHat, Loader2, Camera } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { blogPosts } from "./BlogData";
 import { toast } from "sonner";
@@ -260,8 +263,37 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Testimonials Section */}
+      {/* Gallery Preview Section */}
       <section className="py-24 bg-gray-50">
+        <div className="container mx-auto px-6">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">Um vislumbre do paraíso</h2>
+            <div className="w-12 h-1 bg-amber mx-auto" />
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4 max-w-6xl mx-auto mb-12">
+            {[frontal, piscina, salaAmpla, bilenePraia, piscinaNoite3, restauranteNovo].map((img, i) => (
+              <div key={i} className="aspect-square overflow-hidden rounded-sm shadow-sm group">
+                <img 
+                  src={img} 
+                  alt="Galeria" 
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                />
+              </div>
+            ))}
+          </div>
+          <div className="text-center">
+            <Link 
+              to="/galeria" 
+              className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-8 py-4 font-bold uppercase tracking-widest text-xs hover:bg-amber hover:text-accent-foreground transition-all rounded-full shadow-lg"
+            >
+              <Camera size={16} /> Ver Galeria Completa
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonials Section */}
+      <section className="py-24 bg-white">
         <div className="container mx-auto px-6">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-gray-900 mb-4">{t('home.testimonials')}</h2>
@@ -269,7 +301,7 @@ const Index = () => {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
             {testimonials.map((t, i) => (
-              <div key={i} className="bg-white p-8 shadow-sm border border-gray-100 relative">
+              <div key={i} className="bg-gray-50 p-8 shadow-sm border border-gray-100 relative">
                 <Star className="absolute top-4 right-4 text-amber/10" size={40} />
                 <div className="flex gap-1 mb-4">
                   {[...Array(t.rating)].map((_, i) => (
@@ -285,7 +317,7 @@ const Index = () => {
       </section>
 
       {/* Blog Highlights */}
-      <section className="py-24 bg-white">
+      <section className="py-24 bg-gray-50">
         <div className="container mx-auto px-6">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-gray-900 mb-4">{t('home.blog')}</h2>

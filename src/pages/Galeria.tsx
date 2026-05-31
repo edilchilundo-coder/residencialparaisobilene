@@ -15,9 +15,13 @@ import restauranteNovo from "@/assets/restaurante-novo.png";
 import lazer1 from "@/assets/lazer-1.jpg";
 import disco from "@/assets/disco.jpg";
 import bilenePraia from "@/assets/bilene-praia.jpg";
+import principal from "@/assets/principal.png";
+import fotoArtistica from "@/assets/foto-artistica.png";
 
 const galleryImages = [
-  { src: frontal, alt: "Vista Frontal", span: "md:col-span-2 md:row-span-2" },
+  { src: principal, alt: "Residencial Paraíso", span: "md:col-span-2 md:row-span-2" },
+  { src: fotoArtistica, alt: "Detalhes Artísticos", span: "" },
+  { src: frontal, alt: "Vista Frontal", span: "" },
   { src: patioDia, alt: "Pátio de Dia", span: "" },
   { src: entradaLateral, alt: "Entrada Lateral", span: "" },
   { src: patio, alt: "Pátio", span: "" },
