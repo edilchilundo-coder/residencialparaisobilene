@@ -1,264 +1,310 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import Layout from "@/components/Layout";
-import bilenePraia from "@/assets/bilene-praia.jpg";
-import cozinha from "@/assets/cozinha.jpg";
-import sala from "@/assets/sala.jpg";
+import heroReal from "@/assets/hero-real.jpg";
+import piscina from "@/assets/piscina.jpg";
+import piscinaNoite3 from "@/assets/piscina-noite-3.jpg";
+import quartoT1 from "@/assets/quarto-t1.jpg";
+import quartoT2 from "@/assets/quarto-t2.jpg";
 import fachada from "@/assets/fachada.png";
 import salaAmpla from "@/assets/sala-ampla.jpg";
-import piscina from "@/assets/piscina.jpg";
-import heroReal from "@/assets/hero-real.jpg";
-import piscinaNoite1 from "@/assets/piscina-noite-1.jpg";
-import piscinaNoite2 from "@/assets/piscina-noite-2.jpg";
-import { Home, UtensilsCrossed, Waves, Shield, Car, Ship, ChefHat, Bike, Sun, MapPin, Star, Quote, Calendar, Search, ArrowRight } from "lucide-react";
-import { Link } from "react-router-dom";
+import gastronomiaImg from "@/assets/gastronomia.jpg";
+import camaKing from "@/assets/cama-king.jpg";
+import cozinha2 from "@/assets/cozinha-2.jpg";
+import cadeira from "@/assets/cadeira.jpg";
+import { Home, UtensilsCrossed, Waves, Search, ArrowRight, Star, Quote, ChefHat, Loader2 } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
+import { blogPosts } from "./BlogData";
+import { toast } from "sonner";
+import RoomCard from "@/components/RoomCard";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { supabase } from "@/integrations/supabase/client";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
+interface RoomAvailability {
+  id: string;
+  name: string;
+  type: string;
+  price_per_night: number;
+  description: string;
+  total_quantity: number;
+  available_count: number;
+}
 
 const Index = () => {
+  const navigate = useNavigate();
+  const { t } = useLanguage();
   const [checkIn, setCheckIn] = useState("");
   const [checkOut, setCheckOut] = useState("");
-  const [aptType, setAptType] = useState("T1");
+  const [roomType, setRoomType] = useState("all");
+  const [isSearching, setIsSearching] = useState(false);
+  const [results, setResults] = useState<RoomAvailability[]>([]);
+  const resultsRef = useRef<HTMLDivElement>(null);
 
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault();
-    const msg = `Olá! Gostaria de verificar disponibilidade para:\n🏠 Tipo: Apartamento ${aptType}\n📅 Check-in: ${checkIn || "A definir"}\n📅 Check-out: ${checkOut || "A definir"}`;
+  const today = new Date().toISOString().split('T')[0];
+
+  const testimonials = [
+    {
+      name: "Ricardo Santos",
+      text: "Experiência fantástica! A casa T2 é super espaçosa e a piscina é ótima para relaxar depois da praia. Atendimento nota 10.",
+      rating: 5
+    },
+    {
+      name: "Ana Paula",
+      text: "O melhor custo-benefício do Bilene. Fiquei no quarto suite e estava tudo impecável. A localização é perfeita.",
+      rating: 5
+    },
+    {
+      name: "Carlos M.",
+      text: "Segurança e tranquilidade. Viajei com a família e nos sentimos em casa. Recomendo vivamente a Casa T1 para casais.",
+      rating: 5
+    }
+  ];
+
+  const checkAvailability = async () => {
+    if (!checkIn || !checkOut) {
+      toast.error(t('search.error_dates'));
+      return;
+    }
+
+    setIsSearching(true);
+    
+    try {
+      // 1. Buscar todos os quartos
+      let query = supabase.from('rooms').select('*');
+      if (roomType !== 'all') {
+        query = query.eq('type', roomType);
+      }
+      const { data: rooms, error: roomsError } = await query;
+      if (roomsError) throw roomsError;
+
+      // 2. Buscar reservas que coincidem com as datas
+      const { data: reservations, error: resError } = await supabase
+        .from('reservations')
+        .select('room_id')
+        .filter('check_in', 'lt', checkOut)
+        .filter('check_out', 'gt', checkIn)
+        .eq('status', 'confirmed');
+
+      if (resError) throw resError;
+
+      // 3. Calcular disponibilidade
+      const availability = rooms.map(room => {
+        const occupiedCount = reservations.filter(r => r.room_id === room.id).length;
+        return {
+          ...room,
+          available_count: room.total_quantity - occupiedCount
+        };
+      });
+
+      setResults(availability);
+      
+      setTimeout(() => {
+        resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 100);
+
+    } catch (error) {
+      console.error("Erro ao verificar disponibilidade:", error);
+      toast.error("Erro ao verificar disponibilidade. Tente novamente.");
+    } finally {
+      setIsSearching(false);
+    }
+  };
+
+  const handleBook = (roomName: string) => {
+    const msg = `Olá! Gostaria de reservar:\n🏠 ${roomName}\n📅 Check-in: ${checkIn}\n📅 Check-out: ${checkOut}`;
     window.open(`https://wa.me/258877302100?text=${encodeURIComponent(msg)}`, "_blank");
   };
 
-  const whatsappMsg = encodeURIComponent("Olá! Gostaria de saber mais sobre a disponibilidade e reservas na Residencial Paraíso Bilene.");
+  const getRoomImage = (type: string) => {
+    if (type === 'T1') return camaKing;
+    if (type === 'T2') return quartoT2;
+    return quartoT1;
+  };
+
+  const getAmenities = (type: string) => {
+    const base = ["Wi-Fi Grátis", "Ar Condicionado", "Segurança 24h"];
+    if (type === 'T1' || type === 'T2') return [...base, "Cozinha Equipada", "Sala de Estar"];
+    return [...base, "WC Privativo"];
+  };
 
   return (
     <Layout>
-      {/* Hero */}
-      <section
-        className="min-h-screen flex items-center pt-24 pb-12 bg-cover bg-center relative"
-        style={{ backgroundImage: `url(${heroReal})` }}
-      >
-        {/* Overlay escurecido para melhor legibilidade */}
-        <div className="absolute inset-0 bg-black/60" />
+      {/* Hero Section */}
+      <section className="relative h-[85vh] flex items-center justify-center overflow-hidden">
+        <div 
+          className="absolute inset-0 bg-cover bg-center scale-105 animate-slow-zoom"
+          style={{ backgroundImage: `url(${heroReal})` }}
+        />
+        <div className="absolute inset-0 bg-black/40" />
         
-        <div className="container mx-auto px-6 relative z-10">
-          <div className="max-w-4xl mx-auto text-center mb-12">
-            <span className="text-amber font-semibold tracking-[0.2em] uppercase text-sm mb-4 block font-body">
-              Luxury Hotel & Best Resort
-            </span>
-            <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold text-primary-foreground mb-6 leading-tight">
-              O Seu Refúgio Perfeito <br className="hidden sm:block" /> na Praia do Bilene
-            </h1>
-            <p className="text-primary-foreground/90 text-base sm:text-lg md:text-xl mb-10 max-w-2xl mx-auto font-light font-body">
-              Descubra um espaço de conforto e hospitalidade a apenas 2 minutos de carro da praia. Apartamentos T1 e T2 equipados para si e para a sua família.
-            </p>
-          </div>
-
-          {/* Availability Bar */}
-          <div className="max-w-5xl mx-auto bg-white/10 backdrop-blur-md p-4 sm:p-6 rounded-sm border border-white/20 shadow-2xl">
-            <form onSubmit={handleSearch} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 items-end">
-              <div className="space-y-2">
-                <label className="text-xs font-bold text-primary-foreground uppercase tracking-widest flex items-center gap-2">
-                  <Calendar size={14} className="text-amber" /> Check-in
-                </label>
-                <input 
-                  type="date" 
-                  className="w-full bg-white/90 border-none p-3 text-sm focus:ring-2 focus:ring-amber outline-none rounded-sm"
-                  onChange={(e) => setCheckIn(e.target.value)}
-                />
-              </div>
-              <div className="space-y-2">
-                <label className="text-xs font-bold text-primary-foreground uppercase tracking-widest flex items-center gap-2">
-                  <Calendar size={14} className="text-amber" /> Check-out
-                </label>
-                <input 
-                  type="date" 
-                  className="w-full bg-white/90 border-none p-3 text-sm focus:ring-2 focus:ring-amber outline-none rounded-sm"
-                  onChange={(e) => setCheckOut(e.target.value)}
-                />
-              </div>
-              <div className="space-y-2">
-                <label className="text-xs font-bold text-primary-foreground uppercase tracking-widest flex items-center gap-2">
-                  <Home size={14} className="text-amber" /> Apartamento
-                </label>
-                <select 
-                  className="w-full bg-white/90 border-none p-3 text-sm focus:ring-2 focus:ring-amber outline-none rounded-sm"
-                  value={aptType}
-                  onChange={(e) => setAptType(e.target.value)}
-                >
-                  <option value="T1">Apartamento T1</option>
-                  <option value="T2">Apartamento T2</option>
-                </select>
-              </div>
-              <button 
-                type="submit"
-                className="w-full bg-amber hover:bg-amber-dark text-accent-foreground font-bold py-3 px-6 transition flex items-center justify-center gap-2 uppercase tracking-widest text-sm rounded-sm"
-              >
-                <Search size={18} /> Verificar
-              </button>
-            </form>
-          </div>
-        </div>
-      </section>
-
-      {/* Apartments Section */}
-      <section className="py-24 bg-secondary border-t border-border">
-        <div className="container mx-auto px-6 text-center max-w-5xl">
-          <h2 className="text-4xl font-bold text-foreground mb-4">Acomodações Premium</h2>
-          <p className="text-muted-foreground mb-16 font-body">
-            Escolha entre os nossos espaçosos Apartamentos T1 ou T2, ambos concebidos para um conforto absoluto.
+        <div className="container mx-auto px-6 relative z-10 text-center">
+          <h1 className="text-4xl md:text-7xl font-bold text-white mb-8 leading-tight animate-slide-up">
+            {t('hero.title')}
+          </h1>
+          <p className="text-white/90 text-base md:text-xl max-w-2xl mx-auto font-light font-body mb-12 animate-fade-in-delayed">
+            {t('hero.subtitle')}
           </p>
 
-          <div className="bg-card p-6 sm:p-8 shadow-xl border border-border text-left">
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 mb-8 border-b border-border pb-8">
-              <div className="text-center">
-                <Home className="mx-auto text-amber mb-3" size={32} />
-                <h4 className="font-bold text-foreground font-body">Apartamentos T1 & T2</h4>
-                <p className="text-sm text-muted-foreground mt-2 font-body">Suítes climatizadas</p>
-              </div>
-              <div className="text-center">
-                <UtensilsCrossed className="mx-auto text-amber mb-3" size={32} />
-                <h4 className="font-bold text-foreground font-body">Cozinha Equipada</h4>
-                <p className="text-sm text-muted-foreground mt-2 font-body">Pronta a usar</p>
-              </div>
-              <div className="text-center">
-                <Waves className="mx-auto text-amber mb-3" size={32} />
-                <h4 className="font-bold text-foreground font-body">Piscina Comum</h4>
-                <p className="text-sm text-muted-foreground mt-2 font-body">Área de lazer exclusiva</p>
-              </div>
-            </div>
-
-            <div className="flex flex-col sm:flex-row justify-between items-center section-dark p-6 sm:p-8 relative overflow-hidden gap-6">
-              <div className="absolute top-0 right-0 bg-amber text-xs font-bold px-4 py-1 rounded-bl-lg uppercase font-body text-accent-foreground">
-                Promoção Ativa
-              </div>
-              <div className="pt-4 sm:pt-0">
-                <p className="text-sm text-muted-foreground uppercase tracking-wide mb-1 font-body">Tarifa Promocional</p>
-                <div className="flex items-end gap-3 flex-wrap">
-                  <p className="text-3xl sm:text-4xl font-bold text-amber">
-                    6.500 MT <span className="text-sm font-normal text-muted-foreground">/ noite</span>
-                  </p>
-                  <p className="text-lg text-muted-foreground line-through mb-1 font-body">8.500 MT</p>
+          {/* Search Bar */}
+          <div className="max-w-5xl mx-auto bg-white shadow-2xl p-4 md:p-2 rounded-2xl md:rounded-full animate-slide-up-delayed">
+            <div className="flex flex-col md:flex-row items-center gap-4 md:gap-2">
+              <div className="flex-1 grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-2 w-full px-2 md:px-4">
+                <div className="flex flex-col items-start py-1 md:py-2">
+                  <label className="text-[10px] font-bold uppercase text-gray-400 tracking-widest mb-1">{t('search.checkin')}</label>
+                  <input 
+                    type="date" 
+                    min={today}
+                    className="w-full bg-transparent border-none p-0 text-sm font-bold focus:ring-0 outline-none cursor-pointer"
+                    onChange={(e) => setCheckIn(e.target.value)}
+                  />
+                </div>
+                <div className="flex flex-col items-start py-1 md:py-2 sm:border-l border-gray-100 sm:pl-4">
+                  <label className="text-[10px] font-bold uppercase text-gray-400 tracking-widest mb-1">{t('search.checkout')}</label>
+                  <input 
+                    type="date" 
+                    min={checkIn || today}
+                    className="w-full bg-transparent border-none p-0 text-sm font-bold focus:ring-0 outline-none cursor-pointer"
+                    onChange={(e) => setCheckOut(e.target.value)}
+                  />
+                </div>
+                <div className="flex flex-col items-start py-1 md:py-2 sm:border-l border-gray-100 sm:pl-4">
+                  <label className="text-[10px] font-bold uppercase text-gray-400 tracking-widest mb-1">{t('search.type')}</label>
+                  <Select onValueChange={setRoomType} defaultValue="all">
+                    <SelectTrigger className="w-full bg-transparent border-none p-0 h-auto text-sm font-bold focus:ring-0 shadow-none text-left">
+                      <SelectValue placeholder={t('search.placeholder')} />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="all">Todos os tipos</SelectItem>
+                      <SelectItem value="T1">{t('search.t1')}</SelectItem>
+                      <SelectItem value="T2">{t('search.t2')}</SelectItem>
+                      <SelectItem value="Quarto">{t('search.room')}</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </div>
               </div>
-              <a
-                href={`https://wa.me/258877302100?text=${whatsappMsg}`}
-                className="bg-amber hover:bg-amber-dark px-8 py-4 font-semibold transition text-lg shadow-lg font-body text-accent-foreground whitespace-nowrap"
+              <button 
+                onClick={checkAvailability}
+                disabled={isSearching}
+                className="bg-amber hover:bg-amber-dark text-accent-foreground px-10 py-4 rounded-xl md:rounded-full font-bold uppercase tracking-widest text-xs transition-all flex items-center justify-center gap-2 w-full md:w-auto shadow-lg md:shadow-none"
               >
-                Garantir a Minha Reserva
-              </a>
+                {isSearching ? <Loader2 className="animate-spin" size={16} /> : <><Search size={16} /> {t('search.button')}</>}
+              </button>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Gallery Preview */}
-      <section className="py-24 bg-background">
-        <div className="container mx-auto px-6">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-foreground mb-4">O Nosso Paraíso</h2>
-            <div className="w-20 h-1 bg-amber mx-auto" />
-          </div>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div className="col-span-2 row-span-2 gallery-item">
-              <img src={piscinaNoite1} alt="Piscina Iluminada à Noite" className="w-full h-full object-cover" loading="lazy" />
+      {/* Results Section */}
+      {results.length > 0 && (
+        <section ref={resultsRef} className="py-24 bg-gray-50 scroll-mt-20">
+          <div className="container mx-auto px-6">
+            <div className="mb-12 text-center">
+              <h2 className="text-3xl font-bold text-gray-900 mb-2">Resultados para as suas datas</h2>
+              <p className="text-muted-foreground font-body">De {checkIn} até {checkOut}</p>
+              <div className="w-12 h-1 bg-amber mx-auto mt-4" />
             </div>
-            <div className="gallery-item h-48 md:h-auto">
-              <img src={piscinaNoite2} alt="Área de Lazer Noturna" className="w-full h-full object-cover" loading="lazy" />
-            </div>
-            <div className="gallery-item h-48 md:h-auto">
-              <img src={piscina} alt="Área da Piscina" className="w-full h-full object-cover" loading="lazy" />
-            </div>
-            <div className="gallery-item h-48 md:h-auto">
-              <img src={cozinha} alt="Cozinha Equipada" className="w-full h-full object-cover" loading="lazy" />
-            </div>
-            <div className="gallery-item h-48 md:h-auto">
-              <img src={sala} alt="Sala com TV" className="w-full h-full object-cover" loading="lazy" />
-            </div>
-            <div className="col-span-2 gallery-item h-64">
-              <img src={bilenePraia} alt="Praia do Bilene" className="w-full h-full object-cover" loading="lazy" />
-            </div>
-          </div>
 
-          <div className="mt-12 text-center">
-            <Link to="/galeria" className="inline-block border-b-2 border-amber pb-1 font-bold text-foreground hover:text-amber transition font-body">
-              Ver Galeria Completa
-            </Link>
+            <div className="max-w-5xl mx-auto">
+              {results.map((room) => (
+                <RoomCard 
+                  key={room.id}
+                  type={room.type}
+                  title={room.name}
+                  description={room.description}
+                  price={room.price_per_night}
+                  image={getRoomImage(room.type)}
+                  isAvailable={room.available_count > 0}
+                  onBook={() => handleBook(room.name)}
+                  amenities={getAmenities(room.type)}
+                />
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
-      {/* Experiências Memoráveis (Blog Preview) */}
-      <section className="py-24 bg-secondary border-t border-border">
+      {/* Features Section */}
+      <section className="py-24 bg-white">
         <div className="container mx-auto px-6">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-foreground mb-4">Experiências Memoráveis</h2>
-            <p className="text-muted-foreground font-body">Descubra o que o Bilene tem de melhor para oferecer.</p>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {[
-              { icon: Ship, title: "Passeios de Barco", desc: "Lagoa do Bilene" },
-              { icon: ChefHat, title: "Gastronomia", desc: "Frutos do Mar Frescos" },
-              { icon: Bike, title: "Quad Biking", desc: "Aventura nas Dunas" },
-              { icon: Sun, title: "Sunset Lounge", desc: "Música e Drinks" },
-            ].map((item) => (
-              <Link key={item.title} to="/blog" className="text-center group bg-card p-8 border border-border hover:border-amber transition-all duration-300 shadow-sm hover:shadow-md">
-                <div className="w-16 h-16 bg-secondary rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-amber transition-colors duration-300">
-                  <item.icon className="text-amber group-hover:text-accent-foreground transition-colors" size={28} />
+              { icon: Home, title: t('home.features.design'), desc: t('home.features.designDesc'), img: salaAmpla },
+              { icon: UtensilsCrossed, title: t('home.features.kitchen'), desc: t('home.features.kitchenDesc'), img: cozinha2 },
+              { icon: Waves, title: t('home.features.leisure'), desc: t('home.features.leisureDesc'), img: piscinaNoite3 },
+              { icon: ChefHat, title: t('home.features.restaurant'), desc: t('home.features.restaurantDesc'), img: gastronomiaImg },
+            ].map((feature, i) => (
+              <div key={i} className="group">
+                <div className="relative h-64 overflow-hidden rounded-lg mb-6">
+                  <img src={feature.img} alt={feature.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                  <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors" />
+                  <div className="absolute bottom-4 left-4">
+                    <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-lg">
+                      <feature.icon className="text-amber" size={20} />
+                    </div>
+                  </div>
                 </div>
-                <h4 className="font-bold mb-2 text-foreground group-hover:text-amber transition-colors">{item.title}</h4>
-                <p className="text-xs text-muted-foreground uppercase tracking-widest font-body mb-4">{item.desc}</p>
-                <span className="text-amber text-xs font-bold flex items-center justify-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                  Saber Mais <ArrowRight size={12} />
-                </span>
+                <h4 className="text-xl font-bold mb-2">{feature.title}</h4>
+                <p className="text-gray-500 text-sm font-body leading-relaxed">{feature.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonials Section */}
+      <section className="py-24 bg-gray-50">
+        <div className="container mx-auto px-6">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">{t('home.testimonials')}</h2>
+            <div className="w-12 h-1 bg-amber mx-auto" />
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            {testimonials.map((t, i) => (
+              <div key={i} className="bg-white p-8 shadow-sm border border-gray-100 relative">
+                <Star className="absolute top-4 right-4 text-amber/10" size={40} />
+                <div className="flex gap-1 mb-4">
+                  {[...Array(t.rating)].map((_, i) => (
+                    <Star key={i} size={14} className="fill-amber text-amber" />
+                  ))}
+                </div>
+                <p className="text-gray-600 italic mb-6 font-body">"{t.text}"</p>
+                <h5 className="font-bold text-gray-900">{t.name}</h5>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Blog Highlights */}
+      <section className="py-24 bg-white">
+        <div className="container mx-auto px-6">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">{t('home.blog')}</h2>
+            <p className="text-gray-500 font-body">{t('home.blogDesc')}</p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {blogPosts.slice(0, 4).map((post) => (
+              <Link key={post.id} to="/blog" className="group bg-white border border-gray-100 overflow-hidden shadow-sm hover:shadow-md transition-all duration-300">
+                <div className="relative h-48 overflow-hidden">
+                  <img src={post.image} alt={post.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                  <div className="absolute top-3 left-3 bg-amber text-white px-2 py-0.5 text-[10px] font-bold uppercase tracking-widest">{post.category}</div>
+                </div>
+                <div className="p-6">
+                  <h4 className="font-bold mb-3 text-gray-900 group-hover:text-amber transition-colors line-clamp-2 h-12">{post.title}</h4>
+                  <p className="text-xs text-gray-500 line-clamp-3 mb-4 font-body">{post.excerpt}</p>
+                  <span className="text-amber text-xs font-bold flex items-center gap-1">Ler Mais <ArrowRight size={12} /></span>
+                </div>
               </Link>
             ))}
           </div>
-          <div className="mt-12 text-center">
-            <Link to="/blog" className="inline-block bg-primary text-primary-foreground px-10 py-4 font-bold uppercase tracking-widest text-sm hover:bg-amber hover:text-accent-foreground transition font-body">
-              Explorar o Blog
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* Testimonials */}
-      <section className="py-24 bg-background">
-        <div className="container mx-auto px-6">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-foreground mb-4">O que dizem os nossos hóspedes</h2>
-            <div className="w-20 h-1 bg-amber mx-auto" />
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[
-              { name: "Ricardo M.", text: "Excelente estadia! O apartamento T2 é muito espaçoso e a cozinha tem tudo o que precisamos. A piscina é ótima para relaxar.", rating: 5 },
-              { name: "Ana Paula", text: "Fomos muito bem recebidos. A localização é perfeita, perto da praia mas longe do barulho. Recomendo vivamente!", rating: 5 },
-              { name: "Sérgio L.", text: "Segurança 24h dá-nos muita tranquilidade. Os quartos são frescos e muito limpos. Voltaremos com certeza.", rating: 5 },
-            ].map((item, i) => (
-              <div key={i} className="bg-card p-8 relative shadow-sm border border-border">
-                <Quote className="text-amber/20 absolute top-4 right-4" size={48} />
-                <div className="flex gap-1 mb-4">
-                  {[...Array(item.rating)].map((_, i) => <Star key={i} size={16} className="fill-amber text-amber" />)}
-                </div>
-                <p className="text-muted-foreground italic mb-6 font-body">"{item.text}"</p>
-                <h5 className="font-bold text-foreground font-body">— {item.name}</h5>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* CTA */}
-      <section className="py-20 bg-amber">
-        <div className="container mx-auto px-6 text-center">
-          <h3 className="text-3xl md:text-4xl font-bold text-accent-foreground mb-4">
-            Reserve Agora e Poupe 24%
-          </h3>
-          <p className="text-accent-foreground/80 mb-8 max-w-xl mx-auto font-body">
-            Aproveite a nossa tarifa promocional e garanta momentos inesquecíveis na Praia do Bilene.
-          </p>
-          <a
-            href={`https://wa.me/258877302100?text=${whatsappMsg}`}
-            className="inline-block bg-primary text-primary-foreground px-10 py-4 font-bold uppercase tracking-widest text-sm hover:bg-dark-deeper transition font-body"
-          >
-            Reservar via WhatsApp
-          </a>
         </div>
       </section>
     </Layout>
