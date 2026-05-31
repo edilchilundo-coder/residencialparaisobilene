@@ -12,7 +12,8 @@ import salaAmpla from "@/assets/sala-ampla.jpg";
 import gastronomiaImg from "@/assets/gastronomia.jpg";
 import camaKing from "@/assets/cama-king.jpg";
 import cozinha2 from "@/assets/cozinha-2.jpg";
-import cadeira from "@/assets/cadeira.jpg";
+import fotoArtistica from "@/assets/foto-artistica.png";
+import restauranteImg from "@/assets/Restaurante.png";
 import { Home, UtensilsCrossed, Waves, Search, ArrowRight, Star, Quote, ChefHat, Loader2 } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { blogPosts } from "./BlogData";
@@ -238,8 +239,8 @@ const Index = () => {
             {[
               { icon: Home, title: t('home.features.design'), desc: t('home.features.designDesc'), img: salaAmpla },
               { icon: UtensilsCrossed, title: t('home.features.kitchen'), desc: t('home.features.kitchenDesc'), img: cozinha2 },
-              { icon: Waves, title: t('home.features.leisure'), desc: t('home.features.leisureDesc'), img: piscinaNoite3 },
-              { icon: ChefHat, title: t('home.features.restaurant'), desc: t('home.features.restaurantDesc'), img: gastronomiaImg },
+              { icon: Waves, title: t('home.features.leisure'), desc: t('home.features.leisureDesc'), img: fotoArtistica },
+              { icon: ChefHat, title: t('home.features.restaurant'), desc: t('home.features.restaurantDesc'), img: restauranteImg },
             ].map((feature, i) => (
               <div key={i} className="group">
                 <div className="relative h-64 overflow-hidden rounded-lg mb-6">
