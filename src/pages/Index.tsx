@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import Layout from "@/components/Layout";
-import heroReal from "@/assets/hero-real.jpg";
+import fotoArtistica from "@/assets/foto-artistica.png";
 import piscina from "@/assets/piscina.jpg";
 import piscinaNoite3 from "@/assets/piscina-noite-3.jpg";
 import quartoT1 from "@/assets/quarto-t1.jpg";
@@ -141,15 +141,15 @@ const Index = () => {
       <section className="relative h-[85vh] flex items-center justify-center overflow-hidden">
         <div 
           className="absolute inset-0 bg-cover bg-center scale-105 animate-slow-zoom"
-          style={{ backgroundImage: `url(${heroReal})` }}
+          style={{ backgroundImage: `url(${fotoArtistica})` }}
         />
-        <div className="absolute inset-0 bg-black/40" />
+        <div className="absolute inset-0 bg-black/30" />
         
         <div className="container mx-auto px-6 relative z-10 text-center">
-          <h1 className="text-4xl md:text-7xl font-bold text-white mb-8 leading-tight animate-slide-up">
+          <h1 className="text-4xl md:text-7xl font-bold text-white mb-8 leading-tight animate-slide-up drop-shadow-lg">
             {t('hero.title')}
           </h1>
-          <p className="text-white/90 text-base md:text-xl max-w-2xl mx-auto font-light font-body mb-12 animate-fade-in-delayed">
+          <p className="text-white/95 text-base md:text-xl max-w-2xl mx-auto font-medium font-body mb-12 animate-fade-in-delayed drop-shadow-md">
             {t('hero.subtitle')}
           </p>
 
