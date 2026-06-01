@@ -17,6 +17,8 @@ import restauranteImg from "@/assets/Restaurante.png";
 import frontal from "@/assets/frontal.png";
 import bilenePraia from "@/assets/bilene-praia.jpg";
 import restauranteNovo from "@/assets/restaurante-novo.png";
+import principal from "@/assets/principal.png";
+import disco from "@/assets/disco.jpg";
 import { Home, UtensilsCrossed, Waves, Search, ArrowRight, Star, Quote, ChefHat, Loader2, Camera } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { blogPosts } from "./BlogData";
@@ -271,7 +273,7 @@ const Index = () => {
             <div className="w-12 h-1 bg-amber mx-auto" />
           </div>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4 max-w-6xl mx-auto mb-12">
-            {[frontal, piscina, salaAmpla, bilenePraia, piscinaNoite3, restauranteNovo].map((img, i) => (
+            {[frontal, principal, salaAmpla, disco, fotoArtistica, restauranteNovo].map((img, i) => (
               <div key={i} className="aspect-square overflow-hidden rounded-sm shadow-sm group">
                 <img 
                   src={img} 
