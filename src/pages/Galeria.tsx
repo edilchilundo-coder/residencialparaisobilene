@@ -20,17 +20,18 @@ import fotoArtistica from "@/assets/foto-artistica.png";
 
 const galleryImages = [
   { src: principal, alt: "Residencial Paraíso", span: "md:col-span-2 md:row-span-2" },
-  { src: fotoArtistica, alt: "Detalhes Artísticos", span: "" },
+  { src: principal, alt: "Principal", span: "" },
   { src: frontal, alt: "Vista Frontal", span: "" },
-  { src: patioDia, alt: "Pátio de Dia", span: "" },
-  { src: entradaLateral, alt: "Entrada Lateral", span: "" },
+  { src: disco, alt: "Discoteca", span: "" },
+  { src: fotoArtistica, alt: "Detalhes Artísticos", span: "" },
   { src: patio, alt: "Pátio", span: "" },
   { src: t1Principal, alt: "Apartamento T1", span: "" },
   { src: varanda, alt: "Varanda", span: "" },
   { src: rpb47, alt: "Interior RPB", span: "" },
   { src: restauranteNovo, alt: "Restaurante", span: "" },
   { src: lazer1, alt: "Área de Lazer", span: "" },
-  { src: disco, alt: "Discoteca", span: "" },
+  { src: patioDia, alt: "Pátio de Dia", span: "" },
+  { src: entradaLateral, alt: "Entrada Lateral", span: "" },
   { src: bilenePraia, alt: "Praia do Bilene", span: "md:col-span-2" },
 ];
 
