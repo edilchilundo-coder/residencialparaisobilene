@@ -15,6 +15,15 @@
 <body <?php body_class(); ?>>
 <?php wp_body_open(); ?>
 
+<?php
+/**
+ * Elementor Theme Builder: se houver um template "header" publicado para esta
+ * página, ele substitui completamente o cabeçalho PHP abaixo. Caso contrário,
+ * mantemos o header nativo (responsivo, com menu hambúrguer).
+ */
+if ( function_exists( 'elementor_theme_do_location' ) && elementor_theme_do_location( 'header' ) ) :
+    // Header renderizado pelo Elementor Pro Theme Builder.
+else : ?>
 <header class="site-header">
   <div class="container header-inner">
     <div class="site-branding">
@@ -51,3 +60,4 @@
     </nav>
   </div>
 </header>
+<?php endif; ?>
