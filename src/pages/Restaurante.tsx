@@ -2,22 +2,12 @@
 
 import Layout from "@/components/Layout";
 import PageHeader from "@/components/PageHeader";
-import { Utensils, Clock, MapPin, Star, Wine, Pizza } from "lucide-react";
+import { Utensils, Clock, MapPin, Star, Coffee, Wine, Pizza } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
-import restauranteNovo from "@/assets/restaurante-novo.png";
-import restaurante1 from "@/assets/restaurante-1.png";
-import restaurante2 from "@/assets/restaurante-2.jpg";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
+import gastronomiaImg from "@/assets/gastronomia.jpg";
 
 const Restaurante = () => {
   const { t } = useLanguage();
-  const restaurantImages = [restauranteNovo, restaurante1, restaurante2];
 
   return (
     <Layout>
@@ -60,24 +50,14 @@ const Restaurante = () => {
                 </div>
               </div>
             </div>
-            <div className="lg:w-1/2 w-full">
-              <Carousel className="w-full shadow-2xl group">
-                <CarouselContent>
-                  {restaurantImages.map((src, index) => (
-                    <CarouselItem key={index}>
-                      <div className="overflow-hidden aspect-video">
-                        <img 
-                          src={src} 
-                          alt={`Restaurante - Foto ${index + 1}`} 
-                          className="w-full h-full object-cover group-hover:scale-105 transition duration-700"
-                        />
-                      </div>
-                    </CarouselItem>
-                  ))}
-                </CarouselContent>
-                <CarouselPrevious className="left-4 opacity-0 group-hover:opacity-100 transition-opacity" />
-                <CarouselNext className="right-4 opacity-0 group-hover:opacity-100 transition-opacity" />
-              </Carousel>
+            <div className="lg:w-1/2">
+              <div className="relative rounded-sm overflow-hidden shadow-2xl aspect-video">
+                <img 
+                  src={gastronomiaImg} 
+                  alt="Ambiente do Restaurante" 
+                  className="w-full h-full object-cover"
+                />
+              </div>
             </div>
           </div>
         </div>

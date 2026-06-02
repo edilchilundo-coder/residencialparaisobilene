@@ -9,11 +9,13 @@ import {
   BedDouble,
   Users,
   UtensilsCrossed,
+  DoorOpen,
   ShowerHead,
   Waves,
   Shield,
   Car,
-  ConciergeBell
+  ConciergeBell,
+  Heart
 } from "lucide-react";
 import {
   Carousel,
@@ -22,20 +24,23 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import t1Principal from "@/assets/t1-principal.jpg";
-import t1 from "@/assets/t1.jpg";
-import wcT1 from "@/assets/wc-t1.jpg";
-import varanda from "@/assets/varanda.png";
-import rpb47 from "@/assets/rpb-47.png";
-import quartoCasal from "@/assets/quarto-casal.jpg";
-import salaNova from "@/assets/sala-nova.jpg";
-import openSpace from "@/assets/open-space.jpg";
+import sala from "@/assets/sala.jpg";
+import salaAmpla from "@/assets/sala-ampla.jpg";
+import cozinha2 from "@/assets/cozinha-2.jpg";
+import piscina from "@/assets/piscina.jpg";
+import fachada from "@/assets/fachada.png";
+import quartoT1 from "@/assets/quarto-t1.jpg";
+import quartoT2 from "@/assets/quarto-t2.jpg";
+import bilenePraia from "@/assets/bilene-praia.jpg";
 import camaKing from "@/assets/cama-king.jpg";
+import cama1 from "@/assets/cama-1.jpg";
+import camaSolteiro from "@/assets/cama-solteiro.jpg";
+import cadeira from "@/assets/cadeira.jpg";
 import { useLanguage } from "@/contexts/LanguageContext";
 
-const t1Images = [t1Principal, t1, wcT1];
-const t2Images = [varanda, rpb47, quartoCasal, salaNova, openSpace];
-const quartoImages = [camaKing];
+const t1Images = [camaKing, sala, cozinha2, fachada];
+const t2Images = [quartoT2, salaAmpla, camaSolteiro, fachada];
+const quartoImages = [quartoT1, cadeira, cama1];
 
 const Acomodacoes = () => {
   const { t } = useLanguage();
@@ -145,13 +150,23 @@ const Acomodacoes = () => {
           {/* Quarto */}
           <div className="flex flex-col lg:flex-row gap-16 items-center max-w-6xl mx-auto">
             <div className="lg:w-1/2 w-full">
-              <div className="overflow-hidden aspect-[4/3] shadow-2xl rounded-sm">
-                <img
-                  src={quartoImages[0]}
-                  alt="Quarto Suite"
-                  className="w-full h-full object-cover"
-                />
-              </div>
+              <Carousel className="w-full shadow-2xl group">
+                <CarouselContent>
+                  {quartoImages.map((src, index) => (
+                    <CarouselItem key={index}>
+                      <div className="overflow-hidden aspect-[4/3]">
+                        <img
+                          src={src}
+                          alt={`Quarto - Foto ${index + 1}`}
+                          className="w-full h-full object-cover group-hover:scale-105 transition duration-700"
+                        />
+                      </div>
+                    </CarouselItem>
+                  ))}
+                </CarouselContent>
+                <CarouselPrevious className="left-4 opacity-0 group-hover:opacity-100 transition-opacity" />
+                <CarouselNext className="right-4 opacity-0 group-hover:opacity-100 transition-opacity" />
+              </Carousel>
             </div>
             <div className="lg:w-1/2">
               <div className="inline-block bg-amber text-accent-foreground px-4 py-1 text-[10px] font-bold uppercase tracking-widest mb-4 font-body">

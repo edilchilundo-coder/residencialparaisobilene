@@ -12,14 +12,8 @@ import salaAmpla from "@/assets/sala-ampla.jpg";
 import gastronomiaImg from "@/assets/gastronomia.jpg";
 import camaKing from "@/assets/cama-king.jpg";
 import cozinha2 from "@/assets/cozinha-2.jpg";
-import fotoArtistica from "@/assets/foto-artistica.png";
-import restauranteImg from "@/assets/Restaurante.png";
-import frontal from "@/assets/frontal.png";
-import bilenePraia from "@/assets/bilene-praia.jpg";
-import restauranteNovo from "@/assets/restaurante-novo.png";
-import principal from "@/assets/principal.png";
-import disco from "@/assets/disco.jpg";
-import { Home, UtensilsCrossed, Waves, Search, ArrowRight, Star, Quote, ChefHat, Loader2, Camera } from "lucide-react";
+import cadeira from "@/assets/cadeira.jpg";
+import { Home, UtensilsCrossed, Waves, Search, ArrowRight, Star, Quote, ChefHat, Loader2 } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { blogPosts } from "./BlogData";
 import { toast } from "sonner";
@@ -149,13 +143,13 @@ const Index = () => {
           className="absolute inset-0 bg-cover bg-center scale-105 animate-slow-zoom"
           style={{ backgroundImage: `url(${heroReal})` }}
         />
-        <div className="absolute inset-0 bg-black/20" />
+        <div className="absolute inset-0 bg-black/40" />
         
         <div className="container mx-auto px-6 relative z-10 text-center">
-          <h1 className="text-4xl md:text-7xl font-bold text-white mb-8 leading-tight animate-slide-up drop-shadow-lg">
+          <h1 className="text-4xl md:text-7xl font-bold text-white mb-8 leading-tight animate-slide-up">
             {t('hero.title')}
           </h1>
-          <p className="text-white/95 text-base md:text-xl max-w-2xl mx-auto font-medium font-body mb-12 animate-fade-in-delayed drop-shadow-md">
+          <p className="text-white/90 text-base md:text-xl max-w-2xl mx-auto font-light font-body mb-12 animate-fade-in-delayed">
             {t('hero.subtitle')}
           </p>
 
@@ -244,8 +238,8 @@ const Index = () => {
             {[
               { icon: Home, title: t('home.features.design'), desc: t('home.features.designDesc'), img: salaAmpla },
               { icon: UtensilsCrossed, title: t('home.features.kitchen'), desc: t('home.features.kitchenDesc'), img: cozinha2 },
-              { icon: Waves, title: t('home.features.leisure'), desc: t('home.features.leisureDesc'), img: fotoArtistica },
-              { icon: ChefHat, title: t('home.features.restaurant'), desc: t('home.features.restaurantDesc'), img: restauranteImg },
+              { icon: Waves, title: t('home.features.leisure'), desc: t('home.features.leisureDesc'), img: piscinaNoite3 },
+              { icon: ChefHat, title: t('home.features.restaurant'), desc: t('home.features.restaurantDesc'), img: gastronomiaImg },
             ].map((feature, i) => (
               <div key={i} className="group">
                 <div className="relative h-64 overflow-hidden rounded-lg mb-6">
@@ -265,37 +259,8 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Gallery Preview Section */}
-      <section className="py-24 bg-gray-50">
-        <div className="container mx-auto px-6">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">Um vislumbre do paraíso</h2>
-            <div className="w-12 h-1 bg-amber mx-auto" />
-          </div>
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4 max-w-6xl mx-auto mb-12">
-            {[frontal, principal, salaAmpla, disco, fotoArtistica, restauranteNovo].map((img, i) => (
-              <div key={i} className="aspect-square overflow-hidden rounded-sm shadow-sm group">
-                <img 
-                  src={img} 
-                  alt="Galeria" 
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                />
-              </div>
-            ))}
-          </div>
-          <div className="text-center">
-            <Link 
-              to="/galeria" 
-              className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-8 py-4 font-bold uppercase tracking-widest text-xs hover:bg-amber hover:text-accent-foreground transition-all rounded-full shadow-lg"
-            >
-              <Camera size={16} /> Ver Galeria Completa
-            </Link>
-          </div>
-        </div>
-      </section>
-
       {/* Testimonials Section */}
-      <section className="py-24 bg-white">
+      <section className="py-24 bg-gray-50">
         <div className="container mx-auto px-6">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-gray-900 mb-4">{t('home.testimonials')}</h2>
@@ -303,7 +268,7 @@ const Index = () => {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
             {testimonials.map((t, i) => (
-              <div key={i} className="bg-gray-50 p-8 shadow-sm border border-gray-100 relative">
+              <div key={i} className="bg-white p-8 shadow-sm border border-gray-100 relative">
                 <Star className="absolute top-4 right-4 text-amber/10" size={40} />
                 <div className="flex gap-1 mb-4">
                   {[...Array(t.rating)].map((_, i) => (
@@ -319,7 +284,7 @@ const Index = () => {
       </section>
 
       {/* Blog Highlights */}
-      <section className="py-24 bg-gray-50">
+      <section className="py-24 bg-white">
         <div className="container mx-auto px-6">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-gray-900 mb-4">{t('home.blog')}</h2>
