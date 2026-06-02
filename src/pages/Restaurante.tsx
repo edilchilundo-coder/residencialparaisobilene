@@ -2,9 +2,10 @@
 
 import Layout from "@/components/Layout";
 import PageHeader from "@/components/PageHeader";
-import { Utensils, Clock, MapPin, Star, Coffee, Wine, Pizza } from "lucide-react";
+import { Utensils, Clock, MapPin, Star, Coffee, Wine, Pizza, Camera } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import gastronomiaImg from "@/assets/gastronomia.jpg";
+import restauranteNovo from "@/assets/restaurante-novo.png";
 
 const Restaurante = () => {
   const { t } = useLanguage();
@@ -51,12 +52,15 @@ const Restaurante = () => {
               </div>
             </div>
             <div className="lg:w-1/2">
-              <div className="relative rounded-sm overflow-hidden shadow-2xl aspect-video">
+              <div className="relative rounded-sm overflow-hidden shadow-2xl aspect-video group">
                 <img 
-                  src={gastronomiaImg} 
-                  alt="Ambiente do Restaurante" 
-                  className="w-full h-full object-cover"
+                  src={restauranteNovo} 
+                  alt="Novo Espaço do Restaurante" 
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                 />
+                <div className="absolute bottom-4 right-4 bg-black/50 backdrop-blur-md text-white px-3 py-1 text-[10px] font-bold uppercase tracking-widest flex items-center gap-2">
+                  <Camera size={12} /> Nosso Novo Espaço
+                </div>
               </div>
             </div>
           </div>
@@ -75,25 +79,33 @@ const Restaurante = () => {
               { 
                 icon: Utensils, 
                 title: t('restaurant.menu.seafood'), 
-                desc: t('restaurant.menu.seafoodDesc') 
+                desc: t('restaurant.menu.seafoodDesc'),
+                img: gastronomiaImg
               },
               { 
                 icon: Pizza, 
                 title: t('restaurant.menu.traditional'), 
-                desc: t('restaurant.menu.traditionalDesc') 
+                desc: t('restaurant.menu.traditionalDesc'),
+                img: restauranteNovo
               },
               { 
                 icon: Wine, 
                 title: t('restaurant.menu.drinks'), 
-                desc: t('restaurant.menu.drinksDesc') 
+                desc: t('restaurant.menu.drinksDesc'),
+                img: restauranteNovo
               },
             ].map((item, i) => (
-              <div key={i} className="bg-card p-10 border border-border text-center group hover:border-amber transition-all duration-300">
-                <div className="w-16 h-16 bg-secondary rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-amber group-hover:text-white transition-colors">
-                  <item.icon size={28} />
+              <div key={i} className="bg-card border border-border overflow-hidden group hover:border-amber transition-all duration-300 flex flex-col">
+                <div className="h-48 overflow-hidden">
+                  <img src={item.img} alt={item.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
                 </div>
-                <h4 className="font-bold text-foreground mb-4 uppercase tracking-widest text-sm">{item.title}</h4>
-                <p className="text-muted-foreground text-xs leading-relaxed font-body">{item.desc}</p>
+                <div className="p-8 text-center flex-1 flex flex-col justify-center">
+                  <div className="w-12 h-12 bg-secondary rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-amber group-hover:text-white transition-colors">
+                    <item.icon size={20} />
+                  </div>
+                  <h4 className="font-bold text-foreground mb-3 uppercase tracking-widest text-sm">{item.title}</h4>
+                  <p className="text-muted-foreground text-xs leading-relaxed font-body">{item.desc}</p>
+                </div>
               </div>
             ))}
           </div>
@@ -111,9 +123,9 @@ const Restaurante = () => {
           </p>
           <a
             href="https://wa.me/258877302100"
-            className="inline-block bg-amber text-accent-foreground px-10 py-4 font-bold uppercase tracking-widest text-sm hover:bg-amber-dark transition font-body"
+            className="inline-block bg-amber text-accent-foreground px-10 py-4 font-bold uppercase tracking-widest text-sm hover:bg-amber-dark transition font-body rounded-full shadow-lg"
           >
-            Reservar Mesa
+            Reservar Mesa via WhatsApp
           </a>
         </div>
       </section>
