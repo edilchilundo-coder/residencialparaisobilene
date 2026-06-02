@@ -18,27 +18,22 @@ import gastronomiaImg from "@/assets/gastronomia.jpg";
 import passeiosBarcoImg from "@/assets/passeios-barco.jpg";
 import quartoT1 from "@/assets/quarto-t1.jpg";
 import quartoT2 from "@/assets/quarto-t2.jpg";
-import principal from "@/assets/principal.png";
-import fotoArtistica from "@/assets/foto-artistica.png";
-import disco from "@/assets/disco.jpg";
-import frontal from "@/assets/frontal.png";
-import restauranteNovo from "@/assets/restaurante-novo.png";
 
 const galleryImages = [
-  { src: principal, alt: "Vista Principal da Residencial", span: "md:col-span-2 md:row-span-2" },
-  { src: frontal, alt: "Fachada Frontal", span: "" },
-  { src: fotoArtistica, alt: "Detalhe Artístico da Piscina", span: "" },
-  { src: disco, alt: "Área de Lazer e Entretenimento", span: "" },
-  { src: restauranteNovo, span: "" },
+  { src: fachada, alt: "Fachada do Aparthotel", span: "md:col-span-2 md:row-span-2" },
   { src: passeiosBarcoImg, alt: "Passeios de Barco na Lagoa", span: "" },
-  { src: gastronomiaImg, alt: "Gastronomia Local", span: "" },
-  { src: quadBikingImg, alt: "Aventura de Quad Biking", span: "" },
-  { src: quartoT1, alt: "Quarto T1 Premium", span: "" },
-  { src: quartoT2, alt: "Quarto T2 Familiar", span: "" },
-  { src: sunsetLoungeExt, alt: "Sunset Lounge", span: "" },
-  { src: piscinaNoite1, alt: "Piscina Noturna", span: "" },
-  { src: salaAmpla, alt: "Sala de Estar", span: "md:col-span-2" },
-  { src: bilenePraia, alt: "Praia do Bilene", span: "" },
+  { src: gastronomiaImg, alt: "Gastronomia Local - Camarões", span: "" },
+  { src: quadBikingImg, alt: "Aventura de Buggy nas Dunas", span: "" },
+  { src: quartoT1, alt: "Quarto Apartamento T1", span: "" },
+  { src: quartoT2, alt: "Quarto Apartamento T2", span: "" },
+  { src: sunsetLoungeExt, alt: "Sunset Lounge Exterior", span: "" },
+  { src: piscinaNoite1, alt: "Piscina Iluminada à Noite", span: "" },
+  { src: piscinaNoite2, alt: "Área de Lazer Noturna", span: "" },
+  { src: salaAmpla, alt: "Sala de Estar Ampla", span: "" },
+  { src: piscina, alt: "Área da Piscina de Dia", span: "" },
+  { src: cozinha, alt: "Cozinha Equipada", span: "" },
+  { src: sala, alt: "Sala com TV", span: "" },
+  { src: bilenePraia, alt: "Praia do Bilene", span: "md:col-span-2" },
 ];
 
 const Galeria = () => {
@@ -51,22 +46,22 @@ const Galeria = () => {
 
   return (
     <Layout>
-      <PageHeader title="Explore o Paraíso" subtitle="Conheça cada detalhe do nosso espaço" />
+      <PageHeader title="Explore o Paraíso" subtitle="Conheça cada detalhe do nosso espaço, desde os interiores modernos até à nossa área de lazer" />
 
       <section className="py-20 bg-background">
         <div className="container mx-auto px-6">
-          <div className="flex items-center gap-3 mb-12">
+          <div className="flex items-center gap-3 mb-8">
             <div className="w-10 h-10 bg-amber rounded-full flex items-center justify-center text-accent-foreground">
               <Camera size={20} />
             </div>
             <h3 className="text-2xl font-bold tracking-tight">Galeria de Fotos</h3>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mb-24">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mb-16">
             {galleryImages.map((img, index) => (
               <div 
-                key={index} 
-                className={`gallery-item cursor-pointer ${img.span} h-64 sm:h-auto ${img.span ? "sm:h-full" : "sm:h-64"}`}
+                key={img.alt} 
+                className={`gallery-item cursor-pointer ${img.span} h-48 sm:h-auto ${img.span ? "sm:h-full" : "sm:h-48"}`}
                 onClick={() => openLightbox(index)}
               >
                 <img src={img.src} alt={img.alt} loading="lazy" className="w-full h-full object-cover" />
@@ -97,11 +92,9 @@ const Galeria = () => {
                   alt={galleryImages[selectedImg].alt} 
                   className="max-w-full max-h-full object-contain shadow-2xl animate-fade-in"
                 />
-                {galleryImages[selectedImg].alt && (
-                  <p className="absolute bottom-[-40px] left-0 right-0 text-center text-white font-body text-sm">
-                    {galleryImages[selectedImg].alt}
-                  </p>
-                )}
+                <p className="absolute bottom-[-40px] left-0 right-0 text-center text-white font-body text-sm">
+                  {galleryImages[selectedImg].alt}
+                </p>
               </div>
 
               <button 
@@ -119,12 +112,12 @@ const Galeria = () => {
             </div>
             <h3 className="text-2xl font-bold tracking-tight">Localização & Street View</h3>
           </div>
-          <div className="rounded-sm overflow-hidden shadow-2xl min-h-[450px] w-full border border-border">
+          <div className="rounded-sm overflow-hidden shadow-2xl min-h-[400px] w-full">
             <iframe
               src="https://www.google.com/maps/embed?pb=!4v1710345678901!6m8!1m7!1sCAoSLEFGMVFpcE9QZzVfXzVfXzVfXzVfXzVfXzVfXzVfXzVfXzVfXzVfXzVfXzVf!2m2!1d-25.2795538!2d33.2490682!3f0!4f0!5f0.7820865974627469"
               width="100%"
               height="100%"
-              style={{ border: 0, minHeight: "450px" }}
+              style={{ border: 0, minHeight: "400px" }}
               allowFullScreen
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
@@ -132,14 +125,14 @@ const Galeria = () => {
               className="w-full h-full"
             />
           </div>
-          <div className="mt-6 text-center">
+          <div className="mt-4 text-center">
             <a
               href="https://maps.app.goo.gl/rskhHsLuzh8VC9Z2A"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 bg-amber text-accent-foreground px-8 py-3 font-bold uppercase tracking-widest text-xs hover:bg-amber-dark transition rounded-full shadow-md"
+              className="inline-flex items-center gap-2 text-amber hover:text-amber-dark font-semibold transition font-body"
             >
-              <MapPin size={16} />
+              <MapPin size={18} />
               Ver no Google Maps
             </a>
           </div>
