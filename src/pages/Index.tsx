@@ -1,15 +1,13 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import Layout from "@/components/Layout";
 import heroReal from "@/assets/hero-real.jpg";
 import piscina from "@/assets/piscina.jpg";
 import piscinaNoite3 from "@/assets/piscina-noite-3.jpg";
 import quartoT1 from "@/assets/quarto-t1.jpg";
 import quartoT2 from "@/assets/quarto-t2.jpg";
-import fachada from "@/assets/fachada.png";
 import salaAmpla from "@/assets/sala-ampla.jpg";
-import gastronomiaImg from "@/assets/gastronomia.jpg";
 import camaKing from "@/assets/cama-king.jpg";
 import cozinha2 from "@/assets/cozinha-2.jpg";
 import fotoArtistica from "@/assets/foto-artistica.png";
@@ -17,8 +15,10 @@ import restauranteImg from "@/assets/Restaurante.png";
 import frontal from "@/assets/frontal.png";
 import bilenePraia from "@/assets/bilene-praia.jpg";
 import restauranteNovo from "@/assets/restaurante-novo.png";
-import { Home, UtensilsCrossed, Waves, Search, ArrowRight, Star, Quote, ChefHat, Loader2, Camera } from "lucide-react";
-import { Link, useNavigate } from "react-router-dom";
+import principal from "@/assets/principal.png";
+import disco from "@/assets/disco.jpg";
+import { Home, UtensilsCrossed, Waves, Search, ArrowRight, Star, ChefHat, Loader2, Camera } from "lucide-react";
+import { Link } from "react-router-dom";
 import { blogPosts } from "./BlogData";
 import { toast } from "sonner";
 import RoomCard from "@/components/RoomCard";
@@ -43,7 +43,6 @@ interface RoomAvailability {
 }
 
 const Index = () => {
-  const navigate = useNavigate();
   const { t } = useLanguage();
   const [checkIn, setCheckIn] = useState("");
   const [checkOut, setCheckOut] = useState("");
@@ -81,7 +80,6 @@ const Index = () => {
     setIsSearching(true);
     
     try {
-      // 1. Buscar todos os quartos
       let query = supabase.from('rooms').select('*');
       if (roomType !== 'all') {
         query = query.eq('type', roomType);
@@ -89,7 +87,6 @@ const Index = () => {
       const { data: rooms, error: roomsError } = await query;
       if (roomsError) throw roomsError;
 
-      // 2. Buscar reservas que coincidem com as datas
       const { data: reservations, error: resError } = await supabase
         .from('reservations')
         .select('room_id')
@@ -99,7 +96,6 @@ const Index = () => {
 
       if (resError) throw resError;
 
-      // 3. Calcular disponibilidade
       const availability = rooms.map(room => {
         const occupiedCount = reservations.filter(r => r.room_id === room.id).length;
         return {
@@ -271,7 +267,7 @@ const Index = () => {
             <div className="w-12 h-1 bg-amber mx-auto" />
           </div>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4 max-w-6xl mx-auto mb-12">
-            {[frontal, piscina, salaAmpla, bilenePraia, piscinaNoite3, restauranteNovo].map((img, i) => (
+            {[frontal, principal, salaAmpla, disco, fotoArtistica, restauranteNovo].map((img, i) => (
               <div key={i} className="aspect-square overflow-hidden rounded-sm shadow-sm group">
                 <img 
                   src={img} 
