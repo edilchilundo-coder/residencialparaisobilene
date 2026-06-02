@@ -43,14 +43,9 @@ const Footer = () => {
           <div>
             <h4 className="font-bold text-primary-foreground mb-4 text-sm tracking-widest uppercase font-body">Contacto</h4>
             <div className="flex flex-col gap-3">
-              <div className="flex flex-col gap-1">
-                <a href="tel:+258877302100" className="flex items-center gap-3 text-muted-foreground text-sm hover:text-amber transition-colors">
-                  <Phone size={16} className="text-amber" /> +258 87 730 2100
-                </a>
-                <a href="tel:+258847102100" className="flex items-center gap-3 text-muted-foreground text-sm hover:text-amber transition-colors ml-7">
-                  +258 84 710 2100
-                </a>
-              </div>
+              <a href="tel:+258877302100" className="flex items-center gap-3 text-muted-foreground text-sm hover:text-amber transition-colors">
+                <Phone size={16} className="text-amber" /> +258 87 730 2100
+              </a>
               <a href="mailto:info@paraisobilene.com" className="flex items-center gap-3 text-muted-foreground text-sm hover:text-amber transition-colors">
                 <Mail size={16} className="text-amber" /> info@paraisobilene.com
               </a>

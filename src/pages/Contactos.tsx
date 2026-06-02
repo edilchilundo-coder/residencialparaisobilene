@@ -33,7 +33,7 @@ const Contactos = () => {
     try {
       const { error } = await supabase
         .from("contact_messages")
-        .insert([data]);
+        .insert([data as Required<ContactFormValues>]);
 
       if (error) throw error;
 
@@ -117,11 +117,8 @@ const Contactos = () => {
                       <Phone size={18} />
                     </div>
                     <div>
-                      <h4 className="font-bold text-foreground font-body text-sm">Telefones</h4>
-                      <div className="flex flex-col">
-                        <a href="tel:+258877302100" className="text-muted-foreground hover:text-amber transition font-body text-sm">+258 87 730 2100</a>
-                        <a href="tel:+258847102100" className="text-muted-foreground hover:text-amber transition font-body text-sm">+258 84 710 2100</a>
-                      </div>
+                      <h4 className="font-bold text-foreground font-body text-sm">Telefone</h4>
+                      <a href="tel:+258877302100" className="text-muted-foreground hover:text-amber transition font-body text-sm">+258 87 730 2100</a>
                     </div>
                   </div>
                   <div className="flex items-start gap-4">

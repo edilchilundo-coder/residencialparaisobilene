@@ -4,35 +4,34 @@ import { useState } from "react";
 import Layout from "@/components/Layout";
 import PageHeader from "@/components/PageHeader";
 import { Camera, MapPin, X, ChevronLeft, ChevronRight } from "lucide-react";
+import frontal from "@/assets/frontal.png";
+import patioDia from "@/assets/patio-dia.jpg";
+import entradaLateral from "@/assets/entrada-lateral.jpg";
+import patio from "@/assets/patio.png";
+import t1Principal from "@/assets/t1-principal.jpg";
+import varanda from "@/assets/varanda.png";
+import rpb47 from "@/assets/rpb-47.png";
+import restauranteNovo from "@/assets/restaurante-novo.png";
+import lazer1 from "@/assets/lazer-1.jpg";
+import disco from "@/assets/disco.jpg";
 import bilenePraia from "@/assets/bilene-praia.jpg";
-import cozinha from "@/assets/cozinha.jpg";
-import sala from "@/assets/sala.jpg";
-import fachada from "@/assets/fachada.png";
-import salaAmpla from "@/assets/sala-ampla.jpg";
-import piscina from "@/assets/piscina.jpg";
-import piscinaNoite1 from "@/assets/piscina-noite-1.jpg";
-import piscinaNoite2 from "@/assets/piscina-noite-2.jpg";
-import sunsetLoungeExt from "@/assets/sunset-lounge-exterior.webp";
-import quadBikingImg from "@/assets/quad-biking.jpg";
-import gastronomiaImg from "@/assets/gastronomia.jpg";
-import passeiosBarcoImg from "@/assets/passeios-barco.jpg";
-import quartoT1 from "@/assets/quarto-t1.jpg";
-import quartoT2 from "@/assets/quarto-t2.jpg";
+import principal from "@/assets/principal.png";
+import fotoArtistica from "@/assets/foto-artistica.png";
 
 const galleryImages = [
-  { src: fachada, alt: "Fachada do Aparthotel", span: "md:col-span-2 md:row-span-2" },
-  { src: passeiosBarcoImg, alt: "Passeios de Barco na Lagoa", span: "" },
-  { src: gastronomiaImg, alt: "Gastronomia Local - Camarões", span: "" },
-  { src: quadBikingImg, alt: "Aventura de Buggy nas Dunas", span: "" },
-  { src: quartoT1, alt: "Quarto Apartamento T1", span: "" },
-  { src: quartoT2, alt: "Quarto Apartamento T2", span: "" },
-  { src: sunsetLoungeExt, alt: "Sunset Lounge Exterior", span: "" },
-  { src: piscinaNoite1, alt: "Piscina Iluminada à Noite", span: "" },
-  { src: piscinaNoite2, alt: "Área de Lazer Noturna", span: "" },
-  { src: salaAmpla, alt: "Sala de Estar Ampla", span: "" },
-  { src: piscina, alt: "Área da Piscina de Dia", span: "" },
-  { src: cozinha, alt: "Cozinha Equipada", span: "" },
-  { src: sala, alt: "Sala com TV", span: "" },
+  { src: principal, alt: "Residencial Paraíso", span: "md:col-span-2 md:row-span-2" },
+  { src: principal, alt: "Principal", span: "" },
+  { src: frontal, alt: "Vista Frontal", span: "" },
+  { src: disco, alt: "Discoteca", span: "" },
+  { src: fotoArtistica, alt: "Detalhes Artísticos", span: "" },
+  { src: patio, alt: "Pátio", span: "" },
+  { src: t1Principal, alt: "Apartamento T1", span: "" },
+  { src: varanda, alt: "Varanda", span: "" },
+  { src: rpb47, alt: "Interior RPB", span: "" },
+  { src: restauranteNovo, alt: "Restaurante", span: "" },
+  { src: lazer1, alt: "Área de Lazer", span: "" },
+  { src: patioDia, alt: "Pátio de Dia", span: "" },
+  { src: entradaLateral, alt: "Entrada Lateral", span: "" },
   { src: bilenePraia, alt: "Praia do Bilene", span: "md:col-span-2" },
 ];
 
@@ -46,7 +45,7 @@ const Galeria = () => {
 
   return (
     <Layout>
-      <PageHeader title="Explore o Paraíso" subtitle="Conheça cada detalhe do nosso espaço, desde os interiores modernos até à nossa área de lazer" />
+      <PageHeader title="Explore o Paraíso" subtitle="Conheça cada detalhe do nosso espaço através das nossas lentes" />
 
       <section className="py-20 bg-background">
         <div className="container mx-auto px-6">
@@ -60,7 +59,7 @@ const Galeria = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mb-16">
             {galleryImages.map((img, index) => (
               <div 
-                key={img.alt} 
+                key={index} 
                 className={`gallery-item cursor-pointer ${img.span} h-48 sm:h-auto ${img.span ? "sm:h-full" : "sm:h-48"}`}
                 onClick={() => openLightbox(index)}
               >
@@ -124,17 +123,6 @@ const Galeria = () => {
               title="Residencial Paraíso Bilene - Street View"
               className="w-full h-full"
             />
-          </div>
-          <div className="mt-4 text-center">
-            <a
-              href="https://maps.app.goo.gl/rskhHsLuzh8VC9Z2A"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 text-amber hover:text-amber-dark font-semibold transition font-body"
-            >
-              <MapPin size={18} />
-              Ver no Google Maps
-            </a>
           </div>
         </div>
       </section>

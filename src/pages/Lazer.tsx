@@ -2,13 +2,24 @@
 
 import Layout from "@/components/Layout";
 import PageHeader from "@/components/PageHeader";
-import { Sun, Moon, Wind, Coffee, Users, Sparkles } from "lucide-react";
+import { Sun, Moon, Wind, Coffee, Users, Sparkles, Waves, Trophy, Music } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
-import piscinaNoite3 from "@/assets/piscina-noite-3.jpg";
-import sunsetLoungeExt from "@/assets/sunset-lounge-exterior.webp";
+import lazer1 from "@/assets/lazer-1.jpg";
+import lazer2 from "@/assets/lazer-2.jpg";
+import lazer3 from "@/assets/lazer-3.jpg";
+import bar from "@/assets/bar.png";
+import disco from "@/assets/disco.jpg";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
 
 const Lazer = () => {
   const { t } = useLanguage();
+  const lazerImages = [lazer1, lazer2, lazer3, bar, disco];
 
   return (
     <Layout>
@@ -17,82 +28,52 @@ const Lazer = () => {
         subtitle="Espaços desenhados para o seu relaxamento total" 
       />
 
-      {/* Lounge Principal */}
+      {/* Galeria de Lazer */}
       <section className="py-20 bg-background">
         <div className="container mx-auto px-6">
           <div className="flex flex-col lg:flex-row gap-16 items-center max-w-6xl mx-auto">
             <div className="lg:w-1/2">
               <div className="flex items-center gap-2 text-amber mb-4">
-                <Moon size={18} />
-                <span className="text-xs font-bold uppercase tracking-widest font-body">Ambiente Noturno</span>
+                <Sparkles size={18} />
+                <span className="text-xs font-bold uppercase tracking-widest font-body">Experiências Únicas</span>
               </div>
-              <h2 className="text-3xl sm:text-4xl font-bold text-foreground mb-6">Lounge Premium</h2>
+              <h2 className="text-3xl sm:text-4xl font-bold text-foreground mb-6">Diversão & Relaxamento</h2>
               <p className="text-muted-foreground text-base sm:text-lg leading-relaxed font-body mb-8">
-                Desfrute de noites mágicas no nosso lounge principal. Com iluminação quente, sofás confortáveis e um deck de madeira elegante, é o local perfeito para uma conversa descontraída sob as estrelas.
+                Desde o nosso bar exclusivo até à área de discoteca para eventos especiais, oferecemos uma variedade de espaços para tornar a sua estadia inesquecível.
               </p>
               <div className="grid grid-cols-2 gap-6">
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 bg-secondary rounded-full flex items-center justify-center text-amber">
-                    <Users size={20} />
+                    <Music size={20} />
                   </div>
-                  <span className="text-sm font-bold font-body">Socialização</span>
+                  <span className="text-sm font-bold font-body">Eventos & Música</span>
                 </div>
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 bg-secondary rounded-full flex items-center justify-center text-amber">
-                    <Sparkles size={20} />
+                    <Coffee size={20} />
                   </div>
-                  <span className="text-sm font-bold font-body">Conforto VIP</span>
+                  <span className="text-sm font-bold font-body">Bar & Lounge</span>
                 </div>
               </div>
             </div>
-            <div className="lg:w-1/2">
-              <div className="relative rounded-sm overflow-hidden shadow-2xl aspect-[4/3]">
-                <img 
-                  src={piscinaNoite3} 
-                  alt="Lounge Noturno" 
-                  className="w-full h-full object-cover"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Beach Lounge & Gazebos */}
-      <section className="py-20 bg-secondary">
-        <div className="container mx-auto px-6">
-          <div className="flex flex-col lg:flex-row-reverse gap-16 items-center max-w-6xl mx-auto">
-            <div className="lg:w-1/2">
-              <div className="flex items-center gap-2 text-amber mb-4">
-                <Sun size={18} />
-                <span className="text-xs font-bold uppercase tracking-widest font-body">Pé na Areia</span>
-              </div>
-              <h2 className="text-3xl sm:text-4xl font-bold text-foreground mb-6">Beach Lounge & Gazebos</h2>
-              <p className="text-muted-foreground text-base sm:text-lg leading-relaxed font-body mb-8">
-                Sinta a vibração do Bilene nos nossos espaços "pé na areia". Murais coloridos, gazebos de madeira e áreas de sombra proporcionam o refúgio ideal para ler um livro ou desfrutar de um cocktail refrescante durante o dia.
-              </p>
-              <div className="space-y-4">
-                {[
-                  "Gazebos privativos com sofás",
-                  "Área de areia branca relaxante",
-                  "Decoração artística e local",
-                  "Sombra natural e brisa constante"
-                ].map((item, i) => (
-                  <div key={i} className="flex items-center gap-3">
-                    <Wind size={18} className="text-amber" />
-                    <span className="text-sm font-medium font-body">{item}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div className="lg:w-1/2">
-              <div className="relative rounded-sm overflow-hidden shadow-2xl aspect-[4/3]">
-                <img 
-                  src={sunsetLoungeExt} 
-                  alt="Beach Lounge" 
-                  className="w-full h-full object-cover"
-                />
-              </div>
+            <div className="lg:w-1/2 w-full">
+              <Carousel className="w-full shadow-2xl group">
+                <CarouselContent>
+                  {lazerImages.map((src, index) => (
+                    <CarouselItem key={index}>
+                      <div className="overflow-hidden aspect-[4/3]">
+                        <img 
+                          src={src} 
+                          alt={`Lazer - Foto ${index + 1}`} 
+                          className="w-full h-full object-cover group-hover:scale-105 transition duration-700"
+                        />
+                      </div>
+                    </CarouselItem>
+                  ))}
+                </CarouselContent>
+                <CarouselPrevious className="left-4 opacity-0 group-hover:opacity-100 transition-opacity" />
+                <CarouselNext className="right-4 opacity-0 group-hover:opacity-100 transition-opacity" />
+              </Carousel>
             </div>
           </div>
         </div>
@@ -109,7 +90,7 @@ const Lazer = () => {
           </p>
           <a
             href="https://wa.me/258877302100"
-            className="inline-block bg-amber text-accent-foreground px-10 py-4 font-bold uppercase tracking-widest text-sm hover:bg-amber-dark transition font-body"
+            className="inline-block bg-amber text-accent-foreground px-10 py-4 font-bold uppercase tracking-widest text-sm hover:bg-amber-dark transition font-body rounded-full shadow-lg"
           >
             Reservar Estadia
           </a>
