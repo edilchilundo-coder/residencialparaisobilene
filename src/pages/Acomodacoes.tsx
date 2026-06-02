@@ -9,13 +9,11 @@ import {
   BedDouble,
   Users,
   UtensilsCrossed,
-  DoorOpen,
   ShowerHead,
   Waves,
   Shield,
   Car,
-  ConciergeBell,
-  Heart
+  ConciergeBell
 } from "lucide-react";
 import {
   Carousel,
@@ -27,11 +25,9 @@ import {
 import sala from "@/assets/sala.jpg";
 import salaAmpla from "@/assets/sala-ampla.jpg";
 import cozinha2 from "@/assets/cozinha-2.jpg";
-import piscina from "@/assets/piscina.jpg";
 import fachada from "@/assets/fachada.png";
 import quartoT1 from "@/assets/quarto-t1.jpg";
 import quartoT2 from "@/assets/quarto-t2.jpg";
-import bilenePraia from "@/assets/bilene-praia.jpg";
 import camaKing from "@/assets/cama-king.jpg";
 import cama1 from "@/assets/cama-1.jpg";
 import camaSolteiro from "@/assets/cama-solteiro.jpg";
