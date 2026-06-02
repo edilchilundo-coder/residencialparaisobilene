@@ -1,8 +1,7 @@
 import Layout from "@/components/Layout";
 import PageHeader from "@/components/PageHeader";
 import { Heart, Star, Shield, Users, CheckCircle2 } from "lucide-react";
-import fachada from "@/assets/fachada.png";
-import piscina from "@/assets/piscina.jpg";
+import principal from "@/assets/principal.png";
 
 const SobreNos = () => {
   return (
@@ -30,12 +29,9 @@ const SobreNos = () => {
                 ))}
               </div>
             </div>
-            <div className="lg:w-1/2 relative">
-              <div className="relative z-10 rounded-sm overflow-hidden shadow-2xl">
-                <img src={fachada} alt="Fachada Residencial Paraíso" className="w-full h-auto object-cover" />
-              </div>
-              <div className="absolute -bottom-6 -right-6 w-2/3 z-0 hidden sm:block">
-                <img src={piscina} alt="Piscina Residencial" className="rounded-sm shadow-xl border-4 border-white" />
+            <div className="lg:w-1/2">
+              <div className="rounded-sm overflow-hidden shadow-2xl">
+                <img src={principal} alt="Residencial Paraíso Bilene" className="w-full h-auto object-cover" />
               </div>
             </div>
           </div>
