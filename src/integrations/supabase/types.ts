@@ -7,89 +7,14 @@ export type Json =
   | Json[]
 
 export type Database = {
+  // Allows to automatically instantiate createClient with right options
+  // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
+  __InternalSupabase: {
+    PostgrestVersion: "14.5"
+  }
   public: {
     Tables: {
-      contact_messages: {
-        Row: {
-          id: string
-          name: string
-          email: string
-          subject: string
-          message: string
-          created_at: string
-        }
-        Insert: {
-          id?: string
-          name: string
-          email: string
-          subject: string
-          message: string
-          created_at?: string
-        }
-        Update: {
-          id?: string
-          name?: string
-          email?: string
-          subject?: string
-          message?: string
-          created_at?: string
-        }
-      }
-      reservations: {
-        Row: {
-          id: string
-          room_id: string
-          check_in: string
-          check_out: string
-          status: string
-          created_at: string
-        }
-        Insert: {
-          id?: string
-          room_id: string
-          check_in: string
-          check_out: string
-          status?: string
-          created_at?: string
-        }
-        Update: {
-          id?: string
-          room_id?: string
-          check_in?: string
-          check_out?: string
-          status?: string
-          created_at?: string
-        }
-      }
-      rooms: {
-        Row: {
-          id: string
-          type: string
-          name: string
-          description: string
-          price_per_night: number
-          total_quantity: number
-          created_at: string
-        }
-        Insert: {
-          id?: string
-          type: string
-          name: string
-          description: string
-          price_per_night: number
-          total_quantity?: number
-          created_at?: string
-        }
-        Update: {
-          id?: string
-          type?: string
-          name?: string
-          description?: string
-          price_per_night?: number
-          total_quantity?: number
-          created_at?: string
-        }
-      }
+      [_ in never]: never
     }
     Views: {
       [_ in never]: never
@@ -222,3 +147,9 @@ export type CompositeTypes<
   : PublicCompositeTypeNameOrOptions extends keyof DefaultSchema["CompositeTypes"]
     ? DefaultSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
     : never
+
+export const Constants = {
+  public: {
+    Enums: {},
+  },
+} as const
