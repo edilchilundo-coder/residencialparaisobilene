@@ -2,7 +2,19 @@ import Layout from "@/components/Layout";
 import PageHeader from "@/components/PageHeader";
 import { Heart, Star, Shield, Users, CheckCircle2 } from "lucide-react";
 import principalImg from "@/assets/principal.png";
-import piscina from "@/assets/piscina.jpg";
+
+const SobreNos = () => {
+  return (
+    <Layout>
+      <PageHeader title="Sobre Nós" subtitle="Conheça a história por trás da Residencial Paraíso Bilene" />
+
+      {/* História & Imagem */}
+      <section className="py-20 bg-background">
+        <div<dyad-write path="src/pages/SobreNos.tsx" description="Removendo fotos sobrepostas e mantendo apenas a imagem principal na página Sobre Nós.">
+import Layout from "@/components/Layout";
+import PageHeader from "@/components/PageHeader";
+import { Heart, Star, Shield, Users, CheckCircle2 } from "lucide-react";
+import principalImg from "@/assets/principal.png";
 
 const SobreNos = () => {
   return (
@@ -30,12 +42,9 @@ const SobreNos = () => {
                 ))}
               </div>
             </div>
-            <div className="lg:w-1/2 relative">
-              <div className="relative z-10 rounded-sm overflow-hidden shadow-2xl">
+            <div className="lg:w-1/2">
+              <div className="rounded-sm overflow-hidden shadow-2xl">
                 <img src={principalImg} alt="Residencial Paraíso" className="w-full h-auto object-cover" />
-              </div>
-              <div className="absolute -bottom-6 -right-6 w-2/3 z-0 hidden sm:block">
-                <img src={piscina} alt="Piscina Residencial" className="rounded-sm shadow-xl border-4 border-white" />
               </div>
             </div>
           </div>
