@@ -71,51 +71,18 @@ const Index = () => {
     }
   ];
 
-  const checkAvailability = async () => {
+  const checkAvailability = () => {
     if (!checkIn || !checkOut) {
       toast.error(t('search.error_dates'));
       return;
     }
 
-    setIsSearching(true);
-    
-    try {
-      let query = supabase.from('rooms').select('*');
-      if (roomType !== 'all') {
-        query = query.eq('type', roomType);
-      }
-      const { data: rooms, error: roomsError } = await query;
-      if (roomsError) throw roomsError;
+    const typeLabel = roomType === 'all' ? 'Todos os tipos' : 
+                     roomType === 'T1' ? t('search.t1') : 
+                     roomType === 'T2' ? t('search.t2') : t('search.room');
 
-      const { data: reservations, error: resError } = await supabase
-        .from('reservations')
-        .select('room_id')
-        .filter('check_in', 'lt', checkOut)
-        .filter('check_out', 'gt', checkIn)
-        .eq('status', 'confirmed');
-
-      if (resError) throw resError;
-
-      const availability = rooms.map(room => {
-        const occupiedCount = reservations.filter(r => r.room_id === room.id).length;
-        return {
-          ...room,
-          available_count: room.total_quantity - occupiedCount
-        };
-      });
-
-      setResults(availability);
-      
-      setTimeout(() => {
-        resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }, 100);
-
-    } catch (error) {
-      console.error("Erro ao verificar disponibilidade:", error);
-      toast.error("Erro ao verificar disponibilidade. Tente novamente.");
-    } finally {
-      setIsSearching(false);
-    }
+    const msg = `Olá! Gostaria de verificar disponibilidade para:\n🏠 Acomodação: ${typeLabel}\n📅 Check-in: ${checkIn}\n📅 Check-out: ${checkOut}`;
+    window.open(`https://wa.me/258877302100?text=${encodeURIComponent(msg)}`, "_blank");
   };
 
   const handleBook = (roomName: string) => {
