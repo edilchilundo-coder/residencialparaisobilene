@@ -72,8 +72,23 @@ const Index = () => {
   ];
 
   const checkAvailability = async () => {
+    const accommodationName =
+      roomType === "T1"
+        ? "Casa T1"
+        : roomType === "T2"
+        ? "Casa T2"
+        : roomType === "Quarto"
+        ? "Quarto Suite"
+        : "Qualquer acomodação";
+
+    const msg = checkIn && checkOut
+      ? `Olá! Gostaria de verificar a disponibilidade na Residencial Paraíso Bilene:\n📅 Check-in: ${checkIn}\n📅 Check-out: ${checkOut}\n🏠 Acomodação: ${accommodationName}`
+      : `Olá! Gostaria de verificar a disponibilidade de acomodações na Residencial Paraíso Bilene.`;
+
+    window.open(`https://wa.me/258877302100?text=${encodeURIComponent(msg)}`, "_blank");
+
     if (!checkIn || !checkOut) {
-      toast.error(t('search.error_dates'));
+      toast.info("A encaminhar para o WhatsApp (+258 87 730 2100) para verificar disponibilidade...");
       return;
     }
 
@@ -242,8 +257,8 @@ const Index = () => {
               { icon: ChefHat, title: t('home.features.restaurant'), desc: t('home.features.restaurantDesc'), img: restauranteImg },
             ].map((feature, i) => (
               <div key={i} className="group">
-                <div className="relative h-64 overflow-hidden rounded-lg mb-6">
-                  <img src={feature.img} alt={feature.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                <div className="relative h-64 overflow-hidden rounded-lg mb-6 bg-neutral-100">
+                  <img src={feature.img} alt={feature.title} loading="lazy" decoding="async" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
                   <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors" />
                   <div className="absolute bottom-4 left-4">
                     <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-lg">
@@ -268,10 +283,12 @@ const Index = () => {
           </div>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4 max-w-6xl mx-auto mb-12">
             {[frontal, principal, salaAmpla, disco, fotoArtistica, restauranteNovo].map((img, i) => (
-              <div key={i} className="aspect-square overflow-hidden rounded-sm shadow-sm group">
-                <img 
-                  src={img} 
-                  alt="Galeria" 
+              <div key={i} className="aspect-square overflow-hidden rounded-sm shadow-sm group bg-neutral-100">
+                <img
+                  src={img}
+                  alt="Galeria"
+                  loading="lazy"
+                  decoding="async"
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                 />
               </div>
@@ -322,8 +339,8 @@ const Index = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {blogPosts.slice(0, 4).map((post) => (
               <Link key={post.id} to="/blog" className="group bg-white border border-gray-100 overflow-hidden shadow-sm hover:shadow-md transition-all duration-300">
-                <div className="relative h-48 overflow-hidden">
-                  <img src={post.image} alt={post.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                <div className="relative h-48 overflow-hidden bg-neutral-100">
+                  <img src={post.image} alt={post.title} loading="lazy" decoding="async" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
                   <div className="absolute top-3 left-3 bg-amber text-white px-2 py-0.5 text-[10px] font-bold uppercase tracking-widest">{post.category}</div>
                 </div>
                 <div className="p-6">

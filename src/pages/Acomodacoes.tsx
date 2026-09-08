@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Layout from "@/components/Layout";
 import PageHeader from "@/components/PageHeader";
 import {
@@ -21,6 +22,7 @@ import {
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
+  type CarouselApi
 } from "@/components/ui/carousel";
 import t1Principal from "@/assets/t1-principal.jpg";
 import t1 from "@/assets/t1.jpg";
@@ -37,6 +39,93 @@ const t1Images = [t1Principal, t1, wcT1];
 const t2Images = [varanda, rpb47, quartoCasal, salaNova, openSpace];
 const quartoImages = [camaKing];
 
+interface ImageSliderProps {
+  images: string[];
+  title: string;
+}
+
+const ImageSlider = ({ images, title }: ImageSliderProps) => {
+  const [api, setApi] = useState<CarouselApi>();
+  const [current, setCurrent] = useState(0);
+  const [count, setCount] = useState(images.length);
+
+  useEffect(() => {
+    if (!api) return;
+    setCount(api.scrollSnapList().length);
+    setCurrent(api.selectedScrollSnap());
+
+    const onSelect = () => {
+      setCurrent(api.selectedScrollSnap());
+    };
+
+    api.on("select", onSelect);
+    api.on("reInit", onSelect);
+    return () => {
+      api.off("select", onSelect);
+    };
+  }, [api]);
+
+  return (
+    <div className="relative w-full rounded-sm overflow-hidden shadow-2xl bg-neutral-900/10">
+      <Carousel
+        setApi={setApi}
+        opts={{
+          loop: true,
+          align: "start",
+          skipSnaps: false,
+          duration: 22,
+        }}
+        className="w-full"
+      >
+        <CarouselContent className="-ml-0">
+          {images.map((src, index) => (
+            <CarouselItem key={index} className="pl-0 basis-full">
+              <div className="relative overflow-hidden aspect-[4/3] bg-neutral-100 dark:bg-neutral-800">
+                <img
+                  src={src}
+                  alt={`${title} - Foto ${index + 1}`}
+                  loading={index === 0 ? "eager" : "lazy"}
+                  decoding="async"
+                  className="w-full h-full object-cover select-none pointer-events-none transform-gpu transition-opacity duration-300"
+                />
+              </div>
+            </CarouselItem>
+          ))}
+        </CarouselContent>
+
+        {images.length > 1 && (
+          <>
+            <CarouselPrevious className="left-3 top-1/2 -translate-y-1/2 bg-black/60 hover:bg-amber text-white border-0 h-10 w-10 opacity-90 hover:opacity-100 transition-all backdrop-blur-sm shadow-lg z-10" />
+            <CarouselNext className="right-3 top-1/2 -translate-y-1/2 bg-black/60 hover:bg-amber text-white border-0 h-10 w-10 opacity-90 hover:opacity-100 transition-all backdrop-blur-sm shadow-lg z-10" />
+
+            {/* Contador numérico */}
+            <div className="absolute top-3 right-3 bg-black/60 text-white text-xs font-bold px-3 py-1 rounded-full backdrop-blur-sm shadow-sm pointer-events-none z-10 font-body">
+              {current + 1} / {count}
+            </div>
+
+            {/* Indicadores / Dots interativos */}
+            <div className="absolute bottom-3 left-0 right-0 flex justify-center items-center gap-1.5 z-10">
+              {Array.from({ length: count }).map((_, i) => (
+                <button
+                  key={i}
+                  type="button"
+                  aria-label={`Ir para a foto ${i + 1}`}
+                  onClick={() => api?.scrollTo(i)}
+                  className={`h-2 rounded-full transition-all duration-300 ${
+                    i === current
+                      ? "w-6 bg-amber shadow-md"
+                      : "w-2 bg-white/70 hover:bg-white"
+                  }`}
+                />
+              ))}
+            </div>
+          </>
+        )}
+      </Carousel>
+    </div>
+  );
+};
+
 const Acomodacoes = () => {
   const { t } = useLanguage();
 
@@ -49,23 +138,7 @@ const Acomodacoes = () => {
           {/* Casa T1 */}
           <div className="flex flex-col lg:flex-row gap-16 items-center mb-32 max-w-6xl mx-auto">
             <div className="lg:w-1/2 w-full">
-              <Carousel className="w-full shadow-2xl group">
-                <CarouselContent>
-                  {t1Images.map((src, index) => (
-                    <CarouselItem key={index}>
-                      <div className="overflow-hidden aspect-[4/3]">
-                        <img
-                          src={src}
-                          alt={`Casa T1 - Foto ${index + 1}`}
-                          className="w-full h-full object-cover group-hover:scale-105 transition duration-700"
-                        />
-                      </div>
-                    </CarouselItem>
-                  ))}
-                </CarouselContent>
-                <CarouselPrevious className="left-4 opacity-0 group-hover:opacity-100 transition-opacity" />
-                <CarouselNext className="right-4 opacity-0 group-hover:opacity-100 transition-opacity" />
-              </Carousel>
+              <ImageSlider images={t1Images} title="Casa T1" />
             </div>
             <div className="lg:w-1/2">
               <div className="inline-block bg-amber text-accent-foreground px-4 py-1 text-[10px] font-bold uppercase tracking-widest mb-4 font-body">
@@ -97,23 +170,7 @@ const Acomodacoes = () => {
           {/* Casa T2 */}
           <div className="flex flex-col lg:flex-row-reverse gap-16 items-center mb-32 max-w-6xl mx-auto">
             <div className="lg:w-1/2 w-full">
-              <Carousel className="w-full shadow-2xl group">
-                <CarouselContent>
-                  {t2Images.map((src, index) => (
-                    <CarouselItem key={index}>
-                      <div className="overflow-hidden aspect-[4/3]">
-                        <img
-                          src={src}
-                          alt={`Casa T2 - Foto ${index + 1}`}
-                          className="w-full h-full object-cover group-hover:scale-105 transition duration-700"
-                        />
-                      </div>
-                    </CarouselItem>
-                  ))}
-                </CarouselContent>
-                <CarouselPrevious className="left-4 opacity-0 group-hover:opacity-100 transition-opacity" />
-                <CarouselNext className="right-4 opacity-0 group-hover:opacity-100 transition-opacity" />
-              </Carousel>
+              <ImageSlider images={t2Images} title="Casa T2" />
             </div>
             <div className="lg:w-1/2">
               <div className="inline-block bg-amber text-accent-foreground px-4 py-1 text-[10px] font-bold uppercase tracking-widest mb-4 font-body">
@@ -145,13 +202,7 @@ const Acomodacoes = () => {
           {/* Quarto */}
           <div className="flex flex-col lg:flex-row gap-16 items-center max-w-6xl mx-auto">
             <div className="lg:w-1/2 w-full">
-              <div className="overflow-hidden aspect-[4/3] shadow-2xl rounded-sm">
-                <img
-                  src={quartoImages[0]}
-                  alt="Quarto Suite"
-                  className="w-full h-full object-cover"
-                />
-              </div>
+              <ImageSlider images={quartoImages} title="Quarto Suite" />
             </div>
             <div className="lg:w-1/2">
               <div className="inline-block bg-amber text-accent-foreground px-4 py-1 text-[10px] font-bold uppercase tracking-widest mb-4 font-body">

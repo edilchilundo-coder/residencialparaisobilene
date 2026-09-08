@@ -57,22 +57,24 @@ const Lazer = () => {
               </div>
             </div>
             <div className="lg:w-1/2 w-full">
-              <Carousel className="w-full shadow-2xl group">
-                <CarouselContent>
+              <Carousel opts={{ loop: true, duration: 25 }} className="w-full shadow-2xl rounded-sm overflow-hidden group">
+                <CarouselContent className="-ml-0">
                   {lazerImages.map((src, index) => (
-                    <CarouselItem key={index}>
-                      <div className="overflow-hidden aspect-[4/3]">
-                        <img 
-                          src={src} 
-                          alt={`Lazer - Foto ${index + 1}`} 
-                          className="w-full h-full object-cover group-hover:scale-105 transition duration-700"
+                    <CarouselItem key={index} className="pl-0">
+                      <div className="overflow-hidden aspect-[4/3] bg-neutral-100 dark:bg-neutral-800">
+                        <img
+                          src={src}
+                          alt={`Lazer - Foto ${index + 1}`}
+                          loading={index === 0 ? "eager" : "lazy"}
+                          decoding="async"
+                          className="w-full h-full object-cover select-none pointer-events-none transform-gpu"
                         />
                       </div>
                     </CarouselItem>
                   ))}
                 </CarouselContent>
-                <CarouselPrevious className="left-4 opacity-0 group-hover:opacity-100 transition-opacity" />
-                <CarouselNext className="right-4 opacity-0 group-hover:opacity-100 transition-opacity" />
+                <CarouselPrevious className="left-3 top-1/2 -translate-y-1/2 bg-black/60 hover:bg-amber text-white border-0 h-10 w-10 opacity-80 hover:opacity-100 transition-opacity backdrop-blur-sm shadow-md" />
+                <CarouselNext className="right-3 top-1/2 -translate-y-1/2 bg-black/60 hover:bg-amber text-white border-0 h-10 w-10 opacity-80 hover:opacity-100 transition-opacity backdrop-blur-sm shadow-md" />
               </Carousel>
             </div>
           </div>

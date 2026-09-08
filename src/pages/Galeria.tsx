@@ -20,7 +20,6 @@ import fotoArtistica from "@/assets/foto-artistica.png";
 
 const galleryImages = [
   { src: principal, alt: "Residencial Paraíso", span: "md:col-span-2 md:row-span-2" },
-  { src: principal, alt: "Principal", span: "" },
   { src: frontal, alt: "Vista Frontal", span: "" },
   { src: disco, alt: "Discoteca", span: "" },
   { src: fotoArtistica, alt: "Detalhes Artísticos", span: "" },
@@ -58,12 +57,12 @@ const Galeria = () => {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mb-16">
             {galleryImages.map((img, index) => (
-              <div 
-                key={index} 
+              <div
+                key={index}
                 className={`gallery-item cursor-pointer ${img.span} h-48 sm:h-auto ${img.span ? "sm:h-full" : "sm:h-48"}`}
                 onClick={() => openLightbox(index)}
               >
-                <img src={img.src} alt={img.alt} loading="lazy" className="w-full h-full object-cover" />
+                <img src={img.src} alt={img.alt} loading="lazy" decoding="async" className="w-full h-full object-cover" />
               </div>
             ))}
           </div>
